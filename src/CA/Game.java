@@ -23,6 +23,9 @@ public class Game extends Application {
         File sim_file = new File(GAME_OF_LIFE_CONFIGURATION);
         Grid grid = new Grid(sim_file);
         myCells = grid.configureCells(); // make grid and populate grid of cells
+        grid.printCells();
+        System.out.println("\n\n");
+        grid.printCellsStates();
         mySimulation = new GameOfLifeSimulation(myCells); //TODO: Move once we start having scene transitions
         myVisualization = new Visualization();
     }
@@ -48,5 +51,6 @@ public class Game extends Application {
     private void playGameLoop(double elapsedTime) {
         mySimulation.analyzeCells();
         mySimulation.updateCells();
+
     }
 }
