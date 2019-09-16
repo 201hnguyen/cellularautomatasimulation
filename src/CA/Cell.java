@@ -2,9 +2,9 @@ package CA;
 
 public class Cell{
     private String[] myStates;
-    int myState;
-    int myNextState;
-    Cell[] myNeighbours;
+    private int myState;
+    private int myNextState;
+    private Cell[] myNeighbors;
     int myXPosition;
     int myYPosition;
 
@@ -14,11 +14,23 @@ public class Cell{
         myYPosition = y;
     }
 
-    public void updateCell(){
+    public void updateState(){
         myState = myNextState;
     }
 
     public void setMyNextState(int state){
         myNextState = state;
+    }
+
+    public int getMyState(){
+        return myState;
+    }
+
+    public Cell[] getMyNeighbours(){
+        return myNeighbors;
+    }
+
+    public void setMyNeighbours(Cell[] neighbors) {
+        myNeighbors = neighbors;
     }
 }
