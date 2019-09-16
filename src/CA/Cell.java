@@ -14,7 +14,7 @@ public class Cell{
         myYPosition = y;
     }
 
-    public void updateCell(){
+    public void updateState(){
         myState = myNextState;
     }
 

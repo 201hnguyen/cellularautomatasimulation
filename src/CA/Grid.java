@@ -10,10 +10,10 @@ public class Grid{
     private int num_columns;
     private int num_neighbors;
     private File myConfigFile;
+    private Scanner sc;
 
     public Grid(File file){
         myConfigFile = file;
-        Scanner sc = null;
         try {
             sc = new Scanner(myConfigFile);
         }
@@ -23,22 +23,15 @@ public class Grid{
         num_rows = sc.nextInt();
         num_columns = sc.nextInt();
         cells = new Cell[num_rows][num_columns];
-        sc.close();
     }
 
-    public void configureCells(){
+    public Cell[][] configureCells(){
         createGridOfCells();
         setCellNeighbours();
+        return cells;
     }
 
     private void createGridOfCells() {
-        Scanner sc = null;
-        try {
-            sc = new Scanner(myConfigFile);
-        }
-        catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
         num_neighbors = sc.nextInt();
         while(sc.hasNext()){
             for (int i = 0; i < num_rows; i++){
