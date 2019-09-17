@@ -15,24 +15,25 @@ public class Game extends Application {
     public static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
     public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
 
-    Cell[][] myCells;
+    Grid myGrid;
     Simulation mySimulation;
     Visualization myVisualization;
 
     public Game() {
         File sim_file = new File(GAME_OF_LIFE_CONFIGURATION);
-        Grid grid = new Grid(sim_file);
-        myCells = grid.configureCells(); // make grid and populate grid of cells
-        grid.printCells();
+        myGrid = new Grid(sim_file);
+        myGrid.configureCells(); // make grid and populate grid of cells
+        myGrid.printCells();
         System.out.println("\n\n");
-        grid.printCellsStates();
-        mySimulation = new GameOfLifeSimulation(myCells); //TODO: Move once we start having scene transitions
-        myVisualization = new Visualization();
+//        grid.printCellsStates();
+        mySimulation = new GameOfLifeSimulation(myGrid.getCells()); //TODO: Move once we start having scene transitions
+        myVisualization = new Visualization(myGrid);
     }
 
     @Override
     public void start(Stage stage) {
         myVisualization.setAndShowVisualizationStage(stage);
+        myVisualization.displayGrid();
         setGameLoop();
     }
 
@@ -50,7 +51,14 @@ public class Game extends Application {
 
     private void playGameLoop(double elapsedTime) {
         mySimulation.analyzeCells();
+//        System.out.println("Analysis complete, current cells:");
+        mySimulation.printCells();
         mySimulation.updateCells();
-
+        myVisualization.displayGrid();
+//        System.out.println("Update complete, current cells:");
+        mySimulation.printCells();
     }
 }
+
+
+
