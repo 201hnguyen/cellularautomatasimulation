@@ -1,16 +1,16 @@
 package CA;
 
 public abstract class Simulation {
-    protected Cell[][] myCells;
+    protected Grid myGrid;
 
-    public Simulation(Cell[][] cells) {
-        myCells = cells;
+    public Simulation(Grid grid) {
+        myGrid = grid;
     }
 
     public abstract void analyzeCells();
 
     public void updateCells() {
-        for (Cell[] cellRow : myCells) {
+        for (Cell[] cellRow : myGrid.getCells()) {
             for (Cell cell : cellRow) {
                 cell.updateState();
             }
@@ -18,7 +18,7 @@ public abstract class Simulation {
     }
 
     public void printCells() {
-        for (Cell[] cellRow : myCells) {
+        for (Cell[] cellRow : myGrid.getCells()) {
             for (Cell cell : cellRow) {
                 System.out.print(cell.getState());
             }
