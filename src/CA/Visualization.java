@@ -66,7 +66,19 @@ public class Visualization {
         stage.setScene(scene);
         stage.setTitle("Cellular Automata");
         stage.setResizable(false);
+        displayGrid();
         stage.show();
+    }
+
+    private void displayGrid(){
+        for(Cell[] cellrow : cells){
+            for(Cell cell : cellrow){
+                if(cell.getMyState() == 0){
+                    
+                    root.getChildren().add()
+                }
+            }
+        }
     }
 
     private Scene setVisualizationScene() {
