@@ -10,6 +10,7 @@ public class Cell{
 
     public Cell(int state, int x, int y){
         myState = state;
+        myNextState = state;
         myXPosition = x;
         myYPosition = y;
     }
@@ -22,7 +23,7 @@ public class Cell{
         myNextState = state;
     }
 
-    public int getMyState(){
+    public int getState(){
         return myState;
     }
 

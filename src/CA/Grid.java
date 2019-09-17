@@ -48,137 +48,139 @@ public class Grid{
         Cell[] neighbors = null;
         for (int i = 0; i < num_rows; i++){
             for (int j = 0; j < num_columns; j++) {
-                    if(num_neighbors == 4){
-                        if(i == 0)
-                        {
-                            if(j == 0){
-                                neighbors = new Cell[2];
-                                neighbors[0] = cells[i+1][j];
-                                neighbors[1] = cells[i][j+1];
-                            }
-                            else if (j == num_rows -1){
-                                neighbors = new Cell[2];
-                                neighbors[0] = cells[i+1][j];
-                                neighbors[1] = cells[i][j-1];
-                            }
-                            else{
-                                neighbors = new Cell[3];
-                                neighbors[0] = cells[i][j-1];
-                                neighbors[1] = cells[i][j+1];
-                                neighbors[2] = cells[i+1][j];
-                            }
+                if(num_neighbors == 4){
+                    if(i == 0)
+                    {
+                        if(j == 0){
+                            neighbors = new Cell[2];
+                            neighbors[0] = cells[i+1][j];
+                            neighbors[1] = cells[i][j+1];
                         }
-                        else if (i == num_columns - 1){
-                            if (j == 0){
-                                neighbors = new Cell[2];
-                                neighbors[0] = cells[i-1][j];
-                                neighbors[1] = cells[i][j+1];
-                            }
-                            else if (j == num_rows - 1){
-                                neighbors = new Cell[2];
-                                neighbors[0] = cells[i-1][j];
-                                neighbors[1] = cells[i][j-1];
-                            }
-                            else{
-                                neighbors = new Cell[3];
-                                neighbors[0] = cells[i][j-1];
-                                neighbors[1] = cells[i][j+1];
-                                neighbors[2] = cells[i-1][j];
-                            }
+                        else if (j == num_rows -1){
+                            neighbors = new Cell[2];
+                            neighbors[0] = cells[i+1][j];
+                            neighbors[1] = cells[i][j-1];
                         }
-                        else if (j == 0){
+                        else{
                             neighbors = new Cell[3];
-                            neighbors[0] = cells[i-1][j];
-                            neighbors[1] = cells[i+1][j];
-                            neighbors[2] = cells[i][j+1];
+                            neighbors[0] = cells[i][j-1];
+                            neighbors[1] = cells[i][j+1];
+                            neighbors[2] = cells[i+1][j];
                         }
-                        else if (j == num_rows - 1){
-                            neighbors = new Cell[3];
-                            neighbors[0] = cells[i-1][j];
-                            neighbors[1] = cells[i+1][j];
-                            neighbors[2] = cells[i][j-1];
-                        }
-                        neighbors = new Cell[4];
-                        neighbors[0] = cells[i][j+1];
-                        neighbors[1] = cells[i][j-1];
-                        neighbors[2] = cells[i+1][j];
-                        neighbors[3] = cells[i-1][j];
                     }
-                    else if(num_neighbors == 8){
-                        if(i == 0)
-                        {
-                            if(j == 0){
-                                neighbors = new Cell[3];
-                                neighbors[0] = cells[i+1][j];
-                                neighbors[1] = cells[i][j+1];
-                                neighbors[2] = cells[i+1][j+1];
-                            }
-                            else if (j == num_rows -1){
-                                neighbors = new Cell[3];
-                                neighbors[0] = cells[i+1][j];
-                                neighbors[1] = cells[i][j-1];
-                                neighbors[2] = cells[i+1][j-1];
-                            }
-                            else{
-                                neighbors = new Cell[5];
-                                neighbors[0] = cells[i][j-1];
-                                neighbors[1] = cells[i][j+1];
-                                neighbors[2] = cells[i+1][j];
-                                neighbors[3] = cells[i+1][j+1];
-                                neighbors[4] = cells[i+1][j-1];
-                            }
-                        }
-                        else if (i == num_columns - 1){
-                            if (j == 0){
-                                neighbors = new Cell[3];
-                                neighbors[0] = cells[i-1][j];
-                                neighbors[1] = cells[i][j+1];
-                                neighbors[2] = cells[i-1][j+1];
-                            }
-                            else if (j == num_rows - 1){
-                                neighbors = new Cell[3];
-                                neighbors[0] = cells[i-1][j];
-                                neighbors[1] = cells[i][j-1];
-                                neighbors[2] = cells[i-1][j-1];
-                            }
-                            else{
-                                neighbors = new Cell[5];
-                                neighbors[0] = cells[i][j-1];
-                                neighbors[1] = cells[i][j+1];
-                                neighbors[2] = cells[i-1][j];
-                                neighbors[3] = cells[i-1][j-1];
-                                neighbors[4] = cells[i-1][j+1];
-                            }
-                        }
-                        else if (j == 0){
-                            neighbors = new Cell[5];
+                    else if (i == num_columns - 1){
+                        if (j == 0){
+                            neighbors = new Cell[2];
                             neighbors[0] = cells[i-1][j];
-                            neighbors[1] = cells[i+1][j];
-                            neighbors[2] = cells[i][j+1];
-                            neighbors[3] = cells[i-1][j+1];
-                            neighbors[4] = cells[i+1][j+1];
+                            neighbors[1] = cells[i][j+1];
                         }
                         else if (j == num_rows - 1){
-                            neighbors = new Cell[5];
+                            neighbors = new Cell[2];
                             neighbors[0] = cells[i-1][j];
-                            neighbors[1] = cells[i+1][j];
-                            neighbors[2] = cells[i][j-1];
-                            neighbors[3] = cells[i-1][j-1];
+                            neighbors[1] = cells[i][j-1];
+                        }
+                        else{
+                            neighbors = new Cell[3];
+                            neighbors[0] = cells[i][j-1];
+                            neighbors[1] = cells[i][j+1];
+                            neighbors[2] = cells[i-1][j];
+                        }
+                    }
+                    else if (j == 0){
+                        neighbors = new Cell[3];
+                        neighbors[0] = cells[i-1][j];
+                        neighbors[1] = cells[i+1][j];
+                        neighbors[2] = cells[i][j+1];
+                    }
+                    else if (j == num_rows - 1){
+                        neighbors = new Cell[3];
+                        neighbors[0] = cells[i-1][j];
+                        neighbors[1] = cells[i+1][j];
+                        neighbors[2] = cells[i][j-1];
+                    }
+                    else {
+                        neighbors = new Cell[4];
+                        neighbors[0] = cells[i][j + 1];
+                        neighbors[1] = cells[i][j - 1];
+                        neighbors[2] = cells[i + 1][j];
+                        neighbors[3] = cells[i - 1][j];
+                    }
+                }
+                else if(num_neighbors == 8){
+                    if(i == 0)
+                    {
+                        if(j == 0){
+                            neighbors = new Cell[3];
+                            neighbors[0] = cells[i+1][j];
+                            neighbors[1] = cells[i][j+1];
+                            neighbors[2] = cells[i+1][j+1];
+                        }
+                        else if (j == num_rows -1){
+                            neighbors = new Cell[3];
+                            neighbors[0] = cells[i+1][j];
+                            neighbors[1] = cells[i][j-1];
+                            neighbors[2] = cells[i+1][j-1];
+                        }
+                        else{
+                            neighbors = new Cell[5];
+                            neighbors[0] = cells[i][j-1];
+                            neighbors[1] = cells[i][j+1];
+                            neighbors[2] = cells[i+1][j];
+                            neighbors[3] = cells[i+1][j+1];
                             neighbors[4] = cells[i+1][j-1];
                         }
-                        else {
-                            neighbors = new Cell[8];
-                            neighbors[0] = cells[i][j + 1];
-                            neighbors[1] = cells[i][j - 1];
-                            neighbors[2] = cells[i + 1][j];
-                            neighbors[3] = cells[i - 1][j];
-                            neighbors[4] = cells[i + 1][j + 1];
-                            neighbors[5] = cells[i + 1][j - 1];
-                            neighbors[6] = cells[i - 1][j - 1];
-                            neighbors[7] = cells[i - 1][j + 1];
+                    }
+                    else if (i == num_columns - 1){
+                        if (j == 0){
+                            neighbors = new Cell[3];
+                            neighbors[0] = cells[i-1][j];
+                            neighbors[1] = cells[i][j+1];
+                            neighbors[2] = cells[i-1][j+1];
+                        }
+                        else if (j == num_rows - 1){
+                            neighbors = new Cell[3];
+                            neighbors[0] = cells[i-1][j];
+                            neighbors[1] = cells[i][j-1];
+                            neighbors[2] = cells[i-1][j-1];
+                        }
+                        else{
+                            neighbors = new Cell[5];
+                            neighbors[0] = cells[i][j-1];
+                            neighbors[1] = cells[i][j+1];
+                            neighbors[2] = cells[i-1][j];
+                            neighbors[3] = cells[i-1][j-1];
+                            neighbors[4] = cells[i-1][j+1];
                         }
                     }
-                    cells[i][j].setMyNeighbours(neighbors);
+                    else if (j == 0){
+                        neighbors = new Cell[5];
+                        neighbors[0] = cells[i-1][j];
+                        neighbors[1] = cells[i+1][j];
+                        neighbors[2] = cells[i][j+1];
+                        neighbors[3] = cells[i-1][j+1];
+                        neighbors[4] = cells[i+1][j+1];
+                    }
+                    else if (j == num_rows - 1){
+                        neighbors = new Cell[5];
+                        neighbors[0] = cells[i-1][j];
+                        neighbors[1] = cells[i+1][j];
+                        neighbors[2] = cells[i][j-1];
+                        neighbors[3] = cells[i-1][j-1];
+                        neighbors[4] = cells[i+1][j-1];
+                    }
+                    else {
+                        neighbors = new Cell[8];
+                        neighbors[0] = cells[i][j + 1];
+                        neighbors[1] = cells[i][j - 1];
+                        neighbors[2] = cells[i + 1][j];
+                        neighbors[3] = cells[i - 1][j];
+                        neighbors[4] = cells[i + 1][j + 1];
+                        neighbors[5] = cells[i + 1][j - 1];
+                        neighbors[6] = cells[i - 1][j - 1];
+                        neighbors[7] = cells[i - 1][j + 1];
+                    }
+                }
+                cells[i][j].setMyNeighbours(neighbors);
             }
         }
     }
@@ -186,7 +188,7 @@ public class Grid{
     public void printCells(){
         for(int i = 0; i < num_rows; i++){
             for(int j = 0; j < num_columns; j++){
-                System.out.print(cells[i][j].getMyState() + " ");
+                System.out.print(cells[i][j].getState() + " ");
             }
             System.out.println();
         }
@@ -194,13 +196,25 @@ public class Grid{
     public void printCellsStates(){
         for(int i = 0; i < num_rows; i++){
             for(int j = 0; j < num_columns; j++){
-                System.out.print(cells[i][j].getMyState() + " ");
+                System.out.print(cells[i][j].getState() + " ");
                 for(Cell neighbour : cells[i][j].getMyNeighbours()){
-                    System.out.print(neighbour.getMyState() + " ");
+                    System.out.print(neighbour.getState() + " ");
                 }
                 System.out.println();
             }
             System.out.println();
         }
+    }
+
+    public Cell[][] getCells(){
+        return cells;
+    }
+
+    public int getNum_rows(){
+        return num_rows;
+    }
+
+    public int getNum_columns(){
+        return num_columns;
     }
 }
