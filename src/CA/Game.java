@@ -25,8 +25,7 @@ public class Game extends Application {
         myGrid.configureCells(); // make grid and populate grid of cells
         myGrid.printCells();
         System.out.println("\n\n");
-//        grid.printCellsStates();
-        mySimulation = new GameOfLifeSimulation(myGrid.getCells()); //TODO: Move once we start having scene transitions
+        mySimulation = new GameOfLifeSimulation(myGrid); //TODO: Move once we start having scene transitions
         myVisualization = new Visualization(myGrid);
     }
 
@@ -51,12 +50,12 @@ public class Game extends Application {
 
     private void playGameLoop(double elapsedTime) {
         mySimulation.analyzeCells();
-//        System.out.println("Analysis complete, current cells:");
-        mySimulation.printCells();
         mySimulation.updateCells();
-        myVisualization.displayGrid();
-//        System.out.println("Update complete, current cells:");
+        System.out.println("Update complete, current Simulation cells:");
         mySimulation.printCells();
+        myVisualization.displayGrid();
+        System.out.println("Visualization cells");
+        myVisualization.printCells();
     }
 }
 

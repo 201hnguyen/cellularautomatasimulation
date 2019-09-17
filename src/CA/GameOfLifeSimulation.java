@@ -5,13 +5,13 @@ public class GameOfLifeSimulation extends Simulation {
     public static final int DEAD = 2;
 
 
-    public GameOfLifeSimulation(Cell[][] cells) {
-        super(cells);
+    public GameOfLifeSimulation(Grid grid) {
+        super(grid);
     }
 
     @Override
     public void analyzeCells() {
-        for (Cell[] cellRow : myCells) {
+        for (Cell[] cellRow : myGrid.getCells()) {
             for (Cell cell : cellRow) {
                 int liveNeighborsCount = countLiveNeighbors(cell.getMyNeighbours());
                 if (cell.getState() == LIVE) {
