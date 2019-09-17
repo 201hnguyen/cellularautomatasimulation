@@ -56,10 +56,10 @@ public class Visualization {
                     rectangle.setFill(Color.WHITE);
                 }
                 else if(cells[i][j].getState() == 1){
-                    rectangle.setFill(Color.BLACK);
+                    rectangle.setFill(Color.GREEN);
                 }
                 else{
-                    rectangle.setFill(Color.GREEN);
+                    rectangle.setFill(Color.RED);
                 }
                 root.getChildren().add(rectangle);
             }

@@ -28,7 +28,6 @@ public class GameOfLifeSimulation extends Simulation {
     }
 
 
-
     private int countLiveNeighbors(Cell[] neighbors) {
         int liveNeighborsCount = 0;
         for (Cell neighbor : neighbors) {
