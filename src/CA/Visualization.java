@@ -70,17 +70,6 @@ public class Visualization {
         stage.show();
     }
 
-    private void displayGrid(){
-        for(Cell[] cellrow : cells){
-            for(Cell cell : cellrow){
-                if(cell.getMyState() == 0){
-                    
-                    root.getChildren().add()
-                }
-            }
-        }
-    }
-
     private Scene setVisualizationScene() {
         root = new Pane();
         Scene scene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT);
