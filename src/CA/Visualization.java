@@ -32,16 +32,6 @@ public class Visualization {
         return scene;
     }
 
-    public void printCells() {
-        for (Cell[] cellRow : myGrid.getCells()) {
-            for (Cell cell : cellRow) {
-                System.out.print(cell.getState());
-            }
-            System.out.println();
-        }
-        System.out.println();
-        System.out.println();
-    }
 
     public void displayGrid(){
         root.getChildren().clear();
