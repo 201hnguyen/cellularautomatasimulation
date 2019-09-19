@@ -1,6 +1,6 @@
-My favorite sort is Stalin sort.
-You iterate through a collection a verify that all elements are in order.
-Any element not in order will be eliminated.
-At the end, all elements in the collection will be in order.
+All three of us will be adding this file to the resources folder.
 
-:) 
+We are assuming that this version of the file is the version we actually want merged to master. Once we resolve merge
+conflicts, this file should show up in the master branch.
+
+THIS IS CORRECT.
