@@ -30,6 +30,10 @@ public class Cell{
         return myState;
     }
 
+    public int getNextState() {
+        return myNextState;
+    }
+
     public Cell[] getMyNeighbours(){
         return myNeighbors;
     }
@@ -38,11 +42,12 @@ public class Cell{
         myNeighbors = neighbors;
     }
 
-    public boolean getMyIsAvailable(){
+    public boolean getMyIsAvailable() {
         return myIsAvailable;
     }
 
-    public void setMyIsAvailable(boolean value){
+    public void setMyIsAvailable(boolean value) {
         myIsAvailable = value;
     }
+
 }
