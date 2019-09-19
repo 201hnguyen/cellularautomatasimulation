@@ -1,0 +1,6 @@
+My favorite sort is Stalin sort.
+You iterate through a collection a verify that all elements are in order.
+Any element not in order will be eliminated.
+At the end, all elements in the collection will be in order.
+
+:) 
