@@ -15,7 +15,13 @@ public abstract class Simulation {
                 cell.updateState();
             }
         }
+
+        for (Cell[] cellRow : myGrid.getCells()) {
+            for (Cell cell : cellRow) {
+                System.out.print(cell.getState());
+            }
+            System.out.println();
+        }
+        System.out.println();
     }
-
-
 }
