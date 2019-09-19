@@ -43,7 +43,7 @@ public class Visualization {
                 rectangle.setX((j) * (CELL_SIZE + 5));
                 rectangle.setY((i) * (CELL_SIZE + 5));
                 if(cells[i][j].getState() == 0){
-                    rectangle.setFill(Color.BLACK);
+                    rectangle.setFill(Color.WHITE);
                 }
                 else if(cells[i][j].getState() == 1){
                     rectangle.setFill(Color.GREEN);

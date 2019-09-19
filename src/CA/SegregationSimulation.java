@@ -1,6 +1,9 @@
-/*
-
 package CA;
+
+import javafx.application.Application;
+
+import java.util.HashSet;
+import java.util.Random;
 
 public class SegregationSimulation extends Simulation {
     private final double SEGREGATION_TRESHOLD = 0.2;
@@ -17,10 +20,17 @@ public class SegregationSimulation extends Simulation {
             for (Cell cell : cellRow) {
                 int similarNeighbors = countSimilarNeighbors(cell, cell.getMyNeighbours());
                 if (similarNeighbors / cell.getMyNeighbours().length < SEGREGATION_TRESHOLD) {
-                    if (cell.getState() == AGENT1) {
-                        cell.setMyNextState(AGENT1);
-                    } else if (cell.getState() == AGENT2) {
-                        cell.setMyNextState(AGENT2);
+                    Random random = new Random();
+                    Cell[] emptyCellsArray = myGrid.getEmptyCells();
+                    int random_index = 0;
+                    for(int i = 0; i < emptyCellsArray.length; i++) {
+                        random_index = random.nextInt(emptyCellsArray.length);
+                        if(emptyCellsArray[random_index].getMyIsAvailable()){
+                            emptyCellsArray[random_index].setMyNextState(cell.getState());
+                            emptyCellsArray[random_index].setMyIsAvailable(false);
+                            cell.setMyNextState(0);
+                            break;
+                        }
                     }
                 }
 
@@ -36,9 +46,10 @@ public class SegregationSimulation extends Simulation {
                 similarNeighborsCount++;
             }
         }
+        return similarNeighborsCount;
     }
 }
 
-*/
+
 
 
