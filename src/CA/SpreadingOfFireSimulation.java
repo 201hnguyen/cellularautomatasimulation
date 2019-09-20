@@ -23,10 +23,10 @@ public class SpreadingOfFireSimulation extends Simulation{
             for(Cell cell : cellRow){
                 if(cell.getState() == EMPTY){
                     emptyTurns = 1;
-                    stayEmpty(cell);
+                    willTreeGrow(cell, cell.getMyNeighbours());
                 }
                 if(cell.getState() == TREE){
-
+                    willBurn(cell, cell.getMyNeighbours());
                 }
                 if(cell.getState() == BURNING){
                     cell.setMyNextState(EMPTY);
@@ -46,11 +46,11 @@ public class SpreadingOfFireSimulation extends Simulation{
     }
 
     private void willTreeGrow(Cell curr, Cell[] neighbors){
+        if(curr.getState() == EMPTY && emptyTurns == 1){
+            curr.setMyNextState(EMPTY);
+            emptyTurns++;
+        }
         for(Cell neighbor : neighbors){
-            if(curr.getState() == EMPTY && emptyTurns == 1){
-                curr.setMyNextState(EMPTY);
-                emptyTurns++;
-            }
             if(curr.getState() == EMPTY && neighbor.getState() == TREE &&
                     probability(TREE_PROBABILITY) && emptyTurns == 2){
                 curr.setMyNextState(TREE);
@@ -58,13 +58,6 @@ public class SpreadingOfFireSimulation extends Simulation{
         }
     }
 
-    private void stayEmpty(Cell curr){
-        emptyTurns = 1;
-        if(curr.getState() == EMPTY){
-            curr.setMyNextState(EMPTY);
-            emptyTurns++;
-        }
-    }
 
     private boolean probability(double probEvent){
         Random random = new Random();
