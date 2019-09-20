@@ -12,7 +12,7 @@ public class SpreadingOfFireSimulation extends Simulation{
 
     public static int emptyTurns;
 
-
+    //why isn't the constructor being used?
     public SpreadingOfFireSimulation(Grid grid) {
         super(grid);
     }
