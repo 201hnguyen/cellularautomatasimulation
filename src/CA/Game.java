@@ -2,13 +2,12 @@ package CA;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.File;
 
-public class Game extends Application {
+public class Game {
 
     public static final String GAME_OF_LIFE_CONFIGURATION = "Resources/GameOfLifeConfig.txt";
     public static final String SEGREGATION_CONFIGURATION = "Resources/SegregationConfig.txt";
@@ -21,23 +20,15 @@ public class Game extends Application {
     Simulation mySimulation;
     Visualization myVisualization;
 
-    public Game() {
+    public Game(Stage stage) {
         File sim_file = new File(PREDATOR_PREY_CONFIGURATION);
         myGrid = new Grid(sim_file);
         myGrid.configureCells(); // make grid and populate grid of cells
         mySimulation = new PredatorPreySimulation(myGrid); //TODO: Move once we start having scene transitions
         myVisualization = new Visualization(myGrid);
-    }
-
-    @Override
-    public void start(Stage stage) {
         myVisualization.setAndShowVisualizationStage(stage);
         myVisualization.displayGrid();
         setGameLoop();
-    }
-
-    public static void main(String[] args) {
-        launch(args);
     }
 
     private void setGameLoop() {
