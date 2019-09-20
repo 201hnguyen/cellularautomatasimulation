@@ -7,9 +7,9 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 public class Visualization {
-    public static final int SCENE_WIDTH = 1000;
+    public static final int SCENE_WIDTH = 800;
     public static final int SCENE_HEIGHT = 800;
-    public static final int CELL_SIZE = 20;
+
     private Grid myGrid;
     private Pane root;
 
@@ -37,11 +37,13 @@ public class Visualization {
         root.getChildren().clear();
         Cell[][] cells = myGrid.getCells();
         Rectangle rectangle;
-        for(int i = 0; i < myGrid.getNum_rows(); i++){
-            for(int j = 0; j < myGrid.getNum_columns(); j++){
-                rectangle = new Rectangle(CELL_SIZE, CELL_SIZE);
-                rectangle.setX((j) * (CELL_SIZE + 5));
-                rectangle.setY((i) * (CELL_SIZE + 5));
+        for (int i=0; i < myGrid.getNum_rows(); i++) {
+            for (int j=0; j< myGrid.getNum_columns(); j++) {
+                int cellSize = SCENE_WIDTH / myGrid.getNum_rows();
+                int spaceBetweenCells = 10;
+                rectangle = new Rectangle(cellSize, cellSize);
+                rectangle.setX((j) * (cellSize + spaceBetweenCells));
+                rectangle.setY((i) * (cellSize + spaceBetweenCells));
                 if(cells[i][j].getState() == 0){
                     rectangle.setFill(Color.WHITE);
                 }

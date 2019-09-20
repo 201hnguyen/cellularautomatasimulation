@@ -5,8 +5,8 @@ public class Cell{
     private int myState;
     private int myNextState;
     private Cell[] myNeighbors;
-    int myXPosition;
-    int myYPosition;
+    private int myXPosition;
+    private int myYPosition;
     private boolean myIsAvailable;
 
     public Cell(int state, int x, int y){
