@@ -16,7 +16,7 @@ public class Game {
     public static final String PERCOLATION_CONFIGURATION = "Resources/PercolationConfig.txt";
     public static final String SPREADING_OF_FIRE_CONFIGURATION = "Resources/SpreadingOfFireConfig.txt";
 
-    public static final int FRAMES_PER_SECOND = 1;
+    public static final int FRAMES_PER_SECOND = 3;
     public static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
     public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
 
