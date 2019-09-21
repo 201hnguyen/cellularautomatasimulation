@@ -24,4 +24,8 @@ public abstract class Simulation {
         }
         System.out.println();
     }
+
+    public Grid getGrid() {
+        return myGrid;
+    }
 }

@@ -6,6 +6,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.File;
+import java.util.HashMap;
 
 public class Game {
 
@@ -19,33 +20,49 @@ public class Game {
     public static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
     public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
 
-    Grid myGrid;
-    Simulation mySimulation;
     Visualization myVisualization;
+    HashMap<String, String> mySimulationsSupported; //TODO: Read from XML
 
     public Game(Stage stage) {
-        File sim_file = new File(SPREADING_OF_FIRE_CONFIGURATION);
-        myGrid = new Grid(sim_file);
-        myGrid.configureCells(); // make grid and populate grid of cells
-        mySimulation = new SpreadingOfFireSimulation(myGrid); //TODO: Move once we start having scene transitions
-        myVisualization = new Visualization(myGrid);
-        myVisualization.setAndShowVisualizationStage(stage);
-        myVisualization.displayGrid();
-        setGameLoop();
+        myVisualization = new Visualization(this, stage);
+        mySimulationsSupported = new HashMap<>();
+        mySimulationsSupported.put("Game of Life", GAME_OF_LIFE_CONFIGURATION);
+        mySimulationsSupported.put("Segregation", SEGREGATION_CONFIGURATION);
+        mySimulationsSupported.put("Predator and Prey", PREDATOR_PREY_CONFIGURATION);
+        myVisualization.showIntroScene(mySimulationsSupported);
     }
 
-    private void setGameLoop() {
-        var frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> playGameLoop(SECOND_DELAY));
+    public void loadSimulation(String simulationFilePath) {
+
+        File simulationFile = new File(simulationFilePath);
+        Grid grid = new Grid(simulationFile);
+        grid.configureCells();
+        Simulation simulation = null;
+
+        if (simulationFilePath.equals(GAME_OF_LIFE_CONFIGURATION)) {
+            simulation = new GameOfLifeSimulation(grid);
+        } else if (simulationFilePath.equals(SEGREGATION_CONFIGURATION)) {
+            simulation = new SegregationSimulation(grid);
+        } else if (simulationFilePath.equals(PREDATOR_PREY_CONFIGURATION)) {
+            simulation = new PredatorPreySimulation(grid);
+        }
+
+        myVisualization.showSimulationScene(grid);
+        setGameLoop(simulation);
+    }
+
+    private void setGameLoop(Simulation simulation) {
+        var frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> playGameLoop(simulation, SECOND_DELAY));
         var timeline = new Timeline();
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.getKeyFrames().add(frame);
         timeline.play();
     }
 
-    private void playGameLoop(double elapsedTime) {
-        mySimulation.analyzeCells();
-        mySimulation.updateCells();
-        myVisualization.displayGrid();
+    private void playGameLoop(Simulation simulation, double elapsedTime) {
+        simulation.analyzeCells();
+        simulation.updateCells();
+        myVisualization.displayGrid(simulation.getGrid());
     }
 }
 

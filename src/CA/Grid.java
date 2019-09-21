@@ -7,9 +7,9 @@ import java.util.Scanner;
 
 public class Grid{
     private Cell[][] cells;
-    private int num_rows;
-    private int num_columns;
-    private int num_neighbors;
+    private int myNumRows;
+    private int myNumCols;
+    private int myNumNeighbors;
     private File myConfigFile;
     private Scanner sc;
 
@@ -21,9 +21,9 @@ public class Grid{
         catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        num_rows = sc.nextInt();
-        num_columns = sc.nextInt();
-        cells = new Cell[num_rows][num_columns];
+        myNumRows = sc.nextInt();
+        myNumCols = sc.nextInt();
+        cells = new Cell[myNumRows][myNumCols];
     }
 
     public Cell[][] configureCells(){
@@ -33,10 +33,10 @@ public class Grid{
     }
 
     private void createGridOfCells() {
-        num_neighbors = sc.nextInt();
+        myNumNeighbors = sc.nextInt();
         while(sc.hasNext()){
-            for (int i = 0; i < num_rows; i++){
-                for (int j = 0; j < num_columns; j++){
+            for (int i = 0; i < myNumRows; i++){
+                for (int j = 0; j < myNumCols; j++){
                     int state = sc.nextInt();
                     cells[i][j] = new Cell(state, i, j);
                 }
@@ -47,9 +47,9 @@ public class Grid{
     //This method assumes that all simulations will either consider 4 neighbors (NSWE) or 8 (NSWE + the 4 directions in between)
     private void setCellNeighbors(){
         Cell[] neighbors = null;
-        for (int i = 0; i < num_rows; i++){
-            for (int j = 0; j < num_columns; j++) {
-                if(num_neighbors == 4){
+        for (int i = 0; i < myNumRows; i++){
+            for (int j = 0; j < myNumCols; j++) {
+                if(myNumNeighbors == 4){
                     if(i == 0)
                     {
                         if(j == 0){
@@ -57,7 +57,7 @@ public class Grid{
                             neighbors[0] = cells[i+1][j];
                             neighbors[1] = cells[i][j+1];
                         }
-                        else if (j == num_rows -1){
+                        else if (j == myNumRows -1){
                             neighbors = new Cell[2];
                             neighbors[0] = cells[i+1][j];
                             neighbors[1] = cells[i][j-1];
@@ -69,13 +69,13 @@ public class Grid{
                             neighbors[2] = cells[i+1][j];
                         }
                     }
-                    else if (i == num_columns - 1){
+                    else if (i == myNumCols - 1){
                         if (j == 0){
                             neighbors = new Cell[2];
                             neighbors[0] = cells[i-1][j];
                             neighbors[1] = cells[i][j+1];
                         }
-                        else if (j == num_rows - 1){
+                        else if (j == myNumRows - 1){
                             neighbors = new Cell[2];
                             neighbors[0] = cells[i-1][j];
                             neighbors[1] = cells[i][j-1];
@@ -93,7 +93,7 @@ public class Grid{
                         neighbors[1] = cells[i+1][j];
                         neighbors[2] = cells[i][j+1];
                     }
-                    else if (j == num_rows - 1){
+                    else if (j == myNumRows - 1){
                         neighbors = new Cell[3];
                         neighbors[0] = cells[i-1][j];
                         neighbors[1] = cells[i+1][j];
@@ -107,7 +107,7 @@ public class Grid{
                         neighbors[3] = cells[i - 1][j];
                     }
                 }
-                else if(num_neighbors == 8){
+                else if(myNumNeighbors == 8){
                     if(i == 0)
                     {
                         if(j == 0){
@@ -116,7 +116,7 @@ public class Grid{
                             neighbors[1] = cells[i][j+1];
                             neighbors[2] = cells[i+1][j+1];
                         }
-                        else if (j == num_rows -1){
+                        else if (j == myNumRows -1){
                             neighbors = new Cell[3];
                             neighbors[0] = cells[i+1][j];
                             neighbors[1] = cells[i][j-1];
@@ -131,14 +131,14 @@ public class Grid{
                             neighbors[4] = cells[i+1][j-1];
                         }
                     }
-                    else if (i == num_columns - 1){
+                    else if (i == myNumCols - 1){
                         if (j == 0){
                             neighbors = new Cell[3];
                             neighbors[0] = cells[i-1][j];
                             neighbors[1] = cells[i][j+1];
                             neighbors[2] = cells[i-1][j+1];
                         }
-                        else if (j == num_rows - 1){
+                        else if (j == myNumRows - 1){
                             neighbors = new Cell[3];
                             neighbors[0] = cells[i-1][j];
                             neighbors[1] = cells[i][j-1];
@@ -161,7 +161,7 @@ public class Grid{
                         neighbors[3] = cells[i-1][j+1];
                         neighbors[4] = cells[i+1][j+1];
                     }
-                    else if (j == num_rows - 1){
+                    else if (j == myNumRows - 1){
                         neighbors = new Cell[5];
                         neighbors[0] = cells[i-1][j];
                         neighbors[1] = cells[i+1][j];
@@ -187,16 +187,16 @@ public class Grid{
     }
 
     public void printCells(){
-        for(int i = 0; i < num_rows; i++){
-            for(int j = 0; j < num_columns; j++){
+        for(int i = 0; i < myNumRows; i++){
+            for(int j = 0; j < myNumCols; j++){
                 System.out.print(cells[i][j].getState() + " ");
             }
             System.out.println();
         }
     }
     public void printCellsStates(){
-        for(int i = 0; i < num_rows; i++){
-            for(int j = 0; j < num_columns; j++){
+        for(int i = 0; i < myNumRows; i++){
+            for(int j = 0; j < myNumCols; j++){
                 System.out.print(cells[i][j].getState() + " ");
                 for(Cell neighbour : cells[i][j].getMyNeighbours()){
                     System.out.print(neighbour.getState() + " ");
@@ -231,11 +231,11 @@ public class Grid{
         return cells;
     }
 
-    public int getNum_rows(){
-        return num_rows;
+    public int getNumRows(){
+        return myNumRows;
     }
 
-    public int getNum_columns(){
-        return num_columns;
+    public int getNumCols(){
+        return myNumCols;
     }
 }
