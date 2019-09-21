@@ -30,11 +30,6 @@ public class Visualization {
 
     public void showIntroScene(HashMap<String, String> simulationsSupported) {
         myRoot = new Pane();
-        Image imageForBackground = new Image(this.getClass().getClassLoader().getResourceAsStream("IntroBackground.jpg"));
-        BackgroundImage backgroundImage = new BackgroundImage(imageForBackground, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
-        Background background = new Background(backgroundImage);
-        myRoot.setBackground(background);
-
         Scene scene = new Scene(myRoot, SCENE_WIDTH_WITH_INPUT_BAR, SCENE_HEIGHT);
         myRoot.getChildren().add(createButtonsForIntro(simulationsSupported));
         myStage.setScene(scene);
