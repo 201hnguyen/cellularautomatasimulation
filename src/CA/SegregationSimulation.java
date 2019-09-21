@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.Random;
 
 public class SegregationSimulation extends Simulation {
-    private final double SEGREGATION_TRESHOLD = 0.2;
+    private final double SEGREGATION_TRESHOLD = 0.5;
     private final int AGENT1 = 1;
     private final int AGENT2 = 2;
 
@@ -18,27 +18,24 @@ public class SegregationSimulation extends Simulation {
     public void analyzeCells() {
         for (Cell[] cellRow : myGrid.getCells()) {
             for (Cell cell : cellRow) {
-                int similarNeighbors = countSimilarNeighbors(cell, cell.getMyNeighbours());
-                if (similarNeighbors / cell.getMyNeighbours().length < SEGREGATION_TRESHOLD) {
-                    Random random = new Random();
+                double similarNeighbors = countSimilarNeighbors(cell, cell.getMyNeighbours());
+                if (cell.getState()!= 0 && (similarNeighbors / cell.getMyNeighbours().length < SEGREGATION_TRESHOLD)) {
+                    System.out.println("My threshold: " + similarNeighbors / cell.getMyNeighbours().length);
                     Cell[] emptyCellsArray = myGrid.getEmptyCells();
-                    int random_index = 0;
                     for(int i = 0; i < emptyCellsArray.length; i++) {
-                        random_index = random.nextInt(emptyCellsArray.length);
-                        if(emptyCellsArray[random_index].getMyIsAvailable()){
-                            emptyCellsArray[random_index].setMyNextState(cell.getState());
-                            emptyCellsArray[random_index].setMyIsAvailable(false);
+                        if(emptyCellsArray[i].getMyIsAvailable()){
+                            emptyCellsArray[i].setMyNextState(cell.getState());
+                            emptyCellsArray[i].setMyIsAvailable(false);
                             cell.setMyNextState(0);
                             break;
                         }
                     }
                 }
-
             }
         }
     }
 
-    private int countSimilarNeighbors(Cell cell, Cell[] neighbors){
+    private double countSimilarNeighbors(Cell cell, Cell[] neighbors){
         int similarNeighborsCount = 0;
         int state = cell.getState();
         for(Cell neighbor: neighbors){
