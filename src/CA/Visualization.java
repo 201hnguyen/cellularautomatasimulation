@@ -4,7 +4,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -16,8 +15,6 @@ public class Visualization {
     public static final int SCENE_WIDTH = 800;
     public static final int SCENE_WIDTH_WITH_INPUT_BAR = 1000;
     public static final int SCENE_HEIGHT = 800;
-
-    public static final String[] BUTTONS_PATHS = {"homebutton.png"};
 
     private Game myCurrentGame;
     private Stage myStage;
@@ -33,6 +30,11 @@ public class Visualization {
 
     public void showIntroScene(HashMap<String, String> simulationsSupported) {
         myRoot = new Pane();
+        Image imageForBackground = new Image(this.getClass().getClassLoader().getResourceAsStream("IntroBackground.jpg"));
+        BackgroundImage backgroundImage = new BackgroundImage(imageForBackground, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
+        Background background = new Background(backgroundImage);
+        myRoot.setBackground(background);
+
         Scene scene = new Scene(myRoot, SCENE_WIDTH_WITH_INPUT_BAR, SCENE_HEIGHT);
         myRoot.getChildren().add(createButtonsForIntro(simulationsSupported));
         myStage.setScene(scene);
@@ -56,6 +58,18 @@ public class Visualization {
         return buttonsBox;
     }
 
+    private Button createBackButton() {
+        Button backButton = new Button("Back");
+        int buttonYPos = 30;
+        int buttonXPos = SCENE_WIDTH + 80;
+        backButton.setLayoutX(buttonXPos);
+        backButton.setLayoutY(buttonYPos);
+        backButton.setOnAction( e -> {
+            myCurrentGame.loadIntro();
+        });
+        return backButton;
+    }
+
     public void showSimulationScene(Grid grid) {
         myRoot = new Pane();
         Scene scene = new Scene(myRoot, SCENE_WIDTH_WITH_INPUT_BAR, SCENE_HEIGHT);
@@ -63,27 +77,6 @@ public class Visualization {
         myRoot.getChildren().add(createBackButton());
         displayGrid(grid);
     }
-
-    private ImageView createBackButton() {
-        ImageView backButton = readImageView(0);
-        int size = 30;
-        backButton.setFitWidth(size);
-        backButton.setFitHeight(size);
-        int xPos = ((SCENE_WIDTH + (SCENE_WIDTH_WITH_INPUT_BAR - SCENE_WIDTH) / 2) - size / 2); ;
-        int yPos = 30;
-        backButton.setLayoutX(xPos);
-        backButton.setLayoutY(yPos);
-        return backButton;
-    }
-
-    private ImageView readImageView(int buttonPathIndex) {
-        Image image = new Image(this.getClass().getClassLoader().getResourceAsStream(BUTTONS_PATHS[buttonPathIndex]));
-        return new ImageView(image);
-    }
-
-//    private Button createPlayButton() {
-//
-//    }
 
     public void displayGrid(Grid grid){ //TODO: Temporary stroke; we have to redo logic for rectangle borders (old logic doesn't work if we spread rectangles out across scene)
         myRoot.getChildren().clear();
