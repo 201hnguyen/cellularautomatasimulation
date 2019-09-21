@@ -2,6 +2,7 @@ package CA;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Scanner;
 
@@ -207,22 +208,16 @@ public class Grid{
         }
     }
 
-    public Cell[] getEmptyCells(){
-        HashSet<Cell> emptyCellsHashSet = new HashSet<Cell>();
+    public ArrayList<Cell> getEmptyCells(){
+        ArrayList<Cell> emptyCells = new ArrayList<>();
         int i = 0;
         for(Cell[] cellrow: cells){
             for(Cell cell : cellrow){
                 if(cell.getState() == 0)
                 {
-                    emptyCellsHashSet.add(cell);
+                    emptyCells.add(cell);
                 }
             }
-        }
-        Cell[] emptyCells = new Cell[emptyCellsHashSet.size()];
-        int iterator = 0;
-        for(Cell cell: emptyCellsHashSet){
-            emptyCells[iterator] = cell;
-            iterator++;
         }
         return emptyCells;
     }
