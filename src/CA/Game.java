@@ -32,7 +32,7 @@ public class Game {
         myVisualization.showIntroScene(mySimulationsSupported);
     }
 
-    public void loadSimulation(String simulationFilePath) { //TODO: Refractor this method; repetitive
+    public void loadSimulation(String simulationFilePath) {
 
         File simulationFile = new File(simulationFilePath);
         Grid grid = new Grid(simulationFile);
