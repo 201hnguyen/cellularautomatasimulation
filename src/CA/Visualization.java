@@ -3,8 +3,8 @@ package CA;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.image.Image;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
@@ -13,6 +13,7 @@ import java.util.HashMap;
 
 public class Visualization {
     public static final int SCENE_WIDTH = 800;
+    public static final int SCENE_WIDTH_WITH_INPUT_BAR = 1000;
     public static final int SCENE_HEIGHT = 800;
 
     private Game myCurrentGame;
@@ -29,15 +30,15 @@ public class Visualization {
 
     public void showIntroScene(HashMap<String, String> simulationsSupported) {
         myRoot = new Pane();
-        Scene scene = new Scene(myRoot, SCENE_WIDTH, SCENE_HEIGHT);
+        Scene scene = new Scene(myRoot, SCENE_WIDTH_WITH_INPUT_BAR, SCENE_HEIGHT);
         myRoot.getChildren().add(createButtonsForIntro(simulationsSupported));
         myStage.setScene(scene);
     }
 
     private VBox createButtonsForIntro(HashMap<String, String> simulationsSupported) {
         int buttonsSpacing = 15;
-        int vBoxX = 550;
-        int vBoxY = 350;
+        int vBoxX = 800;
+        int vBoxY = 300;
         VBox buttonsBox = new VBox(buttonsSpacing);
         buttonsBox.setLayoutX(vBoxX);
         buttonsBox.setLayoutY(vBoxY);
@@ -52,24 +53,29 @@ public class Visualization {
         return buttonsBox;
     }
 
-    //TODO: Finish creating back buttons for simulation scenes
-//    private Button createBackButton() {
-//        Button backButton = new Button("Back");
-//        backButton.setOnAction( e -> {
-//            myCurrentGame.loadIntro();
-//        });
-//        return backButton;
-//    }
+    private Button createBackButton() {
+        Button backButton = new Button("Back");
+        int buttonYPos = 30;
+        int buttonXPos = SCENE_WIDTH + 80;
+        backButton.setLayoutX(buttonXPos);
+        backButton.setLayoutY(buttonYPos);
+        backButton.setOnAction( e -> {
+            myCurrentGame.loadIntro();
+        });
+        return backButton;
+    }
 
     public void showSimulationScene(Grid grid) {
         myRoot = new Pane();
-        Scene scene = new Scene(myRoot, SCENE_WIDTH, SCENE_HEIGHT);
+        Scene scene = new Scene(myRoot, SCENE_WIDTH_WITH_INPUT_BAR, SCENE_HEIGHT);
         myStage.setScene(scene);
+        myRoot.getChildren().add(createBackButton());
         displayGrid(grid);
     }
 
     public void displayGrid(Grid grid){ //TODO: Temporary stroke; we have to redo logic for rectangle borders (old logic doesn't work if we spread rectangles out across scene)
         myRoot.getChildren().clear();
+        myRoot.getChildren().add(createBackButton());
         Cell[][] cells = grid.getCells();
         Rectangle rectangle;
         for (int i = 0; i < grid.getNumRows(); i++) {
