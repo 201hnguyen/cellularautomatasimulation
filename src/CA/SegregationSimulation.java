@@ -9,6 +9,8 @@ import java.util.Random;
 public class SegregationSimulation extends Simulation {
     private final double SEGREGATION_TRESHOLD = 0.5;
     private ArrayList<Cell> availableCells;
+    private final int AGENT1 = 1;
+    private final int AGENT2 = 2;
 
     public SegregationSimulation(Grid grid) {
         super(grid);
@@ -35,8 +37,6 @@ public class SegregationSimulation extends Simulation {
 
         }
     }
-
-
 
 
     private double countSimilarNeighbors(Cell cell, Cell[] neighbors){
