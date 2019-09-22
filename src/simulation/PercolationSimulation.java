@@ -6,9 +6,9 @@ import elements.Grid;
 import java.util.ArrayList;
 
 public class PercolationSimulation extends Simulation {
-    public static int OPEN = 0;
-    public static int FULL = 1;
-    public static int BLOCKED = 2;
+    public static final int OPEN = 0;
+    public static final int FULL = 1;
+    public static final int BLOCKED = 2;
 
     public PercolationSimulation(Grid grid) { super(grid); }
 

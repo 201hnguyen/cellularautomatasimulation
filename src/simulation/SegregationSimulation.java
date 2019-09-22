@@ -1,5 +1,6 @@
 package simulation;
 
+import config.XMLParser;
 import elements.Cell;
 import elements.Grid;
 
@@ -7,13 +8,16 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class SegregationSimulation extends Simulation {
-    public static final double SEGREGATION_TRESHOLD = 0.4; //TODO: Read from XML
+    private XMLParser xmlParser;
+    private double segregationTreshold;
 
     private ArrayList<Cell> myAvailableCells;
 
     public SegregationSimulation(Grid grid) {
         super(grid);
+        xmlParser = new XMLParser("Segregation", grid.getMyConfigFile());
         myAvailableCells = new ArrayList<>();
+        segregationTreshold = xmlParser.getSimulationParameter1();
     }
 
     @Override
@@ -23,7 +27,7 @@ public class SegregationSimulation extends Simulation {
         for (Cell[] cellRow : super.getGrid().getCells()) {
             for (Cell cell : cellRow) {
                 double similarNeighbors = countSimilarNeighbors(cell, cell.getMyNeighbors());
-                if (cell.getState()!= 0 && (similarNeighbors / cell.getMyNeighbors().length < SEGREGATION_TRESHOLD)) {
+                if (cell.getState()!= 0 && (similarNeighbors / cell.getMyNeighbors().length < segregationTreshold)) {
                     Cell random_cell = myAvailableCells.get(random.nextInt(myAvailableCells.size()));
                     random_cell.setMyIsAvailable(false);
                     random_cell.setMyNextState(cell.getState());
