@@ -1,6 +1,5 @@
 package game;
 
-import config.XMLParser;
 import elements.Grid;
 import simulation.*;
 
@@ -15,11 +14,11 @@ import java.util.HashMap;
 
 public class Game {
 
-    public static final String GAME_OF_LIFE_CONFIGURATION = "Resources/GameOfLifeConfig.xml";
-    public static final String SEGREGATION_CONFIGURATION = "Resources/SegregationConfig.xml";
-    public static final String PREDATOR_PREY_CONFIGURATION = "Resources/PredatorPreyConfig.xml";
-    public static final String PERCOLATION_CONFIGURATION = "Resources/PercolationConfig.xml";
-    public static final String SPREADING_OF_FIRE_CONFIGURATION = "Resources/SpreadingOfFireConfig.xml";
+    public static final String GAME_OF_LIFE_CONFIGURATION = "Resources/GameOfLifeConfig.xml"; //TODO: Read from config XML
+    public static final String SEGREGATION_CONFIGURATION = "Resources/SegregationConfig.xml"; //TODO: Read from config XML
+    public static final String PREDATOR_PREY_CONFIGURATION = "Resources/PredatorPreyConfig.xml"; //TODO: Read from config XML
+    public static final String PERCOLATION_CONFIGURATION = "Resources/PercolationConfig.xml"; //TODO: Read from config XML
+    public static final String SPREADING_OF_FIRE_CONFIGURATION = "Resources/SpreadingOfFireConfig.xml"; //TODO: Read from config XML
 
     private int myFramesPerSecond = 1;
     private int myMillisecondDelay = 1000 / myFramesPerSecond;
