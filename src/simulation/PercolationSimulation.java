@@ -1,8 +1,11 @@
-package CA;
+package simulation;
+
+import elements.Cell;
+import elements.Grid;
 
 import java.util.ArrayList;
 
-public class PercolationSimulation extends Simulation{
+public class PercolationSimulation extends Simulation {
     public static int OPEN = 0;
     public static int FULL = 1;
     public static int BLOCKED = 2;
@@ -11,20 +14,19 @@ public class PercolationSimulation extends Simulation{
 
     @Override
     public void analyzeCells(){
-        for(Cell[] cellRow : myGrid.getCells()){
+        for(Cell[] cellRow : super.getGrid().getCells()){
             for(Cell cell : cellRow){
-                Cell[] neighborsToFill = openNeighbors(cell.getMyNeighbours());
+                Cell[] neighborsToFill = openNeighbors(cell.getMyNeighbors());
                 if(cell.getState() == FULL && neighborsToFill.length != 0){
                     for(Cell openNeighbor : neighborsToFill){
                         openNeighbor.setMyNextState(FULL);
                     }
                 }
-
             }
         }
     }
 
-    public Cell[] openNeighbors(Cell[] neighbors){
+    private Cell[] openNeighbors(Cell[] neighbors){
         ArrayList<Cell> openCells = new ArrayList<>();
         for(Cell neighbor : neighbors){
             if(neighbor.getState() == OPEN){
@@ -33,7 +35,4 @@ public class PercolationSimulation extends Simulation{
         }
         return openCells.toArray(new Cell[0]);
     }
-
-
-
 }

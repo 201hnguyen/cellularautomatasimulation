@@ -1,7 +1,10 @@
-package CA;
+package simulation;
+
+import elements.Cell;
+import elements.Grid;
 
 public abstract class Simulation {
-    protected Grid myGrid;
+    private Grid myGrid;
 
     public Simulation(Grid grid) {
         myGrid = grid;
@@ -15,14 +18,6 @@ public abstract class Simulation {
                 cell.updateState();
             }
         }
-
-        for (Cell[] cellRow : myGrid.getCells()) {
-            for (Cell cell : cellRow) {
-                System.out.print(cell.getState());
-            }
-            System.out.println();
-        }
-        System.out.println();
     }
 
     public Grid getGrid() {

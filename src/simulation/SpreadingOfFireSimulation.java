@@ -1,32 +1,34 @@
-package CA;
+package simulation;
+
+import elements.Cell;
+import elements.Grid;
 
 import java.util.Random;
 
-public class SpreadingOfFireSimulation extends Simulation{
+public class SpreadingOfFireSimulation extends Simulation {
     public static int EMPTY = 0;
     public static int TREE = 1;
     public static int BURNING = 2;
 
-    public static double BURN_PROBABILITY = 0.4;
-    public static double TREE_PROBABILITY = 0.0;
+    public static double BURN_PROBABILITY = 0.4; //TODO: Read from XML
+    public static double TREE_PROBABILITY = 0.0; //TODO: Read from XML
 
-    public static int emptyTurns;
+    private int myEmptyTurns;
 
-    //why isn't the constructor being used?
     public SpreadingOfFireSimulation(Grid grid) {
         super(grid);
     }
 
     @Override
     public void analyzeCells(){
-        for(Cell[] cellRow : myGrid.getCells()){
+        for(Cell[] cellRow : super.getGrid().getCells()){
             for(Cell cell : cellRow){
                 if(cell.getState() == EMPTY){
-                    emptyTurns = 1;
-                    willTreeGrow(cell, cell.getMyNeighbours());
+                    myEmptyTurns = 1;
+                    willTreeGrow(cell, cell.getMyNeighbors());
                 }
                 if(cell.getState() == TREE){
-                    willBurn(cell, cell.getMyNeighbours());
+                    willBurn(cell, cell.getMyNeighbors());
                 }
                 if(cell.getState() == BURNING){
                     cell.setMyNextState(EMPTY);
@@ -44,18 +46,17 @@ public class SpreadingOfFireSimulation extends Simulation{
     }
 
     private void willTreeGrow(Cell curr, Cell[] neighbors){
-        if(curr.getState() == EMPTY && emptyTurns == 1){
+        if(curr.getState() == EMPTY && myEmptyTurns == 1){
             curr.setMyNextState(EMPTY);
-            emptyTurns++;
+            myEmptyTurns++;
         }
         for(Cell neighbor : neighbors){
             if(curr.getState() == EMPTY && neighbor.getState() == TREE &&
-                    probability(TREE_PROBABILITY) && emptyTurns == 2){
+                    probability(TREE_PROBABILITY) && myEmptyTurns == 2){
                 curr.setMyNextState(TREE);
             }
         }
     }
-
 
     private boolean probability(double probEvent){
         Random random = new Random();

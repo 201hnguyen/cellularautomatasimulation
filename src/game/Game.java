@@ -1,4 +1,7 @@
-package CA;
+package game;
+
+import elements.Grid;
+import simulation.*;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -11,21 +14,19 @@ import java.util.HashMap;
 
 public class Game {
 
-    public static final String GAME_OF_LIFE_CONFIGURATION = "Resources/GameOfLifeConfig.txt";
-    public static final String SEGREGATION_CONFIGURATION = "Resources/SegregationConfig.txt";
-    public static final String PREDATOR_PREY_CONFIGURATION = "Resources/PredatorPreyConfig.txt";
-    public static final String PERCOLATION_CONFIGURATION = "Resources/PercolationConfig.txt";
-    public static final String SPREADING_OF_FIRE_CONFIGURATION = "Resources/SpreadingOfFireConfig.txt";
+    public static final String GAME_OF_LIFE_CONFIGURATION = "Resources/GameOfLifeConfig.txt"; //TODO: Read from config XML
+    public static final String SEGREGATION_CONFIGURATION = "Resources/SegregationConfig.txt"; //TODO: Read from config XML
+    public static final String PREDATOR_PREY_CONFIGURATION = "Resources/PredatorPreyConfig.txt"; //TODO: Read from config XML
+    public static final String PERCOLATION_CONFIGURATION = "Resources/PercolationConfig.txt"; //TODO: Read from config XML
+    public static final String SPREADING_OF_FIRE_CONFIGURATION = "Resources/SpreadingOfFireConfig.txt"; //TODO: Read from config XML
 
+    private int myFramesPerSecond = 1;
+    private int myMillisecondDelay = 1000 / myFramesPerSecond;
     private Visualization myVisualization;
     private Simulation mySimulation;
     private Timeline myTimeline;
-    private HashMap<String, String> mySimulationsSupported; //TODO: Read from XML
-    private ArrayList<String> mySimulationButtons;
-
-    public int frames_per_second = 1;
-    public int millisecond_delay = 1000 / frames_per_second;
-    public double second_delay = 1.0 / frames_per_second;
+    private HashMap<String, String> mySimulationsSupported; //TODO: Read from config XML
+    private ArrayList<String> mySimulationButtons; //TODO: Read from config XML
 
     public Game(Stage stage) {
         myTimeline = new Timeline();
@@ -37,24 +38,23 @@ public class Game {
         mySimulationsSupported.put("Percolation", PERCOLATION_CONFIGURATION);
 
         mySimulationButtons = new ArrayList<>();
-        mySimulationButtons.add("Back");
         mySimulationButtons.add("Play");
         mySimulationButtons.add("Pause");
         mySimulationButtons.add("Step forward");
         mySimulationButtons.add("Speed up");
         mySimulationButtons.add("Slow down");
+        mySimulationButtons.add("Home");
 
         myVisualization = new Visualization(this, stage, mySimulationsSupported, mySimulationButtons);
         myVisualization.showIntroScene();
-
     }
 
-    public void loadSimulation(String simulationFilePath) {
+    protected void loadSimulation(String simulationFilePath) {
 
         File simulationFile = new File(simulationFilePath);
         Grid grid = new Grid(simulationFile);
         grid.configureCells();
-         mySimulation = null;
+        mySimulation = null;
 
         if (simulationFilePath.equals(GAME_OF_LIFE_CONFIGURATION)) {
             mySimulation = new GameOfLifeSimulation(grid);
@@ -69,62 +69,50 @@ public class Game {
         }
 
         myVisualization.showSimulationScene(grid);
-        setGameLoop(mySimulation);
+        setGameLoop();
     }
 
-    public void loadIntro() {
+    protected void loadIntro() {
         myTimeline.getKeyFrames().clear();
         myTimeline.stop();
         myVisualization.showIntroScene();
     }
 
-    private void setGameLoop(Simulation simulation) {
-        var frame = new KeyFrame(Duration.millis(millisecond_delay), e -> playGameLoop(second_delay));
+    protected void adjustSimulationSpeed(int value) {
+        myTimeline.stop();
+        myTimeline.getKeyFrames().clear();
+        myFramesPerSecond += value;
+        myMillisecondDelay = 1000 / myFramesPerSecond;
+        var frame = new KeyFrame(Duration.millis(myMillisecondDelay), e -> playGameLoop());
+        myTimeline.setCycleCount(Timeline.INDEFINITE);
+        myTimeline.getKeyFrames().add(frame);
+        myTimeline.play();
+    }
+
+    protected void pauseSimulation(){
+        myTimeline.stop();
+    }
+
+    protected void playSimulation(){
+        myTimeline.play();
+    }
+
+    protected void skipStep(){
+            playGameLoop();
+    }
+
+    private void setGameLoop() {
+        var frame = new KeyFrame(Duration.millis(myMillisecondDelay), e -> playGameLoop());
         myTimeline.setCycleCount(Timeline.INDEFINITE);
         myTimeline.getKeyFrames().add(frame);
         myTimeline.play();
         pauseSimulation();
     }
 
-    private void playGameLoop(double elapsedTime) {
+    private void playGameLoop() {
         mySimulation.analyzeCells();
         mySimulation.updateCells();
         myVisualization.displayGrid(mySimulation.getGrid());
-    }
-
-    public void fastForwardSimulation(){
-        myTimeline.stop();
-        myTimeline.getKeyFrames().clear();
-        frames_per_second++;
-        millisecond_delay = 1000 / frames_per_second;
-        second_delay = 1.0 / frames_per_second;
-        var frame = new KeyFrame(Duration.millis(millisecond_delay), e -> playGameLoop(second_delay));
-        myTimeline.setCycleCount(Timeline.INDEFINITE);
-        myTimeline.getKeyFrames().add(frame);
-        myTimeline.play();
-    }
-    public void slowDownSimulation(){
-        myTimeline.stop();
-        myTimeline.getKeyFrames().clear();
-        frames_per_second--;
-        millisecond_delay = 1000 / frames_per_second;
-        second_delay = 1.0 / frames_per_second;
-        var frame = new KeyFrame(Duration.millis(millisecond_delay), e -> playGameLoop(second_delay));
-        myTimeline.setCycleCount(Timeline.INDEFINITE);
-        myTimeline.getKeyFrames().add(frame);
-        myTimeline.play();
-    }
-
-    public void pauseSimulation(){
-        myTimeline.stop();
-    }
-
-    public void playSimulation(){
-        myTimeline.play();
-    }
-
-    public void skipStep(){
-            playGameLoop(second_delay);
     }
 
 }
