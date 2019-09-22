@@ -6,6 +6,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Game {
@@ -23,9 +24,9 @@ public class Game {
     private Visualization myVisualization;
     private Timeline myTimeline;
     private HashMap<String, String> mySimulationsSupported; //TODO: Read from XML
+    private ArrayList<String> mySimulationButtons;
 
     public Game(Stage stage) {
-        myVisualization = new Visualization(this, stage);
         myTimeline = new Timeline();
         mySimulationsSupported = new HashMap<>();
         mySimulationsSupported.put("Game of Life", GAME_OF_LIFE_CONFIGURATION);
@@ -33,7 +34,17 @@ public class Game {
         mySimulationsSupported.put("Predator and Prey", PREDATOR_PREY_CONFIGURATION);
         mySimulationsSupported.put("Spreading of Fire", SPREADING_OF_FIRE_CONFIGURATION);
         mySimulationsSupported.put("Percolation", PERCOLATION_CONFIGURATION);
-        myVisualization.showIntroScene(mySimulationsSupported);
+
+        mySimulationButtons = new ArrayList<>();
+        mySimulationButtons.add("Back");
+        mySimulationButtons.add("Play");
+        mySimulationButtons.add("Pause");
+        mySimulationButtons.add("Step forward");
+        mySimulationButtons.add("Speed up");
+        mySimulationButtons.add("Slow down");
+
+        myVisualization = new Visualization(this, stage, mySimulationsSupported, mySimulationButtons);
+        myVisualization.showIntroScene();
 
     }
 
@@ -56,14 +67,14 @@ public class Game {
             simulation = new PercolationSimulation(grid);
         }
 
-        myVisualization.showSimulationScene(grid);
+        myVisualization.showSimulationScene(grid, mySimulationButtons);
         setGameLoop(simulation);
     }
 
     public void loadIntro() {
         myTimeline.getKeyFrames().clear();
         myTimeline.stop();
-        myVisualization.showIntroScene(mySimulationsSupported);
+        myVisualization.showIntroScene();
     }
 
     private void setGameLoop(Simulation simulation) {

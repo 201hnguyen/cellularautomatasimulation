@@ -10,6 +10,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Visualization {
@@ -17,14 +18,16 @@ public class Visualization {
     public static final int SCENE_WIDTH_WITH_INPUT_BAR = 1000;
     public static final int SCENE_HEIGHT = 800;
 
-    public static final String[] BUTTONS_PATHS = {"homebutton.png"};
-
     private Game myCurrentGame;
     private Stage myStage;
     private Pane myRoot;
     private Scene myScene;
+    private HashMap<String, String> mySimulationsSupported;
+    private ArrayList<String> mySimulationButtons;
 
-    public Visualization(Game currentGame, Stage stage) {
+    public Visualization(Game currentGame, Stage stage, HashMap<String, String> simulationsSupported, ArrayList<String> simulationButtons) {
+        mySimulationsSupported = simulationsSupported;
+        mySimulationButtons = simulationButtons;
         myCurrentGame = currentGame;
         myStage = stage;
         myStage.setTitle("Cellular Automata"); //TODO: Read from XML File
@@ -32,86 +35,73 @@ public class Visualization {
         stage.show();
     }
 
-    public void showIntroScene(HashMap<String, String> simulationsSupported) {
+    public void showIntroScene() {
         myRoot = new Pane();
         myScene = new Scene(myRoot, SCENE_WIDTH_WITH_INPUT_BAR, SCENE_HEIGHT);
-        myRoot.getChildren().add(createButtonsForIntro(simulationsSupported));
+        myRoot.getChildren().add(createButtonsForIntro());
         myStage.setScene(myScene);
     }
 
-    private VBox createButtonsForIntro(HashMap<String, String> simulationsSupported) {
+    private VBox createButtonsForIntro() {
         int buttonsSpacing = 15;
-        int vBoxX = 800;
+        int vBoxX = 835;
         int vBoxY = 300;
         VBox buttonsBox = new VBox(buttonsSpacing);
         buttonsBox.setLayoutX(vBoxX);
         buttonsBox.setLayoutY(vBoxY);
         buttonsBox.setAlignment(Pos.CENTER);
-        for (String key : simulationsSupported.keySet()) {
+        for (String key : mySimulationsSupported.keySet()) {
             Button simulationButton = new Button(key);
             simulationButton.setOnAction(e -> {
-                myCurrentGame.loadSimulation(simulationsSupported.get(key));
+                myCurrentGame.loadSimulation(mySimulationsSupported.get(key));
             });
             buttonsBox.getChildren().add(simulationButton);
         }
         return buttonsBox;
     }
 
-    public void showSimulationScene(Grid grid) {
+    public void showSimulationScene(Grid grid, ArrayList<String> buttonLabels) {
         myRoot = new Pane();
         myScene = new Scene(myRoot, SCENE_WIDTH_WITH_INPUT_BAR, SCENE_HEIGHT);
         myStage.setScene(myScene);
-        myRoot.getChildren().add(createHomeButton());
+        myRoot.getChildren().add(createButtonsForSimulation());
         displayGrid(grid);
     }
 
-//    private HBox layoutPlayPauseStepForward() {
-//        int buttonsSpacing = 10;
-//        HBox buttonsBox = new HBox(buttonsSpacing);
-//        ImageView playButton = createPlayButton();
-//        ImageView pauseButton = createPauseButton();
-//        ImageView
-//        return buttonsBox;
-//    }
-//
-//    private ImageView createButton(int width, int height, int xPos, int yPos, int ) {
-//
-//    }
-
-    private ImageView createHomeButton() {
-        ImageView backButton = readImageView(0);
-        int width = 50;
-        int height = 40;
-        backButton.setFitWidth(width);
-        backButton.setFitHeight(height);
-        int xPos = ((SCENE_WIDTH + (SCENE_WIDTH_WITH_INPUT_BAR - SCENE_WIDTH) / 2) - width / 2); ;
-        int yPos = 30;
-        backButton.setLayoutX(xPos);
-        backButton.setLayoutY(yPos);
-        myScene.setOnMouseClicked(e -> {
-            boolean xBoundsValid = e.getX() > backButton.getBoundsInParent().getMinX() &&
-                    e.getX() < backButton.getBoundsInParent().getMaxX();
-            boolean yBoundsValid = e.getY() > backButton.getBoundsInParent().getMinY() &&
-                    e.getY() < backButton.getBoundsInParent().getMaxY();
-            if (xBoundsValid && yBoundsValid) {
-                myCurrentGame.loadIntro();
-            }
-        });
-        return backButton;
+    private VBox createButtonsForSimulation() {
+        int buttonsSpacing = 10;
+        VBox buttonsBox = new VBox(buttonsSpacing);
+        double xPos = 850 ;
+        double yPos = 100;
+        buttonsBox.setLayoutX(xPos);
+        buttonsBox.setLayoutY(yPos);
+        buttonsBox.setAlignment(Pos.CENTER);
+        for (int label=0; label<mySimulationButtons.size(); label++) {
+            Button simulationButton = new Button(mySimulationButtons.get(label));
+            int finalLabel = label;
+            simulationButton.setOnAction(e -> {
+                if (finalLabel == 0) {
+                    myCurrentGame.loadIntro();
+                } else if (finalLabel == 1) {
+                    myCurrentGame.loadIntro();
+                } else if (finalLabel == 2) {
+                    myCurrentGame.loadIntro();
+                } else if (finalLabel == 3) {
+                    myCurrentGame.loadIntro();
+                } else if (finalLabel == 4) {
+                    myCurrentGame.loadIntro();
+                } else if (finalLabel == 5) {
+                    myCurrentGame.loadIntro();
+                }
+            });
+            buttonsBox.getChildren().add(simulationButton);
+        }
+        return buttonsBox;
     }
-
-    private ImageView readImageView(int buttonPathIndex) {
-        Image image = new Image(this.getClass().getClassLoader().getResourceAsStream(BUTTONS_PATHS[buttonPathIndex]));
-        return new ImageView(image);
-    }
-
-//    private Button createPlayButton() {
-//
-//    }
 
     public void displayGrid(Grid grid){ //TODO: Temporary stroke; we have to redo logic for rectangle borders (old logic doesn't work if we spread rectangles out across scene)
         myRoot.getChildren().clear();
-        myRoot.getChildren().add(createHomeButton());
+        myRoot.getChildren().add(createButtonsForSimulation());
         Cell[][] cells = grid.getCells();
         Rectangle rectangle;
         for (int i = 0; i < grid.getNumRows(); i++) {
