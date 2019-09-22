@@ -23,7 +23,7 @@ public class Game {
     private HashMap<String, String> mySimulationsSupported; //TODO: Read from XML
     private ArrayList<String> mySimulationButtons;
 
-    public int frames_per_second = 2;
+    public int frames_per_second = 1;
     public int millisecond_delay = 1000 / frames_per_second;
     public double second_delay = 1.0 / frames_per_second;
 
@@ -93,12 +93,26 @@ public class Game {
     }
 
     public void fastForwardSimulation(){
+        myTimeline.stop();
+        myTimeline.getKeyFrames().clear();
         frames_per_second++;
+        millisecond_delay = 1000 / frames_per_second;
+        second_delay = 1.0 / frames_per_second;
+        var frame = new KeyFrame(Duration.millis(millisecond_delay), e -> playGameLoop(second_delay));
+        myTimeline.setCycleCount(Timeline.INDEFINITE);
+        myTimeline.getKeyFrames().add(frame);
+        myTimeline.play();
     }
     public void slowDownSimulation(){
-        if(frames_per_second > 1){
-            frames_per_second--;
-        }
+        myTimeline.stop();
+        myTimeline.getKeyFrames().clear();
+        frames_per_second--;
+        millisecond_delay = 1000 / frames_per_second;
+        second_delay = 1.0 / frames_per_second;
+        var frame = new KeyFrame(Duration.millis(millisecond_delay), e -> playGameLoop(second_delay));
+        myTimeline.setCycleCount(Timeline.INDEFINITE);
+        myTimeline.getKeyFrames().add(frame);
+        myTimeline.play();
     }
 
     public void pauseSimulation(){

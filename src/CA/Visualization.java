@@ -78,46 +78,6 @@ public class Visualization {
         displayGrid(grid);
     }
 
-<<<<<<< HEAD
-//    private HBox layoutPlayPauseStepForward() {
-//        int buttonsSpacing = 10;
-//        HBox buttonsBox = new HBox(buttonsSpacing);
-//        ImageView playButton = createPlayButton();
-//        ImageView pauseButton = createPauseButton();
-//        ImageView
-//        return buttonsBox;
-//    }
-//
-//    private ImageView createButton(int width, int height, int xPos, int yPos, int ) {
-//
-//    }
-
-    private ImageView createHomeButton() {
-        ImageView backButton = readImageView(0);
-        int width = 50;
-        int height = 40;
-        backButton.setFitWidth(width);
-        backButton.setFitHeight(height);
-        int xPos = ((SCENE_WIDTH + (SCENE_WIDTH_WITH_INPUT_BAR - SCENE_WIDTH) / 2) - width / 2); ;
-        int yPos = 30;
-        backButton.setLayoutX(xPos);
-        backButton.setLayoutY(yPos);
-        myScene.setOnMouseClicked(e -> {
-            boolean xBoundsValid = e.getX() > backButton.getBoundsInParent().getMinX() &&
-                    e.getX() < backButton.getBoundsInParent().getMaxX();
-            boolean yBoundsValid = e.getY() > backButton.getBoundsInParent().getMinY() &&
-                    e.getY() < backButton.getBoundsInParent().getMaxY();
-            if (xBoundsValid && yBoundsValid) {
-                myCurrentGame.playSimulation();
-            }
-        });
-        return backButton;
-    }
-
-    private ImageView readImageView(int buttonPathIndex) {
-        Image image = new Image(this.getClass().getClassLoader().getResourceAsStream(BUTTONS_PATHS[buttonPathIndex]));
-        return new ImageView(image);
-=======
     private VBox createButtonsForSimulation() {
         int buttonsSpacing = 15;
         VBox buttonsBox = new VBox(buttonsSpacing);
@@ -135,21 +95,20 @@ public class Visualization {
                 if (finalLabel == 0) {
                     myCurrentGame.loadIntro();
                 } else if (finalLabel == 1) {
-                    myCurrentGame.loadIntro();
+                    myCurrentGame.playSimulation();
                 } else if (finalLabel == 2) {
-                    myCurrentGame.loadIntro();
+                    myCurrentGame.pauseSimulation();
                 } else if (finalLabel == 3) {
-                    myCurrentGame.loadIntro();
+                    myCurrentGame.skipStep();
                 } else if (finalLabel == 4) {
-                    myCurrentGame.loadIntro();
+                    myCurrentGame.fastForwardSimulation();
                 } else if (finalLabel == 5) {
-                    myCurrentGame.loadIntro();
+                    myCurrentGame.slowDownSimulation();
                 }
             });
             buttonsBox.getChildren().add(simulationButton);
         }
         return buttonsBox;
->>>>>>> 7595375ea7c31d3dc20deb2b939ed8014510e2f7
     }
 
     public void displayGrid(Grid grid){ //TODO: Temporary stroke; we have to redo logic for rectangle borders (old logic doesn't work if we spread rectangles out across scene)

@@ -7,8 +7,8 @@ public class SpreadingOfFireSimulation extends Simulation{
     public static int TREE = 1;
     public static int BURNING = 2;
 
-    public static double BURN_PROBABILITY = 0.15;
-    public static double TREE_PROBABILITY = 0.15;
+    public static double BURN_PROBABILITY = 0.4;
+    public static double TREE_PROBABILITY = 0.0;
 
     public static int emptyTurns;
 
