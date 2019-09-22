@@ -37,9 +37,18 @@ public class Visualization {
 
     public void showIntroScene() {
         myRoot = new Pane();
+        setBackground();
         myScene = new Scene(myRoot, SCENE_WIDTH_WITH_INPUT_BAR, SCENE_HEIGHT);
         myRoot.getChildren().add(createButtonsForIntro());
         myStage.setScene(myScene);
+    }
+
+    private void setBackground() {
+        Image imageForBackground = new Image(this.getClass().getClassLoader().getResourceAsStream("background.jpg"));
+        BackgroundImage backgroundImage = new BackgroundImage(imageForBackground, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
+        Background background = new Background(backgroundImage);
+        myRoot.setBackground(background);
     }
 
     private VBox createButtonsForIntro() {
@@ -50,18 +59,19 @@ public class Visualization {
         buttonsBox.setLayoutX(vBoxX);
         buttonsBox.setLayoutY(vBoxY);
         buttonsBox.setAlignment(Pos.CENTER);
+        int buttonWidth = 130;
         for (String key : mySimulationsSupported.keySet()) {
             Button simulationButton = new Button(key);
-            simulationButton.setOnAction(e -> {
-                myCurrentGame.loadSimulation(mySimulationsSupported.get(key));
-            });
+            simulationButton.setPrefWidth(buttonWidth);
+            simulationButton.setOnAction(e -> myCurrentGame.loadSimulation(mySimulationsSupported.get(key)));
             buttonsBox.getChildren().add(simulationButton);
         }
         return buttonsBox;
     }
 
-    public void showSimulationScene(Grid grid, ArrayList<String> buttonLabels) {
+    public void showSimulationScene(Grid grid) {
         myRoot = new Pane();
+        setBackground();
         myScene = new Scene(myRoot, SCENE_WIDTH_WITH_INPUT_BAR, SCENE_HEIGHT);
         myStage.setScene(myScene);
         myRoot.getChildren().add(createButtonsForSimulation());
@@ -69,15 +79,17 @@ public class Visualization {
     }
 
     private VBox createButtonsForSimulation() {
-        int buttonsSpacing = 10;
+        int buttonsSpacing = 15;
         VBox buttonsBox = new VBox(buttonsSpacing);
         double xPos = 850 ;
-        double yPos = 100;
+        double yPos = 80;
         buttonsBox.setLayoutX(xPos);
         buttonsBox.setLayoutY(yPos);
         buttonsBox.setAlignment(Pos.CENTER);
+        int buttonWidth = 100;
         for (int label=0; label<mySimulationButtons.size(); label++) {
             Button simulationButton = new Button(mySimulationButtons.get(label));
+            simulationButton.setPrefWidth(buttonWidth);
             int finalLabel = label;
             simulationButton.setOnAction(e -> {
                 if (finalLabel == 0) {
@@ -108,11 +120,11 @@ public class Visualization {
             for (int j=0; j< grid.getNumCols(); j++) {
                 int cellSize = (SCENE_WIDTH / grid.getNumRows());
                 rectangle = new Rectangle(cellSize, cellSize);
-                rectangle.setStroke(Color.WHITE);
+                rectangle.setStroke(Color.BLACK);
                 rectangle.setX((j) * (cellSize));
                 rectangle.setY((i) * (cellSize));
                 if(cells[i][j].getState() == 0){
-                    rectangle.setFill(Color.WHITE);
+                    rectangle.setFill(Color.BLACK);
                 }
                 else if(cells[i][j].getState() == 1){
                     rectangle.setFill(Color.GREEN);

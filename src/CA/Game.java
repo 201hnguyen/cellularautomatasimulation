@@ -67,7 +67,7 @@ public class Game {
             simulation = new PercolationSimulation(grid);
         }
 
-        myVisualization.showSimulationScene(grid, mySimulationButtons);
+        myVisualization.showSimulationScene(grid);
         setGameLoop(simulation);
     }
 
