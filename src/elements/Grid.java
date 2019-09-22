@@ -1,5 +1,7 @@
 package elements;
 
+import config.XMLParser;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -11,18 +13,17 @@ public class Grid{
     private int myNumCols;
     private int myNumNeighbors;
     private File myConfigFile;
+    private XMLParser xmlParser;
     private Scanner mySc;
+    private String[] cellColors;
 
     public Grid(File file){
         myConfigFile = file;
-        try {
-            mySc = new Scanner(myConfigFile);
-        }
-        catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        myNumRows = mySc.nextInt();
-        myNumCols = mySc.nextInt();
+        xmlParser =  new XMLParser("simulationType", myConfigFile);
+        mySc = new Scanner(xmlParser.getInitialGrid());
+        myNumRows = xmlParser.getNumRows();
+        myNumCols = xmlParser.getNumCols();
+        cellColors = xmlParser.getCellColors();
         cells = new Cell[myNumRows][myNumCols];
     }
 
@@ -58,8 +59,12 @@ public class Grid{
         return myNumCols;
     }
 
+    public String[] getCellColors(){
+        return cellColors;
+    }
+
     private void createGridOfCells() {
-        myNumNeighbors = mySc.nextInt();
+        myNumNeighbors = xmlParser.getNumNeighbors();
         while(mySc.hasNext()){
             for (int i = 0; i < myNumRows; i++){
                 for (int j = 0; j < myNumCols; j++){
