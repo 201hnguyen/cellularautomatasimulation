@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.Random;
 
 public class SegregationSimulation extends Simulation {
-    private final double SEGREGATION_TRESHOLD = 0.5;
+    private final double SEGREGATION_TRESHOLD = 0.4;
     private ArrayList<Cell> availableCells;
     private final int AGENT1 = 1;
     private final int AGENT2 = 2;

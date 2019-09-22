@@ -94,7 +94,7 @@ public class Visualization {
             boolean yBoundsValid = e.getY() > backButton.getBoundsInParent().getMinY() &&
                     e.getY() < backButton.getBoundsInParent().getMaxY();
             if (xBoundsValid && yBoundsValid) {
-                myCurrentGame.loadIntro();
+                myCurrentGame.playSimulation();
             }
         });
         return backButton;

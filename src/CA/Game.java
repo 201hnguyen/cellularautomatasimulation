@@ -16,13 +16,14 @@ public class Game {
     public static final String PERCOLATION_CONFIGURATION = "Resources/PercolationConfig.txt";
     public static final String SPREADING_OF_FIRE_CONFIGURATION = "Resources/SpreadingOfFireConfig.txt";
 
-    public static final int FRAMES_PER_SECOND = 3;
-    public static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
-    public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
-
     private Visualization myVisualization;
+    private Simulation mySimulation;
     private Timeline myTimeline;
     private HashMap<String, String> mySimulationsSupported; //TODO: Read from XML
+
+    public int frames_per_second = 2;
+    public int millisecond_delay = 1000 / frames_per_second;
+    public double second_delay = 1.0 / frames_per_second;
 
     public Game(Stage stage) {
         myVisualization = new Visualization(this, stage);
@@ -42,22 +43,22 @@ public class Game {
         File simulationFile = new File(simulationFilePath);
         Grid grid = new Grid(simulationFile);
         grid.configureCells();
-        Simulation simulation = null;
+         mySimulation = null;
 
         if (simulationFilePath.equals(GAME_OF_LIFE_CONFIGURATION)) {
-            simulation = new GameOfLifeSimulation(grid);
+            mySimulation = new GameOfLifeSimulation(grid);
         } else if (simulationFilePath.equals(SEGREGATION_CONFIGURATION)) {
-            simulation = new SegregationSimulation(grid);
+            mySimulation = new SegregationSimulation(grid);
         } else if (simulationFilePath.equals(PREDATOR_PREY_CONFIGURATION)) {
-            simulation = new PredatorPreySimulation(grid);
+            mySimulation = new PredatorPreySimulation(grid);
         } else if (simulationFilePath.equals(SPREADING_OF_FIRE_CONFIGURATION)) {
-            simulation = new SpreadingOfFireSimulation(grid);
+            mySimulation = new SpreadingOfFireSimulation(grid);
         } else if (simulationFilePath.equals(PERCOLATION_CONFIGURATION)) {
-            simulation = new PercolationSimulation(grid);
+            mySimulation = new PercolationSimulation(grid);
         }
 
         myVisualization.showSimulationScene(grid);
-        setGameLoop(simulation);
+        setGameLoop(mySimulation);
     }
 
     public void loadIntro() {
@@ -67,15 +68,38 @@ public class Game {
     }
 
     private void setGameLoop(Simulation simulation) {
-        var frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> playGameLoop(simulation, SECOND_DELAY));
+        var frame = new KeyFrame(Duration.millis(millisecond_delay), e -> playGameLoop(second_delay));
         myTimeline.setCycleCount(Timeline.INDEFINITE);
         myTimeline.getKeyFrames().add(frame);
         myTimeline.play();
+        pauseSimulation();
     }
 
-    private void playGameLoop(Simulation simulation, double elapsedTime) {
-        simulation.analyzeCells();
-        simulation.updateCells();
-        myVisualization.displayGrid(simulation.getGrid());
+    private void playGameLoop(double elapsedTime) {
+        mySimulation.analyzeCells();
+        mySimulation.updateCells();
+        myVisualization.displayGrid(mySimulation.getGrid());
     }
+
+    public void fastForwardSimulation(){
+        frames_per_second++;
+    }
+    public void slowDownSimulation(){
+        if(frames_per_second > 1){
+            frames_per_second--;
+        }
+    }
+
+    public void pauseSimulation(){
+        myTimeline.stop();
+    }
+
+    public void playSimulation(){
+        myTimeline.play();
+    }
+
+    public void skipStep(){
+            playGameLoop(second_delay);
+    }
+
 }
