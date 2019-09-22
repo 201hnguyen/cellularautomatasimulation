@@ -31,8 +31,6 @@ public class SpreadingOfFireSimulation extends Simulation{
                 if(cell.getState() == BURNING){
                     cell.setMyNextState(EMPTY);
                 }
-
-
             }
         }
     }
