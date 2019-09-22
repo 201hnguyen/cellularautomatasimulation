@@ -14,9 +14,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Visualization {
-    public static final int SCENE_WIDTH = 800; //TODO: Read from config XML
-    public static final int SCENE_WIDTH_WITH_INPUT_BAR = 1000; //TODO: Read from config XML
-    public static final int SCENE_HEIGHT = 800; //TODO: Read from config XML
 
     private Game myCurrentGame;
     private Stage myStage;
@@ -27,13 +24,20 @@ public class Visualization {
     private Color color0;
     private Color color1;
     private Color color2;
+    private int mySceneWidth;
+    private int mySceneHeight;
+    private int mySceneWidthWithBar;
 
-    public Visualization(Game currentGame, Stage stage, HashMap<String, String> simulationsSupported, ArrayList<String> simulationButtons) {
+    public Visualization(Game currentGame, Stage stage, HashMap<String, String> simulationsSupported, ArrayList<String> simulationButtons,
+    String windowTitle, int sceneWidthWithBar, int sceneWidth, int sceneHeight) {
         mySimulationsSupported = simulationsSupported;
         mySimulationButtons = simulationButtons;
         myCurrentGame = currentGame;
+        mySceneWidth = sceneWidth;
+        mySceneHeight = sceneHeight;
+        mySceneWidthWithBar = sceneWidthWithBar;
         myStage = stage;
-        myStage.setTitle("Cellular Automata"); //TODO: Read from config XML
+        myStage.setTitle(windowTitle);
         myStage.setResizable(false);
         stage.show();
     }
@@ -41,7 +45,7 @@ public class Visualization {
     protected void showIntroScene() {
         myRoot = new Pane();
         setBackground();
-        myScene = new Scene(myRoot, SCENE_WIDTH_WITH_INPUT_BAR, SCENE_HEIGHT);
+        myScene = new Scene(myRoot, mySceneWidthWithBar, mySceneHeight);
         myRoot.getChildren().add(createButtonsForIntro());
         myStage.setScene(myScene);
     }
@@ -49,7 +53,7 @@ public class Visualization {
     protected void showSimulationScene(Grid grid) {
         myRoot = new Pane();
         setBackground();
-        myScene = new Scene(myRoot, SCENE_WIDTH_WITH_INPUT_BAR, SCENE_HEIGHT);
+        myScene = new Scene(myRoot, mySceneWidthWithBar, mySceneHeight);
         myStage.setScene(myScene);
         myRoot.getChildren().add(createButtonsForSimulation());
         displayGrid(grid);
@@ -102,7 +106,7 @@ public class Visualization {
         Rectangle rectangle;
         for (int i = 0; i < grid.getNumRows(); i++) {
             for (int j=0; j< grid.getNumCols(); j++) {
-                int cellSize = (SCENE_WIDTH / grid.getNumRows());
+                int cellSize = (mySceneWidth / grid.getNumRows());
                 rectangle = new Rectangle(cellSize, cellSize);
                 rectangle.setStroke(Color.BLACK);
                 rectangle.setX((j) * (cellSize));
