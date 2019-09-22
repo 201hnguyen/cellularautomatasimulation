@@ -216,4 +216,7 @@ public class Grid{
             }
         }
     }
+    public File getMyConfigFile(){
+        return myConfigFile;
+    }
 }
