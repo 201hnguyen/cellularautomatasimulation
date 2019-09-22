@@ -95,15 +95,15 @@ public class Visualization {
                 if (finalLabel == 0) {
                     myCurrentGame.loadIntro();
                 } else if (finalLabel == 1) {
-                    myCurrentGame.loadIntro();
+                    myCurrentGame.playSimulation();
                 } else if (finalLabel == 2) {
-                    myCurrentGame.loadIntro();
+                    myCurrentGame.pauseSimulation();
                 } else if (finalLabel == 3) {
-                    myCurrentGame.loadIntro();
+                    myCurrentGame.skipStep();
                 } else if (finalLabel == 4) {
-                    myCurrentGame.loadIntro();
+                    myCurrentGame.fastForwardSimulation();
                 } else if (finalLabel == 5) {
-                    myCurrentGame.loadIntro();
+                    myCurrentGame.slowDownSimulation();
                 }
             });
             buttonsBox.getChildren().add(simulationButton);
