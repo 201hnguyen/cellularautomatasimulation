@@ -1,9 +1,8 @@
-package CA;
+package elements;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Scanner;
 
 public class Grid{
@@ -12,18 +11,18 @@ public class Grid{
     private int myNumCols;
     private int myNumNeighbors;
     private File myConfigFile;
-    private Scanner sc;
+    private Scanner mySc;
 
     public Grid(File file){
         myConfigFile = file;
         try {
-            sc = new Scanner(myConfigFile);
+            mySc = new Scanner(myConfigFile);
         }
         catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        myNumRows = sc.nextInt();
-        myNumCols = sc.nextInt();
+        myNumRows = mySc.nextInt();
+        myNumCols = mySc.nextInt();
         cells = new Cell[myNumRows][myNumCols];
     }
 
@@ -33,12 +32,38 @@ public class Grid{
         return cells;
     }
 
+    public Cell[][] getCells(){
+        return cells;
+    }
+
+    public ArrayList<Cell> getEmptyCells(){
+        ArrayList<Cell> emptyCells = new ArrayList<>();
+        int i = 0;
+        for(Cell[] cellrow: cells){
+            for(Cell cell : cellrow){
+                if(cell.getState() == 0)
+                {
+                    emptyCells.add(cell);
+                }
+            }
+        }
+        return emptyCells;
+    }
+
+    public int getNumRows(){
+        return myNumRows;
+    }
+
+    public int getNumCols(){
+        return myNumCols;
+    }
+
     private void createGridOfCells() {
-        myNumNeighbors = sc.nextInt();
-        while(sc.hasNext()){
+        myNumNeighbors = mySc.nextInt();
+        while(mySc.hasNext()){
             for (int i = 0; i < myNumRows; i++){
                 for (int j = 0; j < myNumCols; j++){
-                    int state = sc.nextInt();
+                    int state = mySc.nextInt();
                     cells[i][j] = new Cell(state, i, j);
                 }
             }
@@ -182,55 +207,8 @@ public class Grid{
                         neighbors[7] = cells[i - 1][j + 1];
                     }
                 }
-                cells[i][j].setMyNeighbours(neighbors);
+                cells[i][j].setMyNeighbors(neighbors);
             }
         }
-    }
-
-    public void printCells(){
-        for(int i = 0; i < myNumRows; i++){
-            for(int j = 0; j < myNumCols; j++){
-                System.out.print(cells[i][j].getState() + " ");
-            }
-            System.out.println();
-        }
-    }
-    public void printCellsStates(){
-        for(int i = 0; i < myNumRows; i++){
-            for(int j = 0; j < myNumCols; j++){
-                System.out.print(cells[i][j].getState() + " ");
-                for(Cell neighbour : cells[i][j].getMyNeighbours()){
-                    System.out.print(neighbour.getState() + " ");
-                }
-                System.out.println();
-            }
-            System.out.println();
-        }
-    }
-
-    public ArrayList<Cell> getEmptyCells(){
-        ArrayList<Cell> emptyCells = new ArrayList<>();
-        int i = 0;
-        for(Cell[] cellrow: cells){
-            for(Cell cell : cellrow){
-                if(cell.getState() == 0)
-                {
-                    emptyCells.add(cell);
-                }
-            }
-        }
-        return emptyCells;
-    }
-
-    public Cell[][] getCells(){
-        return cells;
-    }
-
-    public int getNumRows(){
-        return myNumRows;
-    }
-
-    public int getNumCols(){
-        return myNumCols;
     }
 }

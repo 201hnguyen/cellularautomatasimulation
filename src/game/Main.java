@@ -1,4 +1,4 @@
-package CA;
+package game;
 
 import javafx.application.Application;
 import javafx.stage.Stage;

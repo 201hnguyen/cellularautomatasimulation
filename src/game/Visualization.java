@@ -1,10 +1,10 @@
-package CA;
+package game;
 
-import javafx.geometry.Pos;
+import elements.Cell;
+import elements.Grid;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -14,9 +14,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Visualization {
-    public static final int SCENE_WIDTH = 800;
-    public static final int SCENE_WIDTH_WITH_INPUT_BAR = 1000;
-    public static final int SCENE_HEIGHT = 800;
+    public static final int SCENE_WIDTH = 800; //TODO: Read from config XML
+    public static final int SCENE_WIDTH_WITH_INPUT_BAR = 1000; //TODO: Read from config XML
+    public static final int SCENE_HEIGHT = 800; //TODO: Read from config XML
 
     private Game myCurrentGame;
     private Stage myStage;
@@ -30,12 +30,12 @@ public class Visualization {
         mySimulationButtons = simulationButtons;
         myCurrentGame = currentGame;
         myStage = stage;
-        myStage.setTitle("Cellular Automata"); //TODO: Read from XML File
+        myStage.setTitle("Cellular Automata"); //TODO: Read from config XML
         myStage.setResizable(false);
         stage.show();
     }
 
-    public void showIntroScene() {
+    protected void showIntroScene() {
         myRoot = new Pane();
         setBackground();
         myScene = new Scene(myRoot, SCENE_WIDTH_WITH_INPUT_BAR, SCENE_HEIGHT);
@@ -43,33 +43,7 @@ public class Visualization {
         myStage.setScene(myScene);
     }
 
-    private void setBackground() {
-        Image imageForBackground = new Image(this.getClass().getClassLoader().getResourceAsStream("background.jpg"));
-        BackgroundImage backgroundImage = new BackgroundImage(imageForBackground, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,
-                BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
-        Background background = new Background(backgroundImage);
-        myRoot.setBackground(background);
-    }
-
-    private VBox createButtonsForIntro() {
-        int buttonsSpacing = 15;
-        int vBoxX = 835;
-        int vBoxY = 300;
-        VBox buttonsBox = new VBox(buttonsSpacing);
-        buttonsBox.setLayoutX(vBoxX);
-        buttonsBox.setLayoutY(vBoxY);
-        buttonsBox.setAlignment(Pos.CENTER);
-        int buttonWidth = 130;
-        for (String key : mySimulationsSupported.keySet()) {
-            Button simulationButton = new Button(key);
-            simulationButton.setPrefWidth(buttonWidth);
-            simulationButton.setOnAction(e -> myCurrentGame.loadSimulation(mySimulationsSupported.get(key)));
-            buttonsBox.getChildren().add(simulationButton);
-        }
-        return buttonsBox;
-    }
-
-    public void showSimulationScene(Grid grid) {
+    protected void showSimulationScene(Grid grid) {
         myRoot = new Pane();
         setBackground();
         myScene = new Scene(myRoot, SCENE_WIDTH_WITH_INPUT_BAR, SCENE_HEIGHT);
@@ -78,40 +52,7 @@ public class Visualization {
         displayGrid(grid);
     }
 
-    private VBox createButtonsForSimulation() {
-        int buttonsSpacing = 15;
-        VBox buttonsBox = new VBox(buttonsSpacing);
-        double xPos = 850 ;
-        double yPos = 80;
-        buttonsBox.setLayoutX(xPos);
-        buttonsBox.setLayoutY(yPos);
-        buttonsBox.setAlignment(Pos.CENTER);
-        int buttonWidth = 100;
-        for (int label=0; label<mySimulationButtons.size(); label++) {
-            Button simulationButton = new Button(mySimulationButtons.get(label));
-            simulationButton.setPrefWidth(buttonWidth);
-            int finalLabel = label;
-            simulationButton.setOnAction(e -> {
-                if (finalLabel == 0) {
-                    myCurrentGame.loadIntro();
-                } else if (finalLabel == 1) {
-                    myCurrentGame.playSimulation();
-                } else if (finalLabel == 2) {
-                    myCurrentGame.pauseSimulation();
-                } else if (finalLabel == 3) {
-                    myCurrentGame.skipStep();
-                } else if (finalLabel == 4) {
-                    myCurrentGame.fastForwardSimulation();
-                } else if (finalLabel == 5) {
-                    myCurrentGame.slowDownSimulation();
-                }
-            });
-            buttonsBox.getChildren().add(simulationButton);
-        }
-        return buttonsBox;
-    }
-
-    public void displayGrid(Grid grid){ //TODO: Temporary stroke; we have to redo logic for rectangle borders (old logic doesn't work if we spread rectangles out across scene)
+    protected void displayGrid(Grid grid){
         myRoot.getChildren().clear();
         myRoot.getChildren().add(createButtonsForSimulation());
         Cell[][] cells = grid.getCells();
@@ -135,6 +76,60 @@ public class Visualization {
                 myRoot.getChildren().add(rectangle);
             }
         }
+    }
+
+    private void setBackground() {
+        Image imageForBackground = new Image(this.getClass().getClassLoader().getResourceAsStream("background.jpg"));
+        BackgroundImage backgroundImage = new BackgroundImage(imageForBackground, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
+        Background background = new Background(backgroundImage);
+        myRoot.setBackground(background);
+    }
+
+    private VBox createButtonsForIntro() {
+        VBox buttonsBox = createButtonsVBoxHelper(15, 835, 300);
+        int buttonWidth = 130;
+        for (String key : mySimulationsSupported.keySet()) {
+            Button simulationButton = new Button(key);
+            simulationButton.setPrefWidth(buttonWidth);
+            simulationButton.setOnAction(e -> myCurrentGame.loadSimulation(mySimulationsSupported.get(key)));
+            buttonsBox.getChildren().add(simulationButton);
+        }
+        return buttonsBox;
+    }
+
+    private VBox createButtonsForSimulation() {
+        VBox buttonsBox = createButtonsVBoxHelper(15, 850, 80);
+        int buttonWidth = 100;
+        for (int label=0; label<mySimulationButtons.size(); label++) {
+            Button simulationButton = new Button(mySimulationButtons.get(label));
+            simulationButton.setPrefWidth(buttonWidth);
+            int finalLabel = label;
+            simulationButton.setOnAction(e -> {
+                if (finalLabel == 0) {
+                    myCurrentGame.playSimulation();
+                } else if (finalLabel == 1) {
+                    myCurrentGame.pauseSimulation();
+                } else if (finalLabel == 2) {
+                    myCurrentGame.skipStep();
+                } else if (finalLabel == 3) {
+                    myCurrentGame.adjustSimulationSpeed(1);
+                } else if (finalLabel == 4) {
+                    myCurrentGame.adjustSimulationSpeed(-1);
+                } else if (finalLabel == 5) {
+                    myCurrentGame.loadIntro();
+                }
+            });
+            buttonsBox.getChildren().add(simulationButton);
+        }
+        return buttonsBox;
+    }
+
+    private VBox createButtonsVBoxHelper(int spacing, int xPos, int yPos) {
+        VBox buttonsVBox = new VBox(spacing);
+        buttonsVBox.setLayoutX(xPos);
+        buttonsVBox.setLayoutY(yPos);
+        return buttonsVBox;
     }
 
 }

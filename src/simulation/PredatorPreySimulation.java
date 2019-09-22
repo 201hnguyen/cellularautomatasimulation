@@ -1,4 +1,7 @@
-package CA;
+package simulation;
+
+import elements.Cell;
+import elements.Grid;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,11 +10,11 @@ public class PredatorPreySimulation extends Simulation {
     public static final int EMPTY = 0;
     public static final int FISH = 1;
     public static final int SHARK = 2;
-    public static final int STARTING_SHARK_ENERGY = 5;
-    public static final int SHARK_ENERGY_GAIN = 2;
-    public static final int SHARK_ENERGY_LOSS = 1;
-    public static final int SHARK_REPRODUCIBILITY_THRESHOLD = 10;
-    public static final int FISH_REPRODUCIBILITY_THRESHOLD = 3;
+    public static final int STARTING_SHARK_ENERGY = 3; //TODO: Read from XML
+    public static final int SHARK_ENERGY_GAIN = 2; //TODO: Read from XML
+    public static final int SHARK_ENERGY_LOSS = 1; //TODO: Read from XML
+    public static final int SHARK_REPRODUCIBILITY_THRESHOLD = 10; //TODO: Read from XML
+    public static final int FISH_REPRODUCIBILITY_THRESHOLD = 3; //TODO: Read from XML
 
     private HashMap<Cell, Integer> mySharkEnergyMap = new HashMap<>();
     private HashMap<Cell, Integer> mySharkMovesMap = new HashMap<>();
@@ -19,7 +22,7 @@ public class PredatorPreySimulation extends Simulation {
 
     public PredatorPreySimulation(Grid grid) {
         super(grid);
-        for (Cell[] cellRow : myGrid.getCells()) {
+        for (Cell[] cellRow : super.getGrid().getCells()) {
             for (Cell cell : cellRow) {
                 if (cell.getState() == FISH) {
                     myFishMovesMap.put(cell, 0);
@@ -41,10 +44,10 @@ public class PredatorPreySimulation extends Simulation {
     }
 
     private void analyzeFishCells() {
-        for (Cell[] cellRow : myGrid.getCells()) {
+        for (Cell[] cellRow : super.getGrid().getCells()) {
             for (Cell cell : cellRow) {
                 if (cell.getState() == FISH) {
-                    Cell[] emptyNeighbors = checkNeighborsForCondition(FISH, EMPTY, cell.getMyNeighbours());
+                    Cell[] emptyNeighbors = checkNeighborsForCondition(FISH, EMPTY, cell.getMyNeighbors());
                     if (emptyNeighbors.length != 0) {
                         moveFishToNeighbor(cell, emptyNeighbors);
                     }
@@ -54,11 +57,11 @@ public class PredatorPreySimulation extends Simulation {
     }
 
     private void analyzeSharkCells() {
-        for (Cell[] cellRow : myGrid.getCells()) {
+        for (Cell[] cellRow : super.getGrid().getCells()) {
             for (Cell cell : cellRow) {
                 if (cell.getState() == SHARK) {
-                    Cell[] fishNeighbors = checkNeighborsForCondition(SHARK, FISH, cell.getMyNeighbours());
-                    Cell[] emptyNeighbors = checkNeighborsForCondition(SHARK, EMPTY, cell.getMyNeighbours());
+                    Cell[] fishNeighbors = checkNeighborsForCondition(SHARK, FISH, cell.getMyNeighbors());
+                    Cell[] emptyNeighbors = checkNeighborsForCondition(SHARK, EMPTY, cell.getMyNeighbors());
 
                     if (fishNeighbors.length != 0) {
                         moveSharkToNeighbor(cell, fishNeighbors);
@@ -74,7 +77,6 @@ public class PredatorPreySimulation extends Simulation {
 
     private void sharkStay(Cell cell) {
         mySharkEnergyMap.put(cell, mySharkEnergyMap.get(cell) - 1);
-        System.out.println("Current shark energy: " + mySharkEnergyMap.get(cell));
         if (! (mySharkEnergyMap.get(cell) > 0)) {
             cell.setMyNextState(EMPTY);
         }
@@ -94,13 +96,11 @@ public class PredatorPreySimulation extends Simulation {
 
     private void moveFishNoReproduce(Cell currentCell, Cell targetCell, int movesToTransfer) {
         transferMapValues(currentCell, targetCell,movesToTransfer, myFishMovesMap);
-        System.out.println("Current fish moves:" + myFishMovesMap.get(targetCell));
         currentCell.setMyNextState(EMPTY);
         targetCell.setMyNextState(FISH);
     }
 
     private void moveFishAndReproduce(Cell currentCell, Cell targetCell) {
-        System.out.println("Fish reproductive threshold met: " + (myFishMovesMap.get(currentCell) + 1));
         myFishMovesMap.put(currentCell, 0);
         myFishMovesMap.put(targetCell, 0);
         targetCell.setMyNextState(FISH);
@@ -128,7 +128,6 @@ public class PredatorPreySimulation extends Simulation {
     private void moveSharkNoReproduce(Cell currentCell, Cell targetCell, int energyToTransfer, int movesToTransfer) {
         transferMapValues(currentCell, targetCell, energyToTransfer, mySharkEnergyMap);
         transferMapValues(currentCell, targetCell, movesToTransfer, mySharkMovesMap);
-        System.out.println("Current sharks moves: " + mySharkMovesMap.get(targetCell));
 
         if (targetCell.getNextState() == FISH) {
             mySharkEnergyMap.put(targetCell, mySharkEnergyMap.get(targetCell) + SHARK_ENERGY_GAIN);
@@ -138,7 +137,6 @@ public class PredatorPreySimulation extends Simulation {
     }
 
     private void moveSharkAndReproduce(Cell currentCell, Cell targetCell, int energyToTransfer) {
-        System.out.println("Shark reproductive threshold met: " + (mySharkMovesMap.get(currentCell)+1));
         mySharkMovesMap.put(currentCell, 0);
         mySharkMovesMap.put(targetCell, 0);
         mySharkEnergyMap.put(targetCell, energyToTransfer);
@@ -151,7 +149,6 @@ public class PredatorPreySimulation extends Simulation {
     }
 
     private boolean canMove(Cell cell) {
-        System.out.println("Current shark energy:" + mySharkEnergyMap.get(cell));
         if (mySharkEnergyMap.get(cell) > 0) {
             return true;
         } else {
@@ -182,7 +179,7 @@ public class PredatorPreySimulation extends Simulation {
     }
 
     private void clearCellAvailability() {
-        for (Cell[] cellRow : myGrid.getCells()) {
+        for (Cell[] cellRow : super.getGrid().getCells()) {
             for (Cell cell : cellRow) {
                 cell.setMyIsAvailable(true);
             }
