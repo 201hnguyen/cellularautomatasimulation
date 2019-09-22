@@ -99,6 +99,26 @@ public class XMLParser {
         return root.getElementsByTagName("initial-states-grid").item(0).getTextContent();
     }
 
+    public double getSimulationParameter1(){
+        return Double.parseDouble(root.getElementsByTagName("parameter1").item(0).getTextContent());
+    }
+
+    public double getSimulationParameter2(){
+        return Double.parseDouble(root.getElementsByTagName("parameter2").item(0).getTextContent());
+    }
+
+    public double getSimulationParameter3(){
+        return Double.parseDouble(root.getElementsByTagName("parameter3").item(0).getTextContent());
+    }
+
+    public double getSimulationParameter4(){
+        return Double.parseDouble(root.getElementsByTagName("parameter4").item(0).getTextContent());
+    }
+
+    public double getSimulationParameter5(){
+        return Double.parseDouble(root.getElementsByTagName("parameter5").item(0).getTextContent());
+    }
+
     public String[] getCellColors(){
         String[] cellColors = new String[3];
         cellColors[0] = root.getAttribute("Color0").toString();
