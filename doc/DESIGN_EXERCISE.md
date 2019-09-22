@@ -31,7 +31,7 @@ the best approach in this case.
 
 We are thinking of breaking our code into the following classes:
 
-1. Simulation
+1. simulation
 2. Cell
 3. Visualization
 
@@ -49,7 +49,7 @@ Each Cell must initialise itself with the simulations rules. It gets these from 
 
 ####What is the grid? Does it have any behaviors? Who needs to know about it?
 
-The grid is a 2D array of Cell objects. It exists within the Simulation Class. The visualization class needs it
+The grid is a 2D array of Cell objects. It exists within the simulation Class. The visualization class needs it
 to display the current version of the grid.
 
 ####What information about a simulation needs to be the configuration file?

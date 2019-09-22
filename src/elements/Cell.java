@@ -1,7 +1,6 @@
-package CA;
+package elements;
 
 public class Cell{
-    private String[] myStates;
     private int myState;
     private int myNextState;
     private Cell[] myNeighbors;
@@ -17,28 +16,28 @@ public class Cell{
         myIsAvailable = true;
     }
 
+    public int getState(){
+        return myState;
+    }
+
     public void updateState(){
         myState = myNextState;
         myIsAvailable = true;
-    }
-
-    public void setMyNextState(int state){
-        myNextState = state;
-    }
-
-    public int getState(){
-        return myState;
     }
 
     public int getNextState() {
         return myNextState;
     }
 
-    public Cell[] getMyNeighbours(){
+    public void setMyNextState(int state){
+        myNextState = state;
+    }
+
+    public Cell[] getMyNeighbors(){
         return myNeighbors;
     }
 
-    public void setMyNeighbours(Cell[] neighbors) {
+    public void setMyNeighbors(Cell[] neighbors) {
         myNeighbors = neighbors;
     }
 
