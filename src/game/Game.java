@@ -1,5 +1,6 @@
 package game;
 
+import config.XMLParser;
 import elements.Grid;
 import simulation.*;
 
@@ -14,57 +15,44 @@ import java.util.HashMap;
 
 public class Game {
 
-    public static final String GAME_OF_LIFE_CONFIGURATION = "Resources/GameOfLifeConfig.xml"; //TODO: Read from config XML
-    public static final String SEGREGATION_CONFIGURATION = "Resources/SegregationConfig.xml"; //TODO: Read from config XML
-    public static final String PREDATOR_PREY_CONFIGURATION = "Resources/PredatorPreyConfig.xml"; //TODO: Read from config XML
-    public static final String PERCOLATION_CONFIGURATION = "Resources/PercolationConfig.xml"; //TODO: Read from config XML
-    public static final String SPREADING_OF_FIRE_CONFIGURATION = "Resources/SpreadingOfFireConfig.xml"; //TODO: Read from config XML
-
     private int myFramesPerSecond = 1;
     private int myMillisecondDelay = 1000 / myFramesPerSecond;
     private Visualization myVisualization;
     private Simulation mySimulation;
     private Timeline myTimeline;
-    private HashMap<String, String> mySimulationsSupported; //TODO: Read from config XML
-    private ArrayList<String> mySimulationButtons; //TODO: Read from config XML
+    private HashMap<String, String> myIntroButtons;
+    private ArrayList<String> mySimulationButtons;
 
     public Game(Stage stage) {
         myTimeline = new Timeline();
-        mySimulationsSupported = new HashMap<>();
-        mySimulationsSupported.put("Game of Life", GAME_OF_LIFE_CONFIGURATION);
-        mySimulationsSupported.put("Segregation", SEGREGATION_CONFIGURATION);
-        mySimulationsSupported.put("Predator and Prey", PREDATOR_PREY_CONFIGURATION);
-        mySimulationsSupported.put("Spreading of Fire", SPREADING_OF_FIRE_CONFIGURATION);
-        mySimulationsSupported.put("Percolation", PERCOLATION_CONFIGURATION);
+        XMLParser parser = new XMLParser("Game", new File("Resources/GameConfig.xml"));
+        myIntroButtons = parser.getIntroButtons();
+        mySimulationButtons = parser.getSimulationButtons();
+        String windowTitle = parser.getTitle();
+        int sceneWidthWithBar = parser.getSceneWidthWithBar();
+        int sceneWidthJustCells = parser.getSceneWidth();
+        int sceneHeight = parser.getSceHeight();
 
-        mySimulationButtons = new ArrayList<>();
-        mySimulationButtons.add("Play");
-        mySimulationButtons.add("Pause");
-        mySimulationButtons.add("Step forward");
-        mySimulationButtons.add("Speed up");
-        mySimulationButtons.add("Slow down");
-        mySimulationButtons.add("Home");
-
-        myVisualization = new Visualization(this, stage, mySimulationsSupported, mySimulationButtons);
+        myVisualization = new Visualization(this, stage, myIntroButtons, mySimulationButtons,
+                windowTitle, sceneWidthWithBar, sceneWidthJustCells, sceneHeight);
         myVisualization.showIntroScene();
     }
 
     protected void loadSimulation(String simulationFilePath) {
-
         File simulationFile = new File(simulationFilePath);
         Grid grid = new Grid(simulationFile);
         grid.configureCells();
         mySimulation = null;
 
-        if (simulationFilePath.equals(GAME_OF_LIFE_CONFIGURATION)) {
+        if (simulationFilePath.equals(myIntroButtons.get("Game of Life"))) {
             mySimulation = new GameOfLifeSimulation(grid);
-        } else if (simulationFilePath.equals(SEGREGATION_CONFIGURATION)) {
+        } else if (simulationFilePath.equals(myIntroButtons.get("Segregation"))) {
             mySimulation = new SegregationSimulation(grid);
-        } else if (simulationFilePath.equals(PREDATOR_PREY_CONFIGURATION)) {
+        } else if (simulationFilePath.equals(myIntroButtons.get("Predator and Prey"))) {
             mySimulation = new PredatorPreySimulation(grid);
-        } else if (simulationFilePath.equals(SPREADING_OF_FIRE_CONFIGURATION)) {
+        } else if (simulationFilePath.equals(myIntroButtons.get("Spreading of Fire"))) {
             mySimulation = new SpreadingOfFireSimulation(grid);
-        } else if (simulationFilePath.equals(PERCOLATION_CONFIGURATION)) {
+        } else if (simulationFilePath.equals(myIntroButtons.get("Percolation"))) {
             mySimulation = new PercolationSimulation(grid);
         }
 

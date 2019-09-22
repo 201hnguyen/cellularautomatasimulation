@@ -6,10 +6,10 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.HashMap;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
+import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
 //Adapted from code given in class - spike_simulation
@@ -51,6 +51,48 @@ public class XMLParser {
 
     public int getNumNeighbors(){
         return Integer.parseInt(root.getElementsByTagName("num_neighbors").item(0).getTextContent());
+    }
+
+    public String getTitle() {
+        return root.getAttribute("title");
+    }
+
+    public int getSceneWidthWithBar() {
+        return Integer.parseInt(root.getAttribute("sceneWidthWithBar"));
+    }
+
+    public int getSceneWidth() {
+        return Integer.parseInt(root.getAttribute("sceneWidth"));
+    }
+
+    public int getSceHeight() {
+        return Integer.parseInt(root.getAttribute("sceneHeight"));
+    }
+
+    public ArrayList<String> getSimulationButtons() {
+        ArrayList<String> simulationButtons = new ArrayList<>();
+        simulationButtons.add(root.getElementsByTagName("simulationButton1").item(0).getTextContent());
+        simulationButtons.add(root.getElementsByTagName("simulationButton2").item(0).getTextContent());
+        simulationButtons.add(root.getElementsByTagName("simulationButton3").item(0).getTextContent());
+        simulationButtons.add(root.getElementsByTagName("simulationButton4").item(0).getTextContent());
+        simulationButtons.add(root.getElementsByTagName("simulationButton5").item(0).getTextContent());
+        simulationButtons.add(root.getElementsByTagName("simulationButton6").item(0).getTextContent());
+        return simulationButtons;
+    }
+
+    public HashMap<String, String> getIntroButtons() {
+        HashMap<String, String> introButtons = new HashMap<>();
+        introButtons.put(root.getElementsByTagName("introButton1Text").item(0).getTextContent(),
+                root.getElementsByTagName("introButton1Path").item(0).getTextContent());
+        introButtons.put(root.getElementsByTagName("introButton2Text").item(0).getTextContent(),
+                root.getElementsByTagName("introButton2Path").item(0).getTextContent());
+        introButtons.put(root.getElementsByTagName("introButton3Text").item(0).getTextContent(),
+                root.getElementsByTagName("introButton3Path").item(0).getTextContent());
+        introButtons.put(root.getElementsByTagName("introButton4Text").item(0).getTextContent(),
+                root.getElementsByTagName("introButton4Path").item(0).getTextContent());
+        introButtons.put(root.getElementsByTagName("introButton5Text").item(0).getTextContent(),
+                root.getElementsByTagName("introButton5Path").item(0).getTextContent());
+        return introButtons;
     }
 
     public String getInitialGrid(){
