@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<simulation simulationType = "Game of Life" Color0 = "Black" Color1 = "Dark Blue" Color2 = "Blue">
+<simulation simulationType = "Game of Life" Color0 = "White" Color1 = "Blue" Color2 = "Purple">
     <num_rows>20</num_rows>>
     <num_columns>20</num_columns>>
     <num_neighbors>8</num_neighbors>>

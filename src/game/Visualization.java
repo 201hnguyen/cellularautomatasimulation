@@ -73,7 +73,6 @@ public class Visualization {
             }
 
             else if(color_chosen.equals("Black")) {
-                System.out.println("Set black");
                 color = Color.BLACK;
             }
             else if(color_chosen.equals("Green")) {
@@ -86,6 +85,9 @@ public class Visualization {
 
             else if(color_chosen.equals("Yellow")){
                 color = Color.YELLOW;
+            }
+            else if(color_chosen.equals("Purple")){
+                color = Color.PURPLE;
             }
 
         return color;
