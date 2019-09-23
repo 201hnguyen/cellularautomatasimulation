@@ -50,7 +50,7 @@ public class Game {
             mySimulation = new SegregationSimulation(grid);
         } else if (simulationFilePath.equals(myIntroButtons.get("Predator and Prey"))) {
             mySimulation = new PredatorPreySimulation(grid);
-        } else if (simulationFilePath.equals(myIntroButtons.get("Spreading of Fire"))) {
+        } else if (simulationFilePath.equals(myIntroButtons.get("Spread of Fire"))) {
             mySimulation = new SpreadingOfFireSimulation(grid);
         } else if (simulationFilePath.equals(myIntroButtons.get("Percolation"))) {
             mySimulation = new PercolationSimulation(grid);

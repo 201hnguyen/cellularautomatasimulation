@@ -17,6 +17,6 @@
     <introButton2Path>Resources/PercolationConfig.xml</introButton2Path>
     <introButton3Path>Resources/PredatorPreyConfig.xml</introButton3Path>
     <introButton4Path>Resources/SegregationConfig.xml</introButton4Path>
-    <introButton5Path>Resources/SpreadOfFireConfig.xml</introButton5Path>
+    <introButton5Path>Resources/SpreadingOfFireConfig.xml</introButton5Path>
 
 </game>
