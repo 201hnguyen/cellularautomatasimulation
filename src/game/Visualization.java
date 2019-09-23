@@ -70,29 +70,21 @@ public class Visualization {
         Color color = Color.WHITE;
             if(color_chosen.equals("Blue")) {
                 color = Color.BLUE;
-            }
-            else if(color_chosen.equals("Dark Blue")) {
+            } else if(color_chosen.equals("Dark Blue")) {
                 color = Color.DARKBLUE;
-            }
-
-            else if(color_chosen.equals("Black")) {
+            } else if(color_chosen.equals("Black")) {
                 color = Color.BLACK;
-            }
-            else if(color_chosen.equals("Green")) {
+            } else if(color_chosen.equals("Green")) {
                 color = Color.GREEN;
-            }
-
-            else if(color_chosen.equals("Red")){
+            } else if(color_chosen.equals("Red")){
                 color = Color.RED;
-            }
-
-            else if(color_chosen.equals("Yellow")){
+            } else if(color_chosen.equals("Yellow")){
                 color = Color.YELLOW;
-            }
-            else if(color_chosen.equals("Purple")){
+            } else if(color_chosen.equals("Purple")){
                 color = Color.PURPLE;
+            } else if(color_chosen.equals("Light Blue")){
+                color = Color.LIGHTBLUE;
             }
-
         return color;
     }
 
