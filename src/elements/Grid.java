@@ -3,7 +3,6 @@ package elements;
 import config.XMLParser;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -13,17 +12,17 @@ public class Grid{
     private int myNumCols;
     private int myNumNeighbors;
     private File myConfigFile;
-    private XMLParser xmlParser;
+    private XMLParser myXMLParser;
     private Scanner mySc;
-    private String[] cellColors;
+    private String[] myCellColors;
 
     public Grid(File file){
         myConfigFile = file;
-        xmlParser =  new XMLParser("simulationType", myConfigFile);
-        mySc = new Scanner(xmlParser.getInitialGrid());
-        myNumRows = xmlParser.getNumRows();
-        myNumCols = xmlParser.getNumCols();
-        cellColors = xmlParser.getCellColors();
+        myXMLParser =  new XMLParser("simulationType", myConfigFile);
+        mySc = new Scanner(myXMLParser.getInitialGrid());
+        myNumRows = myXMLParser.getNumRows();
+        myNumCols = myXMLParser.getNumCols();
+        myCellColors = myXMLParser.getCellColors();
         cells = new Cell[myNumRows][myNumCols];
     }
 
@@ -60,11 +59,11 @@ public class Grid{
     }
 
     public String[] getCellColors(){
-        return cellColors;
+        return myCellColors;
     }
 
     private void createGridOfCells() {
-        myNumNeighbors = xmlParser.getNumNeighbors();
+        myNumNeighbors = myXMLParser.getNumNeighbors();
         while(mySc.hasNext()){
             for (int i = 0; i < myNumRows; i++){
                 for (int j = 0; j < myNumCols; j++){

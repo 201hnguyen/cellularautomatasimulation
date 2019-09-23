@@ -5,14 +5,12 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
-//Adapted from code given in class - spike_simulation
+// Adapted from code given in class -- Spike Simulation
 
 /**
  * This class handles parsing XML files and returning a completed object.
@@ -71,28 +69,14 @@ public class XMLParser {
 
     public ArrayList<String> getSimulationButtons() {
         ArrayList<String> simulationButtons = new ArrayList<>();
-        simulationButtons.add(root.getElementsByTagName("simulationButton1").item(0).getTextContent());
-        simulationButtons.add(root.getElementsByTagName("simulationButton2").item(0).getTextContent());
-        simulationButtons.add(root.getElementsByTagName("simulationButton3").item(0).getTextContent());
-        simulationButtons.add(root.getElementsByTagName("simulationButton4").item(0).getTextContent());
-        simulationButtons.add(root.getElementsByTagName("simulationButton5").item(0).getTextContent());
-        simulationButtons.add(root.getElementsByTagName("simulationButton6").item(0).getTextContent());
+        simulationButtons.add(root.getElementsByTagName("playButton").item(0).getTextContent());
+        simulationButtons.add(root.getElementsByTagName("pauseButton").item(0).getTextContent());
+        simulationButtons.add(root.getElementsByTagName("stepButton").item(0).getTextContent());
+        simulationButtons.add(root.getElementsByTagName("speedButton").item(0).getTextContent());
+        simulationButtons.add(root.getElementsByTagName("slowButton").item(0).getTextContent());
+        simulationButtons.add(root.getElementsByTagName("loadButton").item(0).getTextContent());
+        simulationButtons.add(root.getElementsByTagName("homeButton").item(0).getTextContent());
         return simulationButtons;
-    }
-
-    public HashMap<String, String> getIntroButtons() {
-        HashMap<String, String> introButtons = new HashMap<>();
-        introButtons.put(root.getElementsByTagName("introButton1Text").item(0).getTextContent(),
-                root.getElementsByTagName("introButton1Path").item(0).getTextContent());
-        introButtons.put(root.getElementsByTagName("introButton2Text").item(0).getTextContent(),
-                root.getElementsByTagName("introButton2Path").item(0).getTextContent());
-        introButtons.put(root.getElementsByTagName("introButton3Text").item(0).getTextContent(),
-                root.getElementsByTagName("introButton3Path").item(0).getTextContent());
-        introButtons.put(root.getElementsByTagName("introButton4Text").item(0).getTextContent(),
-                root.getElementsByTagName("introButton4Path").item(0).getTextContent());
-        introButtons.put(root.getElementsByTagName("introButton5Text").item(0).getTextContent(),
-                root.getElementsByTagName("introButton5Path").item(0).getTextContent());
-        return introButtons;
     }
 
     public String getInitialGrid(){
@@ -119,12 +103,20 @@ public class XMLParser {
         return Double.parseDouble(root.getElementsByTagName("parameter5").item(0).getTextContent());
     }
 
+    public String getSimulationType() {
+        return root.getAttribute("simulationType");
+    }
+
     public String[] getCellColors(){
         String[] cellColors = new String[3];
         cellColors[0] = root.getAttribute("Color0").toString();
         cellColors[1] = root.getAttribute("Color1").toString();
         cellColors[2] = root.getAttribute("Color2").toString();
         return cellColors;
+    }
+
+    public String getIntroButton() {
+        return root.getElementsByTagName("introLoadFileButton").item(0).getTextContent();
     }
 
     /**
