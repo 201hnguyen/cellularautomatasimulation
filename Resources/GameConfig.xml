@@ -1,22 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <game title = "Cellular Automata" sceneWidthWithBar = "1000" sceneWidth = "800" sceneHeight = "800">
-    <simulationButton1>Play</simulationButton1>
-    <simulationButton2>Pause</simulationButton2>
-    <simulationButton3>Step forward</simulationButton3>
-    <simulationButton4>Speed Up</simulationButton4>
-    <simulationButton5>Slow Down</simulationButton5>
-    <simulationButton6>Back</simulationButton6>
+    <playButton>Play</playButton>
+    <pauseButton>Pause</pauseButton>
+    <stepButton>Skip Forward</stepButton>
+    <speedButton>Speed Up</speedButton>
+    <slowButton>Slow Down</slowButton>
+    <loadButton>Reload</loadButton>
+    <homeButton>Home</homeButton>
 
-    <introButton1Text>Game of Life</introButton1Text>
-    <introButton2Text>Percolation</introButton2Text>
-    <introButton3Text>Predator and Prey</introButton3Text>
-    <introButton4Text>Segregation</introButton4Text>
-    <introButton5Text>Spread of Fire</introButton5Text>
-
-    <introButton1Path>Resources/GameOfLifeConfig.xml</introButton1Path>
-    <introButton2Path>Resources/PercolationConfig.xml</introButton2Path>
-    <introButton3Path>Resources/PredatorPreyConfig.xml</introButton3Path>
-    <introButton4Path>Resources/SegregationConfig.xml</introButton4Path>
-    <introButton5Path>Resources/SpreadingOfFireConfig.xml</introButton5Path>
-
+    <introLoadFileButton>Load a file to begin</introLoadFileButton>
 </game>

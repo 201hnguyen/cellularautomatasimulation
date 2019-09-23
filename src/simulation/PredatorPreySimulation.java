@@ -4,8 +4,6 @@ import config.XMLParser;
 import elements.Cell;
 import elements.Grid;
 
-import javax.sql.rowset.spi.XmlReader;
-import java.beans.XMLDecoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -14,13 +12,12 @@ public class PredatorPreySimulation extends Simulation {
     public static final int FISH = 1;
     public static final int SHARK = 2;
 
-    private XMLParser xmlParser;
-    private int startingSharkEnergy;
-    private int sharkEnergyGain;
-    private int sharkEnergyLoss;
-    private int sharkReproducibilityThreshold;
-    private int fishReproducibilityThreshold;
-
+    private XMLParser myXMLParser;
+    private int myStartingSharkEnergy;
+    private int mySharkEnergyGain;
+    private int mySharkEnergyLoss;
+    private int mySharkReproducibilityThreshold;
+    private int myFishReproducibilityThreshold;
     private HashMap<Cell, Integer> mySharkEnergyMap = new HashMap<>();
     private HashMap<Cell, Integer> mySharkMovesMap = new HashMap<>();
     private HashMap<Cell, Integer> myFishMovesMap = new HashMap<>();
@@ -33,15 +30,15 @@ public class PredatorPreySimulation extends Simulation {
                     myFishMovesMap.put(cell, 0);
                 } else if (cell.getState() == SHARK) {
                     mySharkMovesMap.put(cell, 0);
-                    mySharkEnergyMap.put(cell, startingSharkEnergy);
+                    mySharkEnergyMap.put(cell, myStartingSharkEnergy);
                 }
             }
-            xmlParser = new XMLParser("Predator and Prey", grid.getMyConfigFile());
-            startingSharkEnergy = (int) xmlParser.getSimulationParameter1();
-            sharkEnergyGain = (int) xmlParser.getSimulationParameter2();
-            sharkEnergyLoss = (int) xmlParser.getSimulationParameter3();
-            sharkReproducibilityThreshold = (int) xmlParser.getSimulationParameter4();
-            fishReproducibilityThreshold = (int) xmlParser.getSimulationParameter5();
+            myXMLParser = new XMLParser("Predator and Prey", grid.getMyConfigFile());
+            myStartingSharkEnergy = (int) myXMLParser.getSimulationParameter1();
+            mySharkEnergyGain = (int) myXMLParser.getSimulationParameter2();
+            mySharkEnergyLoss = (int) myXMLParser.getSimulationParameter3();
+            mySharkReproducibilityThreshold = (int) myXMLParser.getSimulationParameter4();
+            myFishReproducibilityThreshold = (int) myXMLParser.getSimulationParameter5();
         }
     }
 
@@ -97,7 +94,7 @@ public class PredatorPreySimulation extends Simulation {
         Cell targetCell = selectRandomNeighbor(qualifyingNeighbors);
         targetCell.setMyNextState(FISH);
         int movesToTransfer = myFishMovesMap.get(currentCell) + 1;
-        if (movesToTransfer < fishReproducibilityThreshold) {
+        if (movesToTransfer < myFishReproducibilityThreshold) {
             moveFishNoReproduce(currentCell, targetCell, movesToTransfer);
         } else {
             moveFishAndReproduce(currentCell, targetCell);
@@ -125,9 +122,9 @@ public class PredatorPreySimulation extends Simulation {
         } else {
             Cell targetCell = selectRandomNeighbor(qualifyingNeighbors);
             int movesToTransfer = mySharkMovesMap.get(currentCell) + 1;
-            int energyToTransfer = mySharkEnergyMap.get(currentCell) - sharkEnergyLoss;
+            int energyToTransfer = mySharkEnergyMap.get(currentCell) - mySharkEnergyLoss;
 
-            if (movesToTransfer < sharkReproducibilityThreshold) {
+            if (movesToTransfer < mySharkReproducibilityThreshold) {
                 moveSharkNoReproduce(currentCell, targetCell, energyToTransfer, movesToTransfer);
             } else {
                 moveSharkAndReproduce(currentCell, targetCell, energyToTransfer);
@@ -141,7 +138,7 @@ public class PredatorPreySimulation extends Simulation {
         transferMapValues(currentCell, targetCell, movesToTransfer, mySharkMovesMap);
 
         if (targetCell.getNextState() == FISH) {
-            mySharkEnergyMap.put(targetCell, mySharkEnergyMap.get(targetCell) + sharkEnergyGain);
+            mySharkEnergyMap.put(targetCell, mySharkEnergyMap.get(targetCell) + mySharkEnergyGain);
         }
         targetCell.setMyNextState(SHARK);
         currentCell.setMyNextState(EMPTY);
@@ -151,10 +148,10 @@ public class PredatorPreySimulation extends Simulation {
         mySharkMovesMap.put(currentCell, 0);
         mySharkMovesMap.put(targetCell, 0);
         mySharkEnergyMap.put(targetCell, energyToTransfer);
-        mySharkEnergyMap.put(currentCell, startingSharkEnergy);
+        mySharkEnergyMap.put(currentCell, myStartingSharkEnergy);
 
         if (targetCell.getNextState() == FISH) {
-            mySharkEnergyMap.put(targetCell, mySharkEnergyMap.get(targetCell) + sharkEnergyGain);
+            mySharkEnergyMap.put(targetCell, mySharkEnergyMap.get(targetCell) + mySharkEnergyGain);
         }
         targetCell.setMyNextState(SHARK);
     }

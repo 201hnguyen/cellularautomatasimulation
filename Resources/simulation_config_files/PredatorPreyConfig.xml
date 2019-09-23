@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <simulation simulationType = "Predator and Prey" Color0 = "Light Blue" Color1 = "Yellow" Color2 = "Red">
     <num_rows>50</num_rows>>
     <num_columns>50</num_columns>>

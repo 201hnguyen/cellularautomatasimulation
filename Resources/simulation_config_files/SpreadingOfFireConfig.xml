@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<simulation simulationType = "Spreading Of Fire" Color0 = "White" Color1 = "Green" Color2 = "Red">
+<simulation simulationType = "Spreading of Fire" Color0 = "White" Color1 = "Green" Color2 = "Red">
     <num_rows>50</num_rows>>
     <num_columns>50</num_columns>>
     <num_neighbors>8</num_neighbors>
