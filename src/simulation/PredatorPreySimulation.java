@@ -18,7 +18,6 @@ public class PredatorPreySimulation extends Simulation {
     private int mySharkEnergyLoss;
     private int mySharkReproducibilityThreshold;
     private int myFishReproducibilityThreshold;
-
     private HashMap<Cell, Integer> mySharkEnergyMap = new HashMap<>();
     private HashMap<Cell, Integer> mySharkMovesMap = new HashMap<>();
     private HashMap<Cell, Integer> myFishMovesMap = new HashMap<>();

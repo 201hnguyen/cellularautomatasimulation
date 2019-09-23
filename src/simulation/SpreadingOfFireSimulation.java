@@ -69,5 +69,4 @@ public class SpreadingOfFireSimulation extends Simulation {
 
         return (randNum < (probEvent * 100) - 1);
     }
-
 }

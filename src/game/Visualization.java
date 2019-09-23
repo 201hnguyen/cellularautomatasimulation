@@ -1,5 +1,6 @@
 package game;
 
+import config.XMLParser;
 import elements.Cell;
 import elements.Grid;
 import javafx.scene.Scene;
@@ -10,8 +11,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Visualization {
 
@@ -19,7 +20,6 @@ public class Visualization {
     private Stage myStage;
     private Pane myRoot;
     private Scene myScene;
-    private HashMap<String, String> mySimulationsSupported;
     private ArrayList<String> mySimulationButtons;
     private Color myColor0;
     private Color myColor1;
@@ -28,9 +28,8 @@ public class Visualization {
     private int mySceneHeight;
     private int mySceneWidthWithBar;
 
-    public Visualization(Game currentGame, Stage stage, HashMap<String, String> simulationsSupported, ArrayList<String> simulationButtons,
+    public Visualization(Game currentGame, Stage stage, ArrayList<String> simulationButtons,
     String windowTitle, int sceneWidthWithBar, int sceneWidth, int sceneHeight) {
-        mySimulationsSupported = simulationsSupported;
         mySimulationButtons = simulationButtons;
         myCurrentGame = currentGame;
         mySceneWidth = sceneWidth;
@@ -46,7 +45,7 @@ public class Visualization {
         myRoot = new Pane();
         setBackground();
         myScene = new Scene(myRoot, mySceneWidthWithBar, mySceneHeight);
-        myRoot.getChildren().add(createButtonsForIntro());
+        myRoot.getChildren().add(createLoadFileButton());
         myStage.setScene(myScene);
     }
 
@@ -126,44 +125,45 @@ public class Visualization {
     }
 
     private void setBackground() {
-        Image imageForBackground = new Image(this.getClass().getClassLoader().getResourceAsStream("background.jpg"));
+        Image imageForBackground = new Image(this.getClass().getClassLoader().getResourceAsStream("images/background.jpg"));
         BackgroundImage backgroundImage = new BackgroundImage(imageForBackground, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,
                 BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
         Background background = new Background(backgroundImage);
         myRoot.setBackground(background);
     }
 
-    private VBox createButtonsForIntro() {
-        VBox buttonsBox = createButtonsVBoxHelper(15, 835, 300);
-        int buttonWidth = 130;
-        for (String key : mySimulationsSupported.keySet()) {
-            Button simulationButton = new Button(key);
-            simulationButton.setPrefWidth(buttonWidth);
-            simulationButton.setOnAction(e -> myCurrentGame.loadSimulation(mySimulationsSupported.get(key)));
-            buttonsBox.getChildren().add(simulationButton);
-        }
-        return buttonsBox;
+    private Button createLoadFileButton() {
+        XMLParser parser = new XMLParser("File button", new File("Resources/GameConfig.xml"));
+        Button fileButton = new Button(parser.getIntroButton()); // todo: read from XML
+        fileButton.setPrefWidth(150);
+        fileButton.setLayoutX(mySceneWidthWithBar / 2 - (150/2));
+        fileButton.setLayoutY(650);
+        fileButton.setOnAction(e -> {
+            myCurrentGame.loadUserInputFile();
+        });
+        return fileButton;
     }
 
     private VBox createButtonsForSimulation() {
         VBox buttonsBox = createButtonsVBoxHelper(15, 850, 80);
         int buttonWidth = 100;
-        for (int label=0; label<mySimulationButtons.size(); label++) {
-            Button simulationButton = new Button(mySimulationButtons.get(label));
+        for (String buttonTitle : mySimulationButtons) {
+            Button simulationButton = new Button(buttonTitle);
             simulationButton.setPrefWidth(buttonWidth);
-            int finalLabel = label;
             simulationButton.setOnAction(e -> {
-                if (finalLabel == 0) {
+                if (buttonTitle.equals("Play")) {
                     myCurrentGame.playSimulation();
-                } else if (finalLabel == 1) {
+                } else if (buttonTitle.equals("Pause")) {
                     myCurrentGame.pauseSimulation();
-                } else if (finalLabel == 2) {
+                } else if (buttonTitle.equals("Skip forward")) {
                     myCurrentGame.skipStep();
-                } else if (finalLabel == 3) {
+                } else if (buttonTitle.equals("Speed Up")) {
                     myCurrentGame.adjustSimulationSpeed(1);
-                } else if (finalLabel == 4) {
+                } else if (buttonTitle.equals("Slow Down")) {
                     myCurrentGame.adjustSimulationSpeed(-1);
-                } else if (finalLabel == 5) {
+                } else if (buttonTitle.equals("Reload")) {
+                    myCurrentGame.loadUserInputFile();
+                } else if (buttonTitle.equals("Home")) {
                     myCurrentGame.loadIntro();
                 }
             });
