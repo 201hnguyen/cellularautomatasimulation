@@ -84,8 +84,10 @@ public class Visualization {
                 color = Color.PURPLE;
             } else if(color_chosen.equals("Light Blue")){
                 color = Color.LIGHTBLUE;
+            } else if(color_chosen.equals("Light Blue")){
+                color = Color.LIGHTBLUE;
             }
-        return color;
+            return color;
     }
 
     protected void displayGrid(Grid grid){
