@@ -11,17 +11,17 @@ public class SpreadingOfFireSimulation extends Simulation {
     private final static int TREE = 1;
     private final static int BURNING = 2;
 
-    private XMLParser xmlParser;
-    private double burnProbability;
-    private double treeProbability;
+    private XMLParser myXMLParser;
+    private double myBurnProbability;
+    private double myTreeProbability;
 
     private int myEmptyTurns;
 
     public SpreadingOfFireSimulation(Grid grid) {
         super(grid);
-        xmlParser = new XMLParser("Spreading Of Fire", grid.getMyConfigFile());
-        burnProbability = xmlParser.getSimulationParameter1();
-        treeProbability = xmlParser.getSimulationParameter2();
+        myXMLParser = new XMLParser("Spreading Of Fire", grid.getMyConfigFile());
+        myBurnProbability = myXMLParser.getSimulationParameter1();
+        myTreeProbability = myXMLParser.getSimulationParameter2();
     }
 
     @Override
@@ -44,7 +44,7 @@ public class SpreadingOfFireSimulation extends Simulation {
 
     private void willBurn(Cell curr, Cell[] neighbors){
         for(Cell neighbor : neighbors){
-            if(curr.getState() == TREE && neighbor.getState() == BURNING && probability(burnProbability)){
+            if(curr.getState() == TREE && neighbor.getState() == BURNING && probability(myBurnProbability)){
                 curr.setMyNextState(BURNING);
             }
         }
@@ -57,7 +57,7 @@ public class SpreadingOfFireSimulation extends Simulation {
         }
         for(Cell neighbor : neighbors){
             if(curr.getState() == EMPTY && neighbor.getState() == TREE &&
-                    probability(treeProbability) && myEmptyTurns == 2){
+                    probability(myTreeProbability) && myEmptyTurns == 2){
                 curr.setMyNextState(TREE);
             }
         }

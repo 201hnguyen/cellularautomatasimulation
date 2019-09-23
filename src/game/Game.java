@@ -20,20 +20,20 @@ public class Game {
     private Visualization myVisualization;
     private Simulation mySimulation;
     private Timeline myTimeline;
-    private HashMap<String, String> myIntroButtons;
+    private HashMap<String, String> mySimulationsSupported;
     private ArrayList<String> mySimulationButtons;
 
     public Game(Stage stage) {
         myTimeline = new Timeline();
         XMLParser parser = new XMLParser("Game", new File("Resources/GameConfig.xml"));
-        myIntroButtons = parser.getIntroButtons();
+        mySimulationsSupported = parser.getIntroButtons();
         mySimulationButtons = parser.getSimulationButtons();
         String windowTitle = parser.getTitle();
         int sceneWidthWithBar = parser.getSceneWidthWithBar();
         int sceneWidthJustCells = parser.getSceneWidth();
         int sceneHeight = parser.getSceHeight();
 
-        myVisualization = new Visualization(this, stage, myIntroButtons, mySimulationButtons,
+        myVisualization = new Visualization(this, stage, mySimulationsSupported, mySimulationButtons,
                 windowTitle, sceneWidthWithBar, sceneWidthJustCells, sceneHeight);
         myVisualization.showIntroScene();
     }
@@ -44,15 +44,15 @@ public class Game {
         grid.configureCells();
         mySimulation = null;
 
-        if (simulationFilePath.equals(myIntroButtons.get("Game of Life"))) {
+        if (simulationFilePath.equals(mySimulationsSupported.get("Game of Life"))) {
             mySimulation = new GameOfLifeSimulation(grid);
-        } else if (simulationFilePath.equals(myIntroButtons.get("Segregation"))) {
+        } else if (simulationFilePath.equals(mySimulationsSupported.get("Segregation"))) {
             mySimulation = new SegregationSimulation(grid);
-        } else if (simulationFilePath.equals(myIntroButtons.get("Predator and Prey"))) {
+        } else if (simulationFilePath.equals(mySimulationsSupported.get("Predator and Prey"))) {
             mySimulation = new PredatorPreySimulation(grid);
-        } else if (simulationFilePath.equals(myIntroButtons.get("Spreading of Fire"))) {
+        } else if (simulationFilePath.equals(mySimulationsSupported.get("Spreading of Fire"))) {
             mySimulation = new SpreadingOfFireSimulation(grid);
-        } else if (simulationFilePath.equals(myIntroButtons.get("Percolation"))) {
+        } else if (simulationFilePath.equals(mySimulationsSupported.get("Percolation"))) {
             mySimulation = new PercolationSimulation(grid);
         }
 

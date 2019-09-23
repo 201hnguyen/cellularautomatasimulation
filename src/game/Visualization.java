@@ -21,9 +21,9 @@ public class Visualization {
     private Scene myScene;
     private HashMap<String, String> mySimulationsSupported;
     private ArrayList<String> mySimulationButtons;
-    private Color color0;
-    private Color color1;
-    private Color color2;
+    private Color myColor0;
+    private Color myColor1;
+    private Color myColor2;
     private int mySceneWidth;
     private int mySceneHeight;
     private int mySceneWidthWithBar;
@@ -61,9 +61,9 @@ public class Visualization {
 
     private void setCellColors(Grid grid){
         String[] cellColors = grid.getCellColors();
-        color0 = setColorForCell(cellColors[0]);
-        color1 = setColorForCell(cellColors[1]);
-        color2 = setColorForCell(cellColors[2]);
+        myColor0 = setColorForCell(cellColors[0]);
+        myColor1 = setColorForCell(cellColors[1]);
+        myColor2 = setColorForCell(cellColors[2]);
     }
 
     private Color setColorForCell(String color_chosen){
@@ -112,13 +112,13 @@ public class Visualization {
                 rectangle.setX((j) * (cellSize));
                 rectangle.setY((i) * (cellSize));
                 if(cells[i][j].getState() == 0){
-                    rectangle.setFill(color0);
+                    rectangle.setFill(myColor0);
                 }
                 else if(cells[i][j].getState() == 1){
-                    rectangle.setFill(color1);
+                    rectangle.setFill(myColor1);
                 }
                 else{
-                    rectangle.setFill(color2);
+                    rectangle.setFill(myColor2);
                 }
                 myRoot.getChildren().add(rectangle);
             }
