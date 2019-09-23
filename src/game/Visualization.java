@@ -93,6 +93,9 @@ public class Visualization {
             else if(color_chosen.equals("Purple")){
                 color = Color.PURPLE;
             }
+            else if(color_chosen.equals("Light Blue")){
+                color = Color.LIGHTBLUE;
+            }
 
         return color;
     }
