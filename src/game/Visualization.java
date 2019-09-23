@@ -147,7 +147,7 @@ public class Visualization {
                     myCurrentGame.playSimulation();
                 } else if (buttonTitle.equals("Pause")) {
                     myCurrentGame.pauseSimulation();
-                } else if (buttonTitle.equals("Skip forward")) {
+                } else if (buttonTitle.equals("Skip Forward")) {
                     myCurrentGame.skipStep();
                 } else if (buttonTitle.equals("Speed Up")) {
                     myCurrentGame.adjustSimulationSpeed(1);
