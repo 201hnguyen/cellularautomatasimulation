@@ -84,8 +84,6 @@ public class Visualization {
                 color = Color.PURPLE;
             } else if(color_chosen.equals("Light Blue")){
                 color = Color.LIGHTBLUE;
-            } else if(color_chosen.equals("Light Blue")){
-                color = Color.LIGHTBLUE;
             }
             return color;
     }
@@ -128,7 +126,7 @@ public class Visualization {
 
     private Button createLoadFileButton() {
         XMLParser parser = new XMLParser("File button", new File("Resources/GameConfig.xml"));
-        Button fileButton = new Button(parser.getIntroButton()); // todo: read from XML
+        Button fileButton = new Button(parser.getIntroButton());
         fileButton.setPrefWidth(150);
         fileButton.setLayoutX(mySceneWidthWithBar / 2 - (150/2));
         fileButton.setLayoutY(650);
