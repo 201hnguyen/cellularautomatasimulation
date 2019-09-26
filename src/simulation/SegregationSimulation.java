@@ -5,13 +5,14 @@ import elements.Cell;
 import elements.RectangularGrid;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class SegregationSimulation extends Simulation {
     private XMLParser myXMLParser;
     private double mySegregationTreshold;
 
-    private ArrayList<Cell> myAvailableCells;
+    private List<Cell> myAvailableCells;
 
     public SegregationSimulation(RectangularGrid rectangularGrid) {
         super(rectangularGrid);

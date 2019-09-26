@@ -4,6 +4,7 @@ import elements.Cell;
 import elements.RectangularGrid;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PercolationSimulation extends Simulation {
     public static final int OPEN = 0;
@@ -27,7 +28,7 @@ public class PercolationSimulation extends Simulation {
     }
 
     private Cell[] openNeighbors(Cell[] neighbors){
-        ArrayList<Cell> openCells = new ArrayList<>();
+        List<Cell> openCells = new ArrayList<>();
         for(Cell neighbor : neighbors){
             if(neighbor.getState() == OPEN){
                 openCells.add(neighbor);

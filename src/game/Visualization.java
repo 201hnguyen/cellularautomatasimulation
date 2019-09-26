@@ -12,7 +12,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 import java.io.File;
-import java.util.ArrayList;
+import java.util.List;
 
 public class Visualization {
 
@@ -20,7 +20,7 @@ public class Visualization {
     private Stage myStage;
     private Pane myRoot;
     private Scene myScene;
-    private ArrayList<String> mySimulationButtons;
+    private List<String> mySimulationButtons;
     private Color myColor0;
     private Color myColor1;
     private Color myColor2;
@@ -28,7 +28,7 @@ public class Visualization {
     private int mySceneHeight;
     private int mySceneWidthWithBar;
 
-    public Visualization(Game currentGame, Stage stage, ArrayList<String> simulationButtons,
+    public Visualization(Game currentGame, Stage stage, List<String> simulationButtons,
     String windowTitle, int sceneWidthWithBar, int sceneWidth, int sceneHeight) {
         mySimulationButtons = simulationButtons;
         myCurrentGame = currentGame;
