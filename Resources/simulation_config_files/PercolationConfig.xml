@@ -3,6 +3,6 @@
     <num_rows>10</num_rows>>
     <num_columns>10</num_columns>>
     <num_neighbors>8</num_neighbors>>
-    <initial-states-grid>1 1 1 1 1 1 1 1 1 1 2 2 0 2 0 0 0 2 2 2 0 0 0 0 0 0 0 0 0 0 2 2 2 2 2 0 2 2 2 2 0 0 0 0 0 0 0 0 0 0 2 2 2 2 2 2 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-    </initial-states-grid>>
+    <initial-states-rectangularGrid>1 1 1 1 1 1 1 1 1 1 2 2 0 2 0 0 0 2 2 2 0 0 0 0 0 0 0 0 0 0 2 2 2 2 2 0 2 2 2 2 0 0 0 0 0 0 0 0 0 0 2 2 2 2 2 2 2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+    </initial-states-rectangularGrid>>
 </simulation>

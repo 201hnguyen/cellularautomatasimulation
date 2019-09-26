@@ -80,7 +80,7 @@ public class XMLParser {
     }
 
     public String getInitialGrid(){
-        return root.getElementsByTagName("initial-states-grid").item(0).getTextContent();
+        return root.getElementsByTagName("initial-states-rectangularGrid").item(0).getTextContent();
     }
 
     public double getSimulationParameter1(){

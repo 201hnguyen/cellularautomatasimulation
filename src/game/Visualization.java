@@ -2,7 +2,7 @@ package game;
 
 import config.XMLParser;
 import elements.Cell;
-import elements.Grid;
+import elements.RectangularGrid;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -49,17 +49,17 @@ public class Visualization {
         myStage.setScene(myScene);
     }
 
-    protected void showSimulationScene(Grid grid) {
+    protected void showSimulationScene(RectangularGrid rectangularGrid) {
         myRoot = new Pane();
         setBackground();
         myScene = new Scene(myRoot, mySceneWidthWithBar, mySceneHeight);
         myStage.setScene(myScene);
         myRoot.getChildren().add(createButtonsForSimulation());
-        displayGrid(grid);
+        displayGrid(rectangularGrid);
     }
 
-    private void setCellColors(Grid grid){
-        String[] cellColors = grid.getCellColors();
+    private void setCellColors(RectangularGrid rectangularGrid){
+        String[] cellColors = rectangularGrid.getCellColors();
         myColor0 = setColorForCell(cellColors[0]);
         myColor1 = setColorForCell(cellColors[1]);
         myColor2 = setColorForCell(cellColors[2]);
@@ -88,16 +88,23 @@ public class Visualization {
             return color;
     }
 
-    protected void displayGrid(Grid grid){
+    protected void displayGrid(RectangularGrid rectangularGrid){
 
-        setCellColors(grid);
+        setCellColors(rectangularGrid);
         myRoot.getChildren().clear();
         myRoot.getChildren().add(createButtonsForSimulation());
-        Cell[][] cells = grid.getCells();
+        Cell[][] cells = new Cell[rectangularGrid.getNumRows()][rectangularGrid.getNumCols()];
+        int id = 0;
+        for(int i = 0; i < rectangularGrid.getNumRows(); i++){
+            for(int j = 0; j < rectangularGrid.getNumCols(); j++){
+                cells[i][j] = rectangularGrid.getCell(id);
+                id++;
+            }
+        }
         Rectangle rectangle;
-        for (int i = 0; i < grid.getNumRows(); i++) {
-            for (int j=0; j< grid.getNumCols(); j++) {
-                int cellSize = (mySceneWidth / grid.getNumRows());
+        for (int i = 0; i < rectangularGrid.getNumRows(); i++) {
+            for (int j = 0; j< rectangularGrid.getNumCols(); j++) {
+                int cellSize = (mySceneWidth / rectangularGrid.getNumRows());
                 rectangle = new Rectangle(cellSize, cellSize);
                 rectangle.setStroke(Color.BLACK);
                 rectangle.setX((j) * (cellSize));

@@ -2,7 +2,7 @@ package simulation;
 
 import config.XMLParser;
 import elements.Cell;
-import elements.Grid;
+import elements.RectangularGrid;
 
 public class GameOfLifeSimulation extends Simulation {
     public static final int LIVE = 1;
@@ -13,17 +13,17 @@ public class GameOfLifeSimulation extends Simulation {
     private int maxPopulationThreshold;
 
 
-    public GameOfLifeSimulation(Grid grid) {
-        super(grid);
-        myXMLParser = new XMLParser("Game of Life", grid.getMyConfigFile());
+    public GameOfLifeSimulation(RectangularGrid rectangularGrid) {
+        super(rectangularGrid);
+        myXMLParser = new XMLParser("Game of Life", rectangularGrid.getMyConfigFile());
         minPopulationThreshold = (int) myXMLParser.getSimulationParameter1();
         maxPopulationThreshold = (int) myXMLParser.getSimulationParameter2();
     }
 
     @Override
     public void analyzeCells() {
-        for (Cell[] cellRow : super.getGrid().getCells()) {
-            for (Cell cell : cellRow) {
+        for(int id = 0; id < getGrid().getSize(); id++){
+            Cell cell = getGrid().getCell(id);
                 int liveNeighborsCount = countLiveNeighbors(cell.getMyNeighbors());
                 if (cell.getState() == LIVE) {
                     if (liveNeighborsCount < minPopulationThreshold || liveNeighborsCount > maxPopulationThreshold) {
@@ -36,7 +36,7 @@ public class GameOfLifeSimulation extends Simulation {
                 }
             }
         }
-    }
+
 
     private int countLiveNeighbors(Cell[] neighbors) {
         int liveNeighborsCount = 0;

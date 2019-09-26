@@ -1,7 +1,7 @@
 package simulation;
 
 import elements.Cell;
-import elements.Grid;
+import elements.RectangularGrid;
 
 import java.util.ArrayList;
 
@@ -10,19 +10,19 @@ public class PercolationSimulation extends Simulation {
     public static final int FULL = 1;
     public static final int BLOCKED = 2;
 
-    public PercolationSimulation(Grid grid) { super(grid); }
+    public PercolationSimulation(RectangularGrid rectangularGrid) { super(rectangularGrid); }
 
     @Override
     public void analyzeCells(){
-        for(Cell[] cellRow : super.getGrid().getCells()){
-            for(Cell cell : cellRow){
-                Cell[] neighborsToFill = openNeighbors(cell.getMyNeighbors());
-                if(cell.getState() == FULL && neighborsToFill.length != 0){
-                    for(Cell openNeighbor : neighborsToFill){
-                        openNeighbor.setMyNextState(FULL);
-                    }
+        for(int id = 0; id < getGrid().getSize(); id++){
+            Cell cell = getGrid().getCell(id);
+            Cell[] neighborsToFill = openNeighbors(cell.getMyNeighbors());
+            if(cell.getState() == FULL && neighborsToFill.length != 0){
+                for(Cell openNeighbor : neighborsToFill){
+                    openNeighbor.setMyNextState(FULL);
                 }
             }
+
         }
     }
 
