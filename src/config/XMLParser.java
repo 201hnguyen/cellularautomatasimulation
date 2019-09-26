@@ -6,8 +6,11 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
-import org.w3c.dom.*;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 // Adapted from code given in class -- Spike Simulation
@@ -67,8 +70,8 @@ public class XMLParser {
         return Integer.parseInt(root.getAttribute("sceneHeight"));
     }
 
-    public ArrayList<String> getSimulationButtons() {
-        ArrayList<String> simulationButtons = new ArrayList<>();
+    public List<String> getSimulationButtons() {
+        List<String> simulationButtons = new ArrayList<>();
         simulationButtons.add(root.getElementsByTagName("playButton").item(0).getTextContent());
         simulationButtons.add(root.getElementsByTagName("pauseButton").item(0).getTextContent());
         simulationButtons.add(root.getElementsByTagName("stepButton").item(0).getTextContent());
@@ -109,9 +112,9 @@ public class XMLParser {
 
     public String[] getCellColors(){
         String[] cellColors = new String[3];
-        cellColors[0] = root.getAttribute("Color0").toString();
-        cellColors[1] = root.getAttribute("Color1").toString();
-        cellColors[2] = root.getAttribute("Color2").toString();
+        cellColors[0] = root.getAttribute("Color0");
+        cellColors[1] = root.getAttribute("Color1");
+        cellColors[2] = root.getAttribute("Color2");
         return cellColors;
     }
 

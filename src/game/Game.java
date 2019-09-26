@@ -1,9 +1,15 @@
 package game;
 
+import simulation.GameOfLifeSimulation;
+import simulation.PercolationSimulation;
+//import simulation.PredatorPreySimulation;
+import simulation.SegregationSimulation;
+import simulation.SpreadingOfFireSimulation;
+import simulation.Simulation;
+
 import config.XMLParser;
 import elements.RectangularGrid;
 import javafx.stage.FileChooser;
-import simulation.*;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -11,7 +17,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.File;
-import java.util.ArrayList;
+import java.util.List;
 
 public class Game {
 
@@ -20,7 +26,7 @@ public class Game {
     private Visualization myVisualization;
     private Simulation mySimulation;
     private Timeline myTimeline;
-    private ArrayList<String> mySimulationButtons;
+    private List<String> mySimulationButtons;
     private Stage myStage;
 
     public Game(Stage stage) {
