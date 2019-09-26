@@ -110,9 +110,9 @@ public class XMLParser {
 
     public String[] getCellColors(){
         String[] cellColors = new String[3];
-        cellColors[0] = root.getAttribute("Color0").toString();
-        cellColors[1] = root.getAttribute("Color1").toString();
-        cellColors[2] = root.getAttribute("Color2").toString();
+        cellColors[0] = root.getAttribute("Color0");
+        cellColors[1] = root.getAttribute("Color1");
+        cellColors[2] = root.getAttribute("Color2");
         return cellColors;
     }
 
