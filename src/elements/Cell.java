@@ -4,15 +4,13 @@ public class Cell{
     private int myState;
     private int myNextState;
     private Cell[] myNeighbors;
-    private int myXPosition;
-    private int myYPosition;
+    private int myID;
     private boolean myIsAvailable;
 
-    public Cell(int state, int x, int y){
+    public Cell(int state, int ID){
         myState = state;
         myNextState = state;
-        myXPosition = x;
-        myYPosition = y;
+        myID = ID;
         myIsAvailable = true;
     }
 
@@ -47,6 +45,10 @@ public class Cell{
 
     public void setMyIsAvailable(boolean value) {
         myIsAvailable = value;
+    }
+
+    public int getMyID(){
+        return myID;
     }
 
 }

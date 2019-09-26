@@ -1,7 +1,7 @@
 package game;
 
 import config.XMLParser;
-import elements.Grid;
+import elements.RectangularGrid;
 import javafx.stage.FileChooser;
 import simulation.*;
 
@@ -33,29 +33,28 @@ public class Game {
         int sceneWidthJustCells = parser.getSceneWidth();
         int sceneHeight = parser.getSceHeight();
 
-        myVisualization = new Visualization(this, stage, mySimulationButtons,
-                windowTitle, sceneWidthWithBar, sceneWidthJustCells, sceneHeight);
+        myVisualization = new Visualization(this, stage, mySimulationButtons, windowTitle, sceneWidthWithBar, sceneWidthJustCells, sceneHeight);
         myVisualization.showIntroScene();
     }
 
     protected void loadSimulation(File simulationFile) {
-        Grid grid = new Grid(simulationFile);
-        grid.configureCells();
+        RectangularGrid rectangularGrid = new RectangularGrid(simulationFile);
+        rectangularGrid.configureCells();
         mySimulation = null;
 
         XMLParser parser = new XMLParser("Simulation parser", simulationFile);
         if (parser.getSimulationType().equals("Game of Life")) {
-            mySimulation = new GameOfLifeSimulation(grid);
+            mySimulation = new GameOfLifeSimulation(rectangularGrid);
         } else if (parser.getSimulationType().equals("Segregation")) {
-            mySimulation = new SegregationSimulation(grid);
+            mySimulation = new SegregationSimulation(rectangularGrid);
         } else if (parser.getSimulationType().equals("Predator and Prey")) {
-            mySimulation = new PredatorPreySimulation(grid);
+            //mySimulation = new PredatorPreySimulation(rectangularGrid);
         } else if (parser.getSimulationType().equals("Spreading of Fire")) {
-            mySimulation = new SpreadingOfFireSimulation(grid);
+            mySimulation = new SpreadingOfFireSimulation(rectangularGrid);
         } else if (parser.getSimulationType().equals("Percolation")) {
-            mySimulation = new PercolationSimulation(grid);
+            mySimulation = new PercolationSimulation(rectangularGrid);
         }
-        myVisualization.showSimulationScene(grid);
+        myVisualization.showSimulationScene(rectangularGrid);
         setGameLoop();
     }
 

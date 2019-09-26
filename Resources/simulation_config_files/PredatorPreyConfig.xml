@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <simulation simulationType = "Predator and Prey" Color0 = "Light Blue" Color1 = "Yellow" Color2 = "Red">
     <num_rows>50</num_rows>>
     <num_columns>50</num_columns>>
@@ -9,7 +8,7 @@
     <parameter3>1</parameter3>
     <parameter4>10</parameter4>
     <parameter5>3</parameter5>
-    <initial-states-grid>1 0 1 1 1 1 0 2 1 2 1 0 2 2 2 1 0 2 2 2 1 0 2 2 2 1 0 2 2 2 1 0 2 2 2 1 0 2 2 2 1 0 2 2 2 1 0 2 2 2
+    <initial-states-rectangularGrid>1 0 1 1 1 1 0 2 1 2 1 0 2 2 2 1 0 2 2 2 1 0 2 2 2 1 0 2 2 2 1 0 2 2 2 1 0 2 2 2 1 0 2 2 2 1 0 2 2 2
         0 0 2 1 1 0 1 0 1 1 0 0 2 1 2 0 2 0 2 1 0 0 2 1 2 0 2 0 2 1 0 0 2 1 2 0 2 0 2 1 0 0 2 1 2 0 2 0 2 1
         2 1 1 0 0 1 0 1 1 0 2 1 1 0 0 1 0 1 1 0 2 1 1 0 0 1 0 1 1 0 2 1 1 0 0 1 0 1 1 0 2 1 1 0 0 1 0 1 1 0
         1 0 2 1 1 2 1 0 2 1 1 0 2 1 1 2 1 0 2 1 1 0 2 1 1 2 1 0 2 1 1 0 2 1 1 2 1 0 2 1 1 0 2 1 1 2 1 0 2 1
@@ -59,5 +58,5 @@
         1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
         1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
         1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
-    </initial-states-grid>>
+    </initial-states-rectangularGrid>>
 </simulation>

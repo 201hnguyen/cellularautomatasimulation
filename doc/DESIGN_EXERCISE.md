@@ -41,16 +41,16 @@ Each Cell object contains a collection of its neighbours (who is defined as a ne
 The simulation class executes two passes for each round of cell updates. The first pass allows each cell
 to analyse the state of its neighbours. The second pass applies the rules (gleaned from the config file) to the cells
 and updates them. At this point, the visualization class is called from the simlation class to output the updated
-grid of cells.
+rectangularGrid of cells.
 
 ####What relationship exists between a Cell and a simulation's rules?
 
 Each Cell must initialise itself with the simulations rules. It gets these from the config file.
 
-####What is the grid? Does it have any behaviors? Who needs to know about it?
+####What is the rectangularGrid? Does it have any behaviors? Who needs to know about it?
 
-The grid is a 2D array of Cell objects. It exists within the simulation Class. The visualization class needs it
-to display the current version of the grid.
+The rectangularGrid is a 2D array of Cell objects. It exists within the simulation Class. The visualization class needs it
+to display the current version of the rectangularGrid.
 
 ####What information about a simulation needs to be the configuration file?
 

@@ -2,7 +2,7 @@ package simulation;
 
 import config.XMLParser;
 import elements.Cell;
-import elements.Grid;
+import elements.RectangularGrid;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -13,9 +13,9 @@ public class SegregationSimulation extends Simulation {
 
     private ArrayList<Cell> myAvailableCells;
 
-    public SegregationSimulation(Grid grid) {
-        super(grid);
-        myXMLParser = new XMLParser("Segregation", grid.getMyConfigFile());
+    public SegregationSimulation(RectangularGrid rectangularGrid) {
+        super(rectangularGrid);
+        myXMLParser = new XMLParser("Segregation", rectangularGrid.getMyConfigFile());
         myAvailableCells = new ArrayList<>();
         mySegregationTreshold = myXMLParser.getSimulationParameter1();
     }
@@ -23,9 +23,12 @@ public class SegregationSimulation extends Simulation {
     @Override
     public void analyzeCells() {
         Random random = new Random();
+        int id = 0;
         myAvailableCells = super.getGrid().getEmptyCells();
-        for (Cell[] cellRow : super.getGrid().getCells()) {
-            for (Cell cell : cellRow) {
+        for (int i = 0; i < super.getGrid().getNumRows(); i++) {
+            for (int j = 0; j < super.getGrid().getNumCols(); j++) {
+                Cell cell = super.getGrid().getCell(id);
+                id++;
                 double similarNeighbors = countSimilarNeighbors(cell, cell.getMyNeighbors());
                 if (cell.getState()!= 0 && (similarNeighbors / cell.getMyNeighbors().length < mySegregationTreshold)) {
                     Cell random_cell = myAvailableCells.get(random.nextInt(myAvailableCells.size()));
