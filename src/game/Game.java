@@ -1,9 +1,15 @@
 package game;
 
+import simulation.GameOfLifeSimulation;
+import simulation.PercolationSimulation;
+//import simulation.PredatorPreySimulation;
+import simulation.SegregationSimulation;
+import simulation.SpreadingOfFireSimulation;
+import simulation.Simulation;
+
 import config.XMLParser;
 import elements.RectangularGrid;
 import javafx.stage.FileChooser;
-import simulation.*;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
