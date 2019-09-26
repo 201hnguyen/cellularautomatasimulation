@@ -2,7 +2,7 @@ package simulation;
 
 import config.XMLParser;
 import elements.Cell;
-import elements.Grid;
+import elements.RectangularGrid;
 
 import java.util.Random;
 
@@ -17,17 +17,17 @@ public class SpreadingOfFireSimulation extends Simulation {
 
     private int myEmptyTurns;
 
-    public SpreadingOfFireSimulation(Grid grid) {
-        super(grid);
-        myXMLParser = new XMLParser("Spreading Of Fire", grid.getMyConfigFile());
+    public SpreadingOfFireSimulation(RectangularGrid rectangularGrid) {
+        super(rectangularGrid);
+        myXMLParser = new XMLParser("Spreading Of Fire", rectangularGrid.getMyConfigFile());
         myBurnProbability = myXMLParser.getSimulationParameter1();
         myTreeProbability = myXMLParser.getSimulationParameter2();
     }
 
     @Override
     public void analyzeCells(){
-        for(Cell[] cellRow : super.getGrid().getCells()){
-            for(Cell cell : cellRow){
+        for(int id = 0; id < getGrid().getSize(); id++){
+            Cell cell = getGrid().getCell(id);
                 if(cell.getState() == EMPTY){
                     myEmptyTurns = 1;
                     willTreeGrow(cell, cell.getMyNeighbors());
@@ -40,7 +40,6 @@ public class SpreadingOfFireSimulation extends Simulation {
                 }
             }
         }
-    }
 
     private void willBurn(Cell curr, Cell[] neighbors){
         for(Cell neighbor : neighbors){
@@ -70,3 +69,4 @@ public class SpreadingOfFireSimulation extends Simulation {
         return (randNum < (probEvent * 100) - 1);
     }
 }
+

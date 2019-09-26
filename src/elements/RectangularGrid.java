@@ -1,52 +1,46 @@
 package elements;
 
-import config.XMLParser;
-
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.HashSet;
 
-public class Grid{
-    private Cell[][] cells;
+public class RectangularGrid extends SimulationGrid {
+    private HashSet<Cell> myCells;
     private int myNumRows;
     private int myNumCols;
-    private int myNumNeighbors;
-    private File myConfigFile;
-    private XMLParser myXMLParser;
-    private Scanner mySc;
-    private String[] myCellColors;
 
-    public Grid(File file){
-        myConfigFile = file;
-        myXMLParser =  new XMLParser("simulationType", myConfigFile);
-        mySc = new Scanner(myXMLParser.getInitialGrid());
+    public RectangularGrid(File file){
+        super(file);
         myNumRows = myXMLParser.getNumRows();
         myNumCols = myXMLParser.getNumCols();
-        myCellColors = myXMLParser.getCellColors();
-        cells = new Cell[myNumRows][myNumCols];
+        myCells = new HashSet<Cell>();
     }
 
-    public Cell[][] configureCells(){
+    public HashSet<Cell> configureCells(){
         createGridOfCells();
         setCellNeighbors();
-        return cells;
+        return myCells;
     }
 
-    public Cell[][] getCells(){
-        return cells;
+    public Cell getCell(int i){
+        for(Cell cell: myCells){
+            if(cell.getMyID() == i){
+                return cell;
+            }
+        }
+        return null;
     }
 
     public ArrayList<Cell> getEmptyCells(){
         ArrayList<Cell> emptyCells = new ArrayList<>();
         int i = 0;
-        for(Cell[] cellrow: cells){
-            for(Cell cell : cellrow){
-                if(cell.getState() == 0)
-                {
-                    emptyCells.add(cell);
-                }
+        for(Cell cell : myCells){
+            if(cell.getState() == 0)
+            {
+                emptyCells.add(cell);
             }
         }
+
         return emptyCells;
     }
 
@@ -63,12 +57,14 @@ public class Grid{
     }
 
     private void createGridOfCells() {
+        int id = 0;
         myNumNeighbors = myXMLParser.getNumNeighbors();
         while(mySc.hasNext()){
             for (int i = 0; i < myNumRows; i++){
                 for (int j = 0; j < myNumCols; j++){
                     int state = mySc.nextInt();
-                    cells[i][j] = new Cell(state, i, j);
+                    myCells.add(new Cell(state, id));
+                    id++;
                 }
             }
         }
@@ -76,6 +72,14 @@ public class Grid{
 
     //This method assumes that all simulations will either consider 4 neighbors (NSWE) or 8 (NSWE + the 4 directions in between)
     private void setCellNeighbors(){
+        Cell[][] cells = new Cell[myNumRows][myNumCols];
+        int id = 0;
+        for(int i = 0; i < myNumRows; i++){
+            for(int j = 0; j < myNumCols; j++){
+                cells[i][j] = getCell(id);
+                id++;
+            }
+        }
         Cell[] neighbors = null;
         for (int i = 0; i < myNumRows; i++){
             for (int j = 0; j < myNumCols; j++) {
@@ -217,5 +221,9 @@ public class Grid{
     }
     public File getMyConfigFile(){
         return myConfigFile;
+    }
+
+    public int getSize() {
+        return myNumRows*myNumCols;
     }
 }
