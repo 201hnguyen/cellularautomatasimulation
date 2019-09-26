@@ -6,6 +6,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
@@ -67,8 +68,8 @@ public class XMLParser {
         return Integer.parseInt(root.getAttribute("sceneHeight"));
     }
 
-    public ArrayList<String> getSimulationButtons() {
-        ArrayList<String> simulationButtons = new ArrayList<>();
+    public List<String> getSimulationButtons() {
+        List<String> simulationButtons = new ArrayList<>();
         simulationButtons.add(root.getElementsByTagName("playButton").item(0).getTextContent());
         simulationButtons.add(root.getElementsByTagName("pauseButton").item(0).getTextContent());
         simulationButtons.add(root.getElementsByTagName("stepButton").item(0).getTextContent());

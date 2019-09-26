@@ -3,6 +3,7 @@ package elements;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 public class RectangularGrid extends SimulationGrid {
     private HashSet<Cell> myCells;
@@ -31,8 +32,8 @@ public class RectangularGrid extends SimulationGrid {
         return null;
     }
 
-    public ArrayList<Cell> getEmptyCells(){
-        ArrayList<Cell> emptyCells = new ArrayList<>();
+    public List<Cell> getEmptyCells(){
+        List<Cell> emptyCells = new ArrayList<>();
         int i = 0;
         for(Cell cell : myCells){
             if(cell.getState() == 0)
