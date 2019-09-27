@@ -21,7 +21,6 @@ import javafx.stage.Stage;
 import java.io.File;
 
 public class Visualization {
-
     private Game myCurrentGame;
     private Stage myStage;
     private Pane myRoot;
@@ -158,13 +157,6 @@ public class Visualization {
                     triangle.setLayoutX((j) * (cellSize));
                     triangle.setLayoutY((i) * (cellSize) - cellSize);
                 }
-
-
-
-
-
-
-
 
 //                triangle = new Polygon();
 //                if (i%2 == 0) {

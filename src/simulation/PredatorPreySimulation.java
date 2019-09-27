@@ -6,7 +6,6 @@ import elements.Grid;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Set;
 
 public class PredatorPreySimulation extends Simulation {
