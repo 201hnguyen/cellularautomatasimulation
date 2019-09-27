@@ -45,9 +45,19 @@ public class XMLSimulationParser extends XMLParser {
          return colors;
     }
 
-    public Map<Integer, List<Integer>> getNeighborRules() {
-        Map<Integer, List<Integer>> rulesMap = new HashMap<>();
-        String s = super.getRoot().getElementsByTagName("neighbor_rules").item(0).getTextContent();
+    public Map<Integer, List<Integer>> getMainNeighborRules() {
+        Map<Integer, List<Integer>> rulesMap = getNeighborRulesHelper("main_neighbor_rules");
+        return rulesMap;
+    }
+
+    public Map<Integer, List<Integer>> getEdgeNeighborRules() {
+        Map<Integer, List<Integer>> rulesMap = getNeighborRulesHelper("edge_neighbor_rules");
+        return rulesMap;
+    }
+
+    private Map<Integer, List<Integer>> getNeighborRulesHelper(String neighborRules) {
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        String s = super.getRoot().getElementsByTagName(neighborRules).item(0).getTextContent();
         for (String sub : s.split("/")) {
             String[] subSplit = sub.split("c");
             Integer key = Integer.parseInt(subSplit[0].replaceAll(" ", ""));
@@ -56,9 +66,9 @@ public class XMLSimulationParser extends XMLParser {
             for (String value : valuesAsStrings) {
                 values.add(Integer.parseInt(value));
             }
-            rulesMap.put(key, values);
+            map.put(key, values);
         }
-        return rulesMap;
+        return map;
     }
 
     public Map<String, Double> getParameters() {

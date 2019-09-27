@@ -11,7 +11,7 @@
     <num_columns>50</num_columns>
     <num_neighbors>8</num_neighbors>
 
-    <neighbor_rules>-1 c -1 0 1 / 0 c -1 1 / 1 c -1 0 1</neighbor_rules>
+    <main_neighbor_rules>-1 c -1 0 1 / 0 c -1 1 / 1 c -1 0 1</main_neighbor_rules>
 
     <parameters>
         <parameter0>segregation_threshold:0.4</parameter0>
