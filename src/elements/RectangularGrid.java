@@ -14,7 +14,7 @@ public class RectangularGrid extends SimulationGrid {
         super(file);
         myNumRows = myXMLParser.getNumRows();
         myNumCols = myXMLParser.getNumCols();
-        myCells = new HashSet<Cell>();
+        myCells = new HashSet<>();
     }
 
     public HashSet<Cell> configureCells(){
