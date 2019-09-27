@@ -6,11 +6,11 @@ import java.io.File;
 import java.util.*;
 
 public class Grid {
-    private int myNumNeighbors;
     private File myConfigFile;
     private String[] myCellColors;
     private Cell[][] myCellsMatrix;
     private Map<Integer, Cell> myCellsMap;
+    private Set<Cell> myEdgeCells;
     private int myNumRows;
     private int myNumCols;
     private Map<Integer,List<Integer>> myNeighborRules;
@@ -29,7 +29,7 @@ public class Grid {
         myCellsMatrix = new Cell[myNumRows][myNumCols];
         myCellsMap = new HashMap<>();
         createGridOfCells();
-        setCellNeighbors();
+        updateCellNeighbors(myCellsMatrix[0][0]);
     }
 
     public Cell getCell(int id){
@@ -81,10 +81,10 @@ public class Grid {
         }
     }
 
-    private void setCellNeighbors() {
+    private void updateCellNeighbors(Cell startingCell) {
         Queue<Cell> cq = new LinkedList<>();
-        cq.add(myCellsMatrix[0][0]);
-        myCellsMatrix[0][0].setBfsChecked(true);
+        cq.add(startingCell);
+        startingCell.setBfsChecked(true);
 
         while (cq.size() > 0) {
             Cell currentCell = cq.remove();
