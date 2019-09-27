@@ -11,7 +11,7 @@
     <num_columns>50</num_columns>
     <num_neighbors>4</num_neighbors>
 
-    <neighbor_rules>-1 c 0 / 0 c -1 1 / 1 c 0</neighbor_rules>
+    <main_neighbor_rules>-1 c 0 / 0 c -1 1 / 1 c 0</main_neighbor_rules>
 
     <parameters>
         <parameter0>starting_shark_energy:3</parameter0>

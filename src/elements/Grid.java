@@ -13,7 +13,8 @@ public class Grid {
     private Set<Cell> myEdgeCells;
     private int myNumRows;
     private int myNumCols;
-    private Map<Integer,List<Integer>> myNeighborRules;
+    private Map<Integer, List<Integer>> myNeighborRules;
+    private Map<Integer, List<Integer>> myEdgeNeighborRules;
 
     private XMLSimulationParser parser;
     private Scanner scanner;
@@ -25,11 +26,13 @@ public class Grid {
         myCellColors = parser.getColors();
         myNumRows = parser.getNumRows();
         myNumCols = parser.getNumCols();
-        myNeighborRules = parser.getNeighborRules();
+        myNeighborRules = parser.getMainNeighborRules();
+        myEdgeNeighborRules = parser.getEdgeNeighborRules();
         myCellsMatrix = new Cell[myNumRows][myNumCols];
         myCellsMap = new HashMap<>();
         createGridOfCells();
-        updateCellNeighbors(myCellsMatrix[0][0]);
+        runBFSOnCells(myCellsMatrix[0][0], myNeighborRules);
+        runBFSOnCells(myCellsMatrix[0][0], myEdgeNeighborRules);
     }
 
     public Cell getCell(int id){
@@ -81,7 +84,8 @@ public class Grid {
         }
     }
 
-    private void updateCellNeighbors(Cell startingCell) {
+    private void runBFSOnCells(Cell startingCell, Map<Integer, List<Integer>> bfsRules) {
+        resetBFSChecked();
         Queue<Cell> cq = new LinkedList<>();
         cq.add(startingCell);
         startingCell.setBfsChecked(true);
@@ -91,9 +95,9 @@ public class Grid {
 
             int neighborRow;
             int neighborCol;
-            for (int row : myNeighborRules.keySet()) {
+            for (int row : bfsRules.keySet()) {
                 neighborRow = currentCell.getRow() + row;
-                for (int col : myNeighborRules.get(row)) {
+                for (int col : bfsRules.get(row)) {
                     neighborCol = currentCell.getCol() + col;
                     if (inRange(neighborRow, neighborCol)) {
                         if (!myCellsMatrix[neighborRow][neighborCol].bfsChecked()) {
@@ -104,6 +108,12 @@ public class Grid {
                     }
                 }
             }
+        }
+    }
+
+    private void resetBFSChecked() {
+        for (Integer cellId : myCellsMap.keySet()) {
+            myCellsMap.get(cellId).setBfsChecked(false);
         }
     }
 
