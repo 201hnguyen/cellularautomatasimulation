@@ -1,9 +1,10 @@
 package simulation;
 
-import config.XMLParser;
+import config.XMLSimulationParser;
 import elements.Cell;
-import elements.RectangularGrid;
+import elements.Grid;
 
+import java.util.List;
 import java.util.Random;
 
 public class SpreadingOfFireSimulation extends Simulation {
@@ -11,17 +12,17 @@ public class SpreadingOfFireSimulation extends Simulation {
     private final static int TREE = 1;
     private final static int BURNING = 2;
 
-    private XMLParser myXMLParser;
+    private XMLSimulationParser myXMLParser;
     private double myBurnProbability;
     private double myTreeProbability;
 
     private int myEmptyTurns;
 
-    public SpreadingOfFireSimulation(RectangularGrid rectangularGrid) {
-        super(rectangularGrid);
-        myXMLParser = new XMLParser("Spreading Of Fire", rectangularGrid.getMyConfigFile());
-        myBurnProbability = myXMLParser.getSimulationParameter1();
-        myTreeProbability = myXMLParser.getSimulationParameter2();
+    public SpreadingOfFireSimulation(Grid grid) {
+        super(grid);
+        myXMLParser = new XMLSimulationParser(grid.getMyConfigFile());
+        myBurnProbability = myXMLParser.getParameters().get("burn_probability");
+        myTreeProbability = myXMLParser.getParameters().get("tree_probability");
     }
 
     @Override
@@ -41,7 +42,7 @@ public class SpreadingOfFireSimulation extends Simulation {
             }
         }
 
-    private void willBurn(Cell curr, Cell[] neighbors){
+    private void willBurn(Cell curr, List<Cell> neighbors){
         for(Cell neighbor : neighbors){
             if(curr.getState() == TREE && neighbor.getState() == BURNING && probability(myBurnProbability)){
                 curr.setMyNextState(BURNING);
@@ -49,7 +50,7 @@ public class SpreadingOfFireSimulation extends Simulation {
         }
     }
 
-    private void willTreeGrow(Cell curr, Cell[] neighbors){
+    private void willTreeGrow(Cell curr, List<Cell> neighbors){
         if(curr.getState() == EMPTY && myEmptyTurns == 1){
             curr.setMyNextState(EMPTY);
             myEmptyTurns++;

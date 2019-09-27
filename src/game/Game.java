@@ -1,14 +1,15 @@
 package game;
 
+import config.XMLGameParser;
+import config.XMLSimulationParser;
 import simulation.GameOfLifeSimulation;
 import simulation.PercolationSimulation;
-//import simulation.PredatorPreySimulation;
+import simulation.PredatorPreySimulation;
 import simulation.SegregationSimulation;
 import simulation.SpreadingOfFireSimulation;
 import simulation.Simulation;
 
-import config.XMLParser;
-import elements.RectangularGrid;
+import elements.Grid;
 import javafx.stage.FileChooser;
 
 import javafx.animation.KeyFrame;
@@ -17,7 +18,6 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.File;
-import java.util.List;
 
 public class Game {
 
@@ -26,41 +26,40 @@ public class Game {
     private Visualization myVisualization;
     private Simulation mySimulation;
     private Timeline myTimeline;
-    private List<String> mySimulationButtons;
+    private String[] mySimulationButtons;
     private Stage myStage;
 
     public Game(Stage stage) {
         myStage = stage;
         myTimeline = new Timeline();
-        XMLParser parser = new XMLParser("Game", new File("Resources/GameConfig.xml"));
+        XMLGameParser parser = new XMLGameParser(new File("Resources/GameConfig.xml"));
         mySimulationButtons = parser.getSimulationButtons();
         String windowTitle = parser.getTitle();
-        int sceneWidthWithBar = parser.getSceneWidthWithBar();
+        int sceneWidthWithBar = parser.getSceneWidthFull();
         int sceneWidthJustCells = parser.getSceneWidth();
-        int sceneHeight = parser.getSceHeight();
+        int sceneHeight = parser.getSceneHeight();
 
         myVisualization = new Visualization(this, stage, mySimulationButtons, windowTitle, sceneWidthWithBar, sceneWidthJustCells, sceneHeight);
         myVisualization.showIntroScene();
     }
 
     protected void loadSimulation(File simulationFile) {
-        RectangularGrid rectangularGrid = new RectangularGrid(simulationFile);
-        rectangularGrid.configureCells();
+        Grid grid = new Grid(simulationFile);
         mySimulation = null;
 
-        XMLParser parser = new XMLParser("Simulation parser", simulationFile);
+        XMLSimulationParser parser = new XMLSimulationParser(simulationFile); //TODO: Change simulation strings to resource file
         if (parser.getSimulationType().equals("Game of Life")) {
-            mySimulation = new GameOfLifeSimulation(rectangularGrid);
+            mySimulation = new GameOfLifeSimulation(grid);
         } else if (parser.getSimulationType().equals("Segregation")) {
-            mySimulation = new SegregationSimulation(rectangularGrid);
+            mySimulation = new SegregationSimulation(grid);
         } else if (parser.getSimulationType().equals("Predator and Prey")) {
-            //mySimulation = new PredatorPreySimulation(rectangularGrid);
+            mySimulation = new PredatorPreySimulation(grid);
         } else if (parser.getSimulationType().equals("Spreading of Fire")) {
-            mySimulation = new SpreadingOfFireSimulation(rectangularGrid);
+            mySimulation = new SpreadingOfFireSimulation(grid);
         } else if (parser.getSimulationType().equals("Percolation")) {
-            mySimulation = new PercolationSimulation(rectangularGrid);
+            mySimulation = new PercolationSimulation(grid);
         }
-        myVisualization.showSimulationScene(rectangularGrid);
+        myVisualization.showSimulationScene(grid);
         setGameLoop();
     }
 
@@ -112,7 +111,7 @@ public class Game {
     private void playGameLoop() {
         mySimulation.analyzeCells();
         mySimulation.updateCells();
-        myVisualization.displayGrid(mySimulation.getGrid());
+        myVisualization.displayRectangularGrid(mySimulation.getGrid());
     }
 
 }

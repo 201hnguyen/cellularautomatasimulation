@@ -1,23 +1,23 @@
 package simulation;
 
-import elements.RectangularGrid;
+import elements.Grid;
 
 public abstract class Simulation {
-    private RectangularGrid myRectangularGrid;
+    private Grid myGrid;
 
-    public Simulation(RectangularGrid rectangularGrid) {
-        myRectangularGrid = rectangularGrid;
+    public Simulation(Grid grid) {
+        myGrid = grid;
     }
 
     public abstract void analyzeCells();
 
     public void updateCells() {
-        for(int id = 0; id < myRectangularGrid.getSize(); id++){
-            myRectangularGrid.getCell(id).updateState();
+        for(int id = 0; id < myGrid.getSize(); id++){
+            myGrid.getCell(id).updateState();
         }
     }
 
-    public RectangularGrid getGrid() {
-        return myRectangularGrid;
+    public Grid getGrid() {
+        return myGrid;
     }
 }
