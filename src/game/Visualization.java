@@ -60,7 +60,7 @@ public class Visualization {
         myScene = new Scene(myRoot, mySceneWidthWithBar, mySceneHeight);
         myStage.setScene(myScene);
         myRoot.getChildren().add(createButtonsForSimulation());
-        displayGrid(grid);
+        displayRectangularGrid(grid);
     }
 
     private void setCellColors(Grid grid){
@@ -74,7 +74,7 @@ public class Visualization {
         Color color = Color.WHITE;
             if(color_chosen.equals("Blue")) {
                 color = Color.BLUE;
-            } else if(color_chosen.equals("Dark Blue")) {
+            } else if(color_chosen.equals("DarkBlue")) {
                 color = Color.DARKBLUE;
             } else if(color_chosen.equals("Black")) {
                 color = Color.BLACK;
@@ -86,14 +86,13 @@ public class Visualization {
                 color = Color.YELLOW;
             } else if(color_chosen.equals("Purple")){
                 color = Color.PURPLE;
-            } else if(color_chosen.equals("Light Blue")) {
+            } else if(color_chosen.equals("LightBlue")) {
                 color = Color.LIGHTBLUE;
             }
             return color;
     }
 
-    protected void displayGrid(Grid grid){
-
+    protected void displayRectangularGrid(Grid grid){
         setCellColors(grid);
         myRoot.getChildren().clear();
         myRoot.getChildren().add(createButtonsForSimulation());

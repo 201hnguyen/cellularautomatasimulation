@@ -4,7 +4,7 @@ import config.XMLGameParser;
 import config.XMLSimulationParser;
 import simulation.GameOfLifeSimulation;
 import simulation.PercolationSimulation;
-//import simulation.PredatorPreySimulation;
+import simulation.PredatorPreySimulation;
 import simulation.SegregationSimulation;
 import simulation.SpreadingOfFireSimulation;
 import simulation.Simulation;
@@ -53,7 +53,7 @@ public class Game {
         } else if (parser.getSimulationType().equals("Segregation")) {
             mySimulation = new SegregationSimulation(grid);
         } else if (parser.getSimulationType().equals("Predator and Prey")) {
-            //mySimulation = new PredatorPreySimulation(grid);
+            mySimulation = new PredatorPreySimulation(grid);
         } else if (parser.getSimulationType().equals("Spreading of Fire")) {
             mySimulation = new SpreadingOfFireSimulation(grid);
         } else if (parser.getSimulationType().equals("Percolation")) {
@@ -111,7 +111,7 @@ public class Game {
     private void playGameLoop() {
         mySimulation.analyzeCells();
         mySimulation.updateCells();
-        myVisualization.displayGrid(mySimulation.getGrid());
+        myVisualization.displayRectangularGrid(mySimulation.getGrid());
     }
 
 }

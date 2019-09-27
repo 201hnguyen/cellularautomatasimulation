@@ -10,6 +10,7 @@ public class Cell{
     private int myRow;
     private int myCol;
     private boolean myIsAvailable;
+    private boolean bfs_checked;
 
     public Cell(int state, int x, int y){
         myState = state;
@@ -17,7 +18,16 @@ public class Cell{
         myRow = x;
         myCol = y;
         myIsAvailable = true;
+        bfs_checked = false;
         myNeighbors = new ArrayList<>();
+    }
+
+    public boolean bfsChecked() {
+        return bfs_checked;
+    }
+
+    public void setBfsChecked(boolean value) {
+        bfs_checked = true;
     }
 
     public int getState(){

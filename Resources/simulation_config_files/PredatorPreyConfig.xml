@@ -2,9 +2,9 @@
 <simulation simulationType = "Predator and Prey">
 
     <colors>
-        <water>Light Blue</water>
+        <water>LightBlue</water>
         <fish>Yellow</fish>
-        <shark>red</shark>
+        <shark>Red</shark>
     </colors>
 
     <num_rows>50</num_rows>
