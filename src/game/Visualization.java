@@ -105,7 +105,7 @@ public class Visualization {
                 id++;
             }
         }
-        displayGridAsTriangles(grid, cells);
+        displayGridAsRectangles(grid, cells);
     }
 
     private void displayGridAsRectangles(Grid grid, Cell[][] cells) {

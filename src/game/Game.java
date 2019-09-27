@@ -111,7 +111,7 @@ public class Game {
     private void playGameLoop() {
         mySimulation.analyzeCells();
         mySimulation.updateCells();
-        myVisualization.displayRectangularGrid(mySimulation.getGrid());
+        myVisualization.displayGrid(mySimulation.getGrid());
     }
 
 }
