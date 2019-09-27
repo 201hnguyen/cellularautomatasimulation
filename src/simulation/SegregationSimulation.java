@@ -1,24 +1,24 @@
 package simulation;
 
-import config.XMLParser;
+import config.XMLSimulationParser;
 import elements.Cell;
-import elements.RectangularGrid;
+import elements.Grid;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class SegregationSimulation extends Simulation {
-    private XMLParser myXMLParser;
-    private double mySegregationTreshold;
+    private XMLSimulationParser myXMLParser;
+    private double mySegregationThreshold;
 
     private List<Cell> myAvailableCells;
 
-    public SegregationSimulation(RectangularGrid rectangularGrid) {
-        super(rectangularGrid);
-        myXMLParser = new XMLParser("Segregation", rectangularGrid.getMyConfigFile());
+    public SegregationSimulation(Grid grid) {
+        super(grid);
+        myXMLParser = new XMLSimulationParser(grid.getMyConfigFile());
         myAvailableCells = new ArrayList<>();
-        mySegregationTreshold = myXMLParser.getSimulationParameter1();
+        mySegregationThreshold = myXMLParser.getParameters().get("segregation_threshold");
     }
 
     @Override
@@ -31,7 +31,7 @@ public class SegregationSimulation extends Simulation {
                 Cell cell = super.getGrid().getCell(id);
                 id++;
                 double similarNeighbors = countSimilarNeighbors(cell, cell.getMyNeighbors());
-                if (cell.getState()!= 0 && (similarNeighbors / cell.getMyNeighbors().length < mySegregationTreshold)) {
+                if (cell.getState()!= 0 && (similarNeighbors / cell.getMyNeighbors().size() < mySegregationThreshold)) {
                     Cell random_cell = myAvailableCells.get(random.nextInt(myAvailableCells.size()));
                     random_cell.setMyIsAvailable(false);
                     random_cell.setMyNextState(cell.getState());
@@ -43,7 +43,7 @@ public class SegregationSimulation extends Simulation {
         }
     }
 
-    private double countSimilarNeighbors(Cell cell, Cell[] neighbors){
+    private double countSimilarNeighbors(Cell cell, List<Cell> neighbors){
         int similarNeighborsCount = 0;
         int state = cell.getState();
         for(Cell neighbor: neighbors){

@@ -1,23 +1,25 @@
 package simulation;
 
-import config.XMLParser;
+import config.XMLSimulationParser;
 import elements.Cell;
-import elements.RectangularGrid;
+import elements.Grid;
+
+import java.util.List;
 
 public class GameOfLifeSimulation extends Simulation {
     public static final int LIVE = 1;
     public static final int DEAD = 2;
 
-    private XMLParser myXMLParser;
-    private int minPopulationThreshold;
-    private int maxPopulationThreshold;
+    private XMLSimulationParser myXMLParser;
+    private double minPopulationThreshold;
+    private double maxPopulationThreshold;
 
 
-    public GameOfLifeSimulation(RectangularGrid rectangularGrid) {
-        super(rectangularGrid);
-        myXMLParser = new XMLParser("Game of Life", rectangularGrid.getMyConfigFile());
-        minPopulationThreshold = (int) myXMLParser.getSimulationParameter1();
-        maxPopulationThreshold = (int) myXMLParser.getSimulationParameter2();
+    public GameOfLifeSimulation(Grid grid) {
+        super(grid);
+        myXMLParser = new XMLSimulationParser(grid.getMyConfigFile());
+        minPopulationThreshold = myXMLParser.getParameters().get("min_population_threshold");
+        maxPopulationThreshold = myXMLParser.getParameters().get("max_population_threshold");
     }
 
     @Override
@@ -38,7 +40,7 @@ public class GameOfLifeSimulation extends Simulation {
         }
 
 
-    private int countLiveNeighbors(Cell[] neighbors) {
+    private int countLiveNeighbors(List<Cell> neighbors) {
         int liveNeighborsCount = 0;
         for (Cell neighbor : neighbors) {
             if (neighbor.getState() == LIVE) {

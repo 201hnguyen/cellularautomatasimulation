@@ -1,8 +1,8 @@
 package game;
 
-import config.XMLParser;
+import config.XMLGameParser;
 import elements.Cell;
-import elements.RectangularGrid;
+import elements.Grid;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -18,7 +18,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 import java.io.File;
-import java.util.List;
 
 public class Visualization {
 
@@ -26,7 +25,7 @@ public class Visualization {
     private Stage myStage;
     private Pane myRoot;
     private Scene myScene;
-    private List<String> mySimulationButtons;
+    private String[] mySimulationButtons;
     private Color myColor0;
     private Color myColor1;
     private Color myColor2;
@@ -34,7 +33,7 @@ public class Visualization {
     private int mySceneHeight;
     private int mySceneWidthWithBar;
 
-    public Visualization(Game currentGame, Stage stage, List<String> simulationButtons,
+    public Visualization(Game currentGame, Stage stage, String[] simulationButtons,
     String windowTitle, int sceneWidthWithBar, int sceneWidth, int sceneHeight) {
         mySimulationButtons = simulationButtons;
         myCurrentGame = currentGame;
@@ -55,24 +54,23 @@ public class Visualization {
         myStage.setScene(myScene);
     }
 
-    protected void showSimulationScene(RectangularGrid rectangularGrid) {
+    protected void showSimulationScene(Grid grid) {
         myRoot = new Pane();
         setBackground();
         myScene = new Scene(myRoot, mySceneWidthWithBar, mySceneHeight);
         myStage.setScene(myScene);
         myRoot.getChildren().add(createButtonsForSimulation());
-        displayGrid(rectangularGrid);
+        displayGrid(grid);
     }
 
-    private void setCellColors(RectangularGrid rectangularGrid){
-        String[] cellColors = rectangularGrid.getCellColors();
+    private void setCellColors(Grid grid){
+        String[] cellColors = grid.getCellColors();
         myColor0 = setColorForCell(cellColors[0]);
         myColor1 = setColorForCell(cellColors[1]);
         myColor2 = setColorForCell(cellColors[2]);
     }
 
-    private Color setColorForCell(String color_chosen){
-        //Arbitrary Default color
+    private Color setColorForCell(String color_chosen){ //TODO: Change color strings to resource files
         Color color = Color.WHITE;
             if(color_chosen.equals("Blue")) {
                 color = Color.BLUE;
@@ -94,23 +92,23 @@ public class Visualization {
             return color;
     }
 
-    protected void displayGrid(RectangularGrid rectangularGrid){
+    protected void displayGrid(Grid grid){
 
-        setCellColors(rectangularGrid);
+        setCellColors(grid);
         myRoot.getChildren().clear();
         myRoot.getChildren().add(createButtonsForSimulation());
-        Cell[][] cells = new Cell[rectangularGrid.getNumRows()][rectangularGrid.getNumCols()];
+        Cell[][] cells = new Cell[grid.getNumRows()][grid.getNumCols()];
         int id = 0;
-        for(int i = 0; i < rectangularGrid.getNumRows(); i++){
-            for(int j = 0; j < rectangularGrid.getNumCols(); j++){
-                cells[i][j] = rectangularGrid.getCell(id);
+        for(int i = 0; i < grid.getNumRows(); i++){
+            for(int j = 0; j < grid.getNumCols(); j++){
+                cells[i][j] = grid.getCell(id);
                 id++;
             }
         }
         Rectangle rectangle;
-        for (int i = 0; i < rectangularGrid.getNumRows(); i++) {
-            for (int j = 0; j< rectangularGrid.getNumCols(); j++) {
-                int cellSize = (mySceneWidth / rectangularGrid.getNumRows());
+        for (int i = 0; i < grid.getNumRows(); i++) {
+            for (int j = 0; j< grid.getNumCols(); j++) {
+                int cellSize = (mySceneWidth / grid.getNumRows());
                 rectangle = new Rectangle(cellSize, cellSize);
                 rectangle.setStroke(Color.BLACK);
                 rectangle.setX((j) * (cellSize));
@@ -130,7 +128,7 @@ public class Visualization {
     }
 
     private void setBackground() {
-        Image imageForBackground = new Image(this.getClass().getClassLoader().getResourceAsStream("images/background.jpg"));
+        Image imageForBackground = new Image(this.getClass().getClassLoader().getResourceAsStream("images/background.jpg")); //TODO: Change background string to resource files
         BackgroundImage backgroundImage = new BackgroundImage(imageForBackground, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,
                 BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
         Background background = new Background(backgroundImage);
@@ -138,7 +136,7 @@ public class Visualization {
     }
 
     private Button createLoadFileButton() {
-        XMLParser parser = new XMLParser("File button", new File("Resources/GameConfig.xml"));
+        XMLGameParser parser = new XMLGameParser(new File("Resources/GameConfig.xml"));
         Button fileButton = new Button(parser.getIntroButton());
         fileButton.setPrefWidth(150);
         fileButton.setLayoutX(mySceneWidthWithBar / 2 - (150/2));
@@ -149,7 +147,7 @@ public class Visualization {
         return fileButton;
     }
 
-    private VBox createButtonsForSimulation() {
+    private VBox createButtonsForSimulation() { //TODO: change button strings to resource file
         VBox buttonsBox = createButtonsVBoxHelper(15, 850, 80);
         int buttonWidth = 100;
         for (String buttonTitle : mySimulationButtons) {
@@ -160,11 +158,11 @@ public class Visualization {
                     myCurrentGame.playSimulation();
                 } else if (buttonTitle.equals("Pause")) {
                     myCurrentGame.pauseSimulation();
-                } else if (buttonTitle.equals("Skip Forward")) {
+                } else if (buttonTitle.equals("Skip forward")) {
                     myCurrentGame.skipStep();
-                } else if (buttonTitle.equals("Speed Up")) {
+                } else if (buttonTitle.equals("Speed up")) {
                     myCurrentGame.adjustSimulationSpeed(1);
-                } else if (buttonTitle.equals("Slow Down")) {
+                } else if (buttonTitle.equals("Slow down")) {
                     myCurrentGame.adjustSimulationSpeed(-1);
                 } else if (buttonTitle.equals("Reload")) {
                     myCurrentGame.loadUserInputFile();

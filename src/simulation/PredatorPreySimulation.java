@@ -1,6 +1,6 @@
 //package simulation;
 //
-//import config.XMLParser;
+//import config.XMLSimulationParser;
 //import elements.Cell;
 //import elements.Grid;
 //
@@ -12,7 +12,7 @@
 //    public static final int FISH = 1;
 //    public static final int SHARK = 2;
 //
-//    private XMLParser myXMLParser;
+//    private XMLSimulationParser myParser;
 //    private int myStartingSharkEnergy;
 //    private int mySharkEnergyGain;
 //    private int mySharkEnergyLoss;
@@ -33,12 +33,12 @@
 //                    mySharkEnergyMap.put(cell, myStartingSharkEnergy);
 //                }
 //            }
-//            myXMLParser = new XMLParser("Predator and Prey", grid.getMyConfigFile());
-//            myStartingSharkEnergy = (int) myXMLParser.getSimulationParameter1();
-//            mySharkEnergyGain = (int) myXMLParser.getSimulationParameter2();
-//            mySharkEnergyLoss = (int) myXMLParser.getSimulationParameter3();
-//            mySharkReproducibilityThreshold = (int) myXMLParser.getSimulationParameter4();
-//            myFishReproducibilityThreshold = (int) myXMLParser.getSimulationParameter5();
+//            myParser = new XMLOldParser("Predator and Prey", grid.getMyConfigFile());
+//            myStartingSharkEnergy = (int) myParser.getSimulationParameter1();
+//            mySharkEnergyGain = (int) myParser.getSimulationParameter2();
+//            mySharkEnergyLoss = (int) myParser.getSimulationParameter3();
+//            mySharkReproducibilityThreshold = (int) myParser.getSimulationParameter4();
+//            myFishReproducibilityThreshold = (int) myParser.getSimulationParameter5();
 //        }
 //    }
 //

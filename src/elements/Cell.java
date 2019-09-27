@@ -1,17 +1,23 @@
 package elements;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Cell{
     private int myState;
     private int myNextState;
-    private Cell[] myNeighbors;
-    private int myID;
+    private List<Cell> myNeighbors;
+    private int myRow;
+    private int myCol;
     private boolean myIsAvailable;
 
-    public Cell(int state, int ID){
+    public Cell(int state, int x, int y){
         myState = state;
         myNextState = state;
-        myID = ID;
+        myRow = x;
+        myCol = y;
         myIsAvailable = true;
+        myNeighbors = new ArrayList<>();
     }
 
     public int getState(){
@@ -31,12 +37,12 @@ public class Cell{
         myNextState = state;
     }
 
-    public Cell[] getMyNeighbors(){
+    public List<Cell> getMyNeighbors(){
         return myNeighbors;
     }
 
-    public void setMyNeighbors(Cell[] neighbors) {
-        myNeighbors = neighbors;
+    public void addToNeighbor(Cell cell) {
+        myNeighbors.add(cell);
     }
 
     public boolean getMyIsAvailable() {
@@ -47,8 +53,11 @@ public class Cell{
         myIsAvailable = value;
     }
 
-    public int getMyID(){
-        return myID;
+    public int getRow() {
+        return myRow;
     }
+     public int getCol() {
+        return myCol;
+     }
 
 }
