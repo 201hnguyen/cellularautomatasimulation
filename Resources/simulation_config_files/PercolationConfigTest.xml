@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<simulation simulationType = "Percolation">
+    <colors>
+        <empty>White</empty>
+        <full>Blue</full>
+        <blocked>Black</blocked>
+    </colors>
+
+    <num_rows>3</num_rows>
+    <num_columns>3</num_columns>
+    <num_neighbors>3</num_neighbors>
+
+    <neighbor_rules>0 c 2 / 2 c 0 2</neighbor_rules>
+
+    <initial_rectangular_grid>
+        1 2 0
+        2 2 2
+        0 2 0
+    </initial_rectangular_grid>
+
+</simulation>
