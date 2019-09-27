@@ -5,6 +5,7 @@ import elements.Grid;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class PercolationSimulation extends Simulation {
     public static final int OPEN = 0;
@@ -27,7 +28,7 @@ public class PercolationSimulation extends Simulation {
         }
     }
 
-    private Cell[] openNeighbors(List<Cell> neighbors){
+    private Cell[] openNeighbors(Set<Cell> neighbors){
         List<Cell> openCells = new ArrayList<>();
         for(Cell neighbor : neighbors){
             if(neighbor.getState() == OPEN){

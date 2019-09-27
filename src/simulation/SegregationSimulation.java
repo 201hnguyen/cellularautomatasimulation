@@ -7,6 +7,7 @@ import elements.Grid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 public class SegregationSimulation extends Simulation {
     private XMLSimulationParser myXMLParser;
@@ -43,7 +44,7 @@ public class SegregationSimulation extends Simulation {
         }
     }
 
-    private double countSimilarNeighbors(Cell cell, List<Cell> neighbors){
+    private double countSimilarNeighbors(Cell cell, Set<Cell> neighbors){
         int similarNeighborsCount = 0;
         int state = cell.getState();
         for(Cell neighbor: neighbors){

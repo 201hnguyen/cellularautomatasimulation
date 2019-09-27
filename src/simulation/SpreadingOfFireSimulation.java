@@ -6,6 +6,7 @@ import elements.Grid;
 
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 public class SpreadingOfFireSimulation extends Simulation {
     private final static int EMPTY = 0;
@@ -42,7 +43,7 @@ public class SpreadingOfFireSimulation extends Simulation {
             }
         }
 
-    private void willBurn(Cell curr, List<Cell> neighbors){
+    private void willBurn(Cell curr, Set<Cell> neighbors){
         for(Cell neighbor : neighbors){
             if(curr.getState() == TREE && neighbor.getState() == BURNING && probability(myBurnProbability)){
                 curr.setMyNextState(BURNING);
@@ -50,7 +51,7 @@ public class SpreadingOfFireSimulation extends Simulation {
         }
     }
 
-    private void willTreeGrow(Cell curr, List<Cell> neighbors){
+    private void willTreeGrow(Cell curr, Set<Cell> neighbors){
         if(curr.getState() == EMPTY && myEmptyTurns == 1){
             curr.setMyNextState(EMPTY);
             myEmptyTurns++;
