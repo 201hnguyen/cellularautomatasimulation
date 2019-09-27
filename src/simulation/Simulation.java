@@ -1,6 +1,5 @@
 package simulation;
 
-import elements.Cell;
 import elements.RectangularGrid;
 
 public abstract class Simulation {
