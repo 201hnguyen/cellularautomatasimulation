@@ -7,6 +7,7 @@ import elements.Grid;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 public class PredatorPreySimulation extends Simulation {
     public static final int EMPTY = 0;
@@ -168,7 +169,7 @@ public class PredatorPreySimulation extends Simulation {
         map.put(targetCell, transferValue);
     }
 
-    private Cell[] checkNeighborsForCondition(int currentState, int condition, List<Cell> neighbors) {
+    private Cell[] checkNeighborsForCondition(int currentState, int condition, Set<Cell> neighbors) {
         ArrayList<Cell> cellsWithCondition = new ArrayList<>();
         for (Cell neighbor : neighbors) {
             if (currentState == FISH && neighbor.getMyIsAvailable() && neighbor.getState() == condition) {

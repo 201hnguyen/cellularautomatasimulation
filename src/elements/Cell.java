@@ -1,12 +1,13 @@
 package elements;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Cell{
     private int myState;
     private int myNextState;
-    private List<Cell> myNeighbors;
+    private Set<Cell> myNeighbors;
     private int myRow;
     private int myCol;
     private boolean myIsAvailable;
@@ -19,7 +20,7 @@ public class Cell{
         myCol = y;
         myIsAvailable = true;
         bfs_checked = false;
-        myNeighbors = new ArrayList<>();
+        myNeighbors = new HashSet<>();
     }
 
     public boolean bfsChecked() {
@@ -27,7 +28,7 @@ public class Cell{
     }
 
     public void setBfsChecked(boolean value) {
-        bfs_checked = true;
+        bfs_checked = value;
     }
 
     public int getState(){
@@ -47,7 +48,7 @@ public class Cell{
         myNextState = state;
     }
 
-    public List<Cell> getMyNeighbors(){
+    public Set<Cell> getMyNeighbors(){
         return myNeighbors;
     }
 
