@@ -39,7 +39,9 @@ public class Grid {
         myCellsMap = new HashMap<>();
         createGridOfCells();
         runBFSOnCells(myCellsMatrix[0][0], myNeighborRules);
-        runBFSOnCells(myCellsMatrix[0][0], myEdgeNeighborRules);
+        if (! myEdgeNeighborRules.equals(null)) {
+            runBFSOnCells(myCellsMatrix[0][0], myEdgeNeighborRules);
+        }
     }
 
     public Cell getCell(int id){

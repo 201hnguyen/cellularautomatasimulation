@@ -58,6 +58,9 @@ public class XMLSimulationParser extends XMLParser {
     private Map<Integer, List<Integer>> getNeighborRulesHelper(String neighborRules) {
         Map<Integer, List<Integer>> map = new HashMap<>();
         String s = super.getRoot().getElementsByTagName(neighborRules).item(0).getTextContent();
+        if (s.length() == 0) {
+            return map;
+        }
         for (String sub : s.split("/")) {
             String[] subSplit = sub.split("c");
             Integer key = Integer.parseInt(subSplit[0].replaceAll(" ", ""));
