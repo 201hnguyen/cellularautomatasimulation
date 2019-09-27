@@ -1,10 +1,22 @@
-<simulation simulationType = "Spreading of Fire" Color0 = "White" Color1 = "Green" Color2 = "Red">
-    <num_rows>50</num_rows>>
-    <num_columns>50</num_columns>>
+<simulation simulationType = "Spreading of Fire">
+    <colors>
+        <empty>White</empty>
+        <tree>Green</tree>
+        <fire>Red</fire>
+    </colors>
+
+    <num_rows>50</num_rows>
+    <num_columns>50</num_columns>
     <num_neighbors>8</num_neighbors>
-    <parameter1>0.4</parameter1>
-    <parameter2>0.05</parameter2>
-    <initial-states-rectangularGrid>1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+
+    <neighbor_rules>-1 c -1 0 1 / 0 c -1 1 / 1 c -1 0 1</neighbor_rules>
+
+    <parameters>
+        <burn_probability>burn_probability:0.4</burn_probability>
+        <tree_probability>tree_probability:0.05</tree_probability>
+    </parameters>
+
+    <initial_rectangular_grid>1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
         1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
         1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
         1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
@@ -54,5 +66,5 @@
         1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
         1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
         1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
-    </initial-states-rectangularGrid>>
+    </initial_rectangular_grid>>
 </simulation>
