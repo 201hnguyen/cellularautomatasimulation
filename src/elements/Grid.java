@@ -35,7 +35,7 @@ public class Grid {
         myNumCols = parser.getNumCols();
         myNeighborRules = parser.getMainNeighborRules();
         myEdgeNeighborRules = parser.getEdgeNeighborRules();
-        //myCellsMatrix = Cell[myNumRows][myNumCols];
+//        myCellsMatrix = Cell[myNumRows][myNumCols];
         myCellsMatrix = new ArrayList<>();
         myCellsMap = new HashMap<>();
         createGridOfCells();

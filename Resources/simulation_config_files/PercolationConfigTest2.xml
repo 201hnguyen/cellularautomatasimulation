@@ -8,7 +8,7 @@
 
     <num_rows>11</num_rows>
     <num_columns>11</num_columns>
-    <num_neighbors>12</num_neighbors>
+    <num_neighbors>8</num_neighbors>
 
     <main_neighbor_rules>-2 c -2 -1 0 1 2 / -1 c -2 2 / 0 c -2 2 / 1 c -2 2 / 2 c -2 -1 0 1 2</main_neighbor_rules>
     <edge_neighbor_rules></edge_neighbor_rules>
