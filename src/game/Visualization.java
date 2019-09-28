@@ -14,6 +14,7 @@ import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
@@ -107,26 +108,9 @@ public class Visualization {
                 id++;
             }
         }
-        Rectangle rectangle;
-        for (int i = 0; i < grid.getNumRows(); i++) {
-            for (int j = 0; j< grid.getNumCols(); j++) {
-                int cellSize = (mySceneWidth / grid.getNumRows());
-                rectangle = new Rectangle(cellSize, cellSize);
-                rectangle.setStroke(Color.BLACK);
-                rectangle.setX((j) * (cellSize));
-                rectangle.setY((i) * (cellSize));
-                if(cells[i][j].getState() == 0){
-                    rectangle.setFill(myColor0);
-                }
-                else if(cells[i][j].getState() == 1){
-                    rectangle.setFill(myColor1);
-                }
-                else{
-                    rectangle.setFill(myColor2);
-                }
-                myRoot.getChildren().add(rectangle);
-            }
-        }
+
+        displayGridAsTriangles(grid, cells);
+
     }
 
     private void setBackground() {
@@ -181,6 +165,46 @@ public class Visualization {
         buttonsVBox.setLayoutX(xPos);
         buttonsVBox.setLayoutY(yPos);
         return buttonsVBox;
+    }
+
+    private void displayGridAsTriangles(Grid grid, Cell[][] cells) {
+    Rectangle rectangle = new Rectangle(mySceneWidth, mySceneHeight, Color.WHITE);
+    rectangle.setX(0);
+    rectangle.setY(0);
+    myRoot.getChildren().add(rectangle);
+    Polygon triangle;
+    for (int i = 0; i < grid.getNumRows(); i++) {
+      for (int j = 0; j< grid.getNumCols(); j++) {
+            triangle = new Polygon();
+            double cellSize = mySceneWidth / (grid.getNumRows())*2;
+            if (i%2==0) {
+            triangle.getPoints().addAll(new Double[] {
+                            0.0, 0.0,
+                        cellSize, 0.0,
+                        cellSize/2, cellSize});
+                triangle.setLayoutX((j) * (cellSize));
+                triangle.setLayoutY((i/2) * (cellSize));
+            } else if (i%2==1) {
+                triangle.getPoints().addAll( new Double[] {
+                            0.0, 0.0,
+                        -cellSize/2, cellSize,
+                        cellSize/2, cellSize});
+                triangle.setLayoutX((j) * (cellSize));
+                triangle.setLayoutY((i/2) * (cellSize) - cellSize);
+            }
+            triangle.setStroke(Color.BLACK);
+            if(cells[i][j].getState() == 0){
+                triangle.setFill(myColor0);
+            }
+            else if(cells[i][j].getState() == 1){
+                triangle.setFill(myColor1);
+            }
+            else{
+                triangle.setFill(myColor2);
+            }
+            myRoot.getChildren().add(triangle);
+        }
+        }
     }
 
 }
