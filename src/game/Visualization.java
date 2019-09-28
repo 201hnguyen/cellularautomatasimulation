@@ -240,6 +240,8 @@ public class Visualization {
     }
 
     private void createLineChartTracker(Map<Integer,Integer> stateRecorder){
+        VBox chartBox = createChartVBoxHelper(15, 850, 80);
+
         final CategoryAxis xAxis = new CategoryAxis();
         final NumberAxis yAxis = new NumberAxis();
         xAxis.setLabel("Time (sec)");
@@ -255,14 +257,27 @@ public class Visualization {
         XYChart.Series<String, Number> series2 = new XYChart.Series<>();
         XYChart.Series<String, Number> series3 = new XYChart.Series<>();
 
-        //lineChart.getData().add(series1);
+        lineChart.getData().add(series1);
+        lineChart.getData().add(series2);
+        lineChart.getData().add(series3);
+
 
         final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
-        ScheduledExecutorService scheduledExecutorService;
-        scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
+        Date date = new Date();
 
-        
+        series1.getData().add(new XYChart.Data<>(simpleDateFormat.format(date), stateRecorder.get(0)));
+        series2.getData().add(new XYChart.Data<>(simpleDateFormat.format(date), stateRecorder.get(1)));
+        series3.getData().add(new XYChart.Data<>(simpleDateFormat.format(date), stateRecorder.get(2)));
 
+        chartBox.getChildren().add(lineChart);
+
+    }
+
+    private VBox createChartVBoxHelper(int spacing, int xPos, int yPos) {
+        VBox chartVBox = new VBox(spacing);
+        chartVBox.setLayoutX(xPos);
+        chartVBox.setLayoutY(yPos);
+        return chartVBox;
     }
 
 }
