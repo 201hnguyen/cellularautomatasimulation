@@ -45,6 +45,7 @@ public class Game {
 
     protected void loadSimulation(File simulationFile) {
         Grid grid = new Grid(simulationFile);
+        grid.configureCells();
         mySimulation = null;
 
         XMLSimulationParser parser = new XMLSimulationParser(simulationFile); //TODO: Change simulation strings to resource file

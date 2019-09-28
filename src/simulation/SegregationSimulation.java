@@ -32,7 +32,7 @@ public class SegregationSimulation extends Simulation {
                 Cell cell = super.getGrid().getCell(id);
                 id++;
                 double similarNeighbors = countSimilarNeighbors(cell, cell.getMyNeighbors());
-                if (cell.getState()!= 0 && (similarNeighbors / cell.getMyNeighbors().size() < mySegregationThreshold)) {
+                if (cell.getState()!= 0 && (similarNeighbors / cell.getMyNeighbors().length < mySegregationThreshold)) {
                     Cell random_cell = myAvailableCells.get(random.nextInt(myAvailableCells.size()));
                     random_cell.setMyIsAvailable(false);
                     random_cell.setMyNextState(cell.getState());
@@ -44,7 +44,7 @@ public class SegregationSimulation extends Simulation {
         }
     }
 
-    private double countSimilarNeighbors(Cell cell, Set<Cell> neighbors){
+    private double countSimilarNeighbors(Cell cell, Cell[] neighbors){
         int similarNeighborsCount = 0;
         int state = cell.getState();
         for(Cell neighbor: neighbors){

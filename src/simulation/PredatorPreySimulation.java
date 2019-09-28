@@ -168,7 +168,7 @@ public class PredatorPreySimulation extends Simulation {
         map.put(targetCell, transferValue);
     }
 
-    private Cell[] checkNeighborsForCondition(int currentState, int condition, Set<Cell> neighbors) {
+    private Cell[] checkNeighborsForCondition(int currentState, int condition, Cell[] neighbors) {
         ArrayList<Cell> cellsWithCondition = new ArrayList<>();
         for (Cell neighbor : neighbors) {
             if (currentState == FISH && neighbor.getMyIsAvailable() && neighbor.getState() == condition) {

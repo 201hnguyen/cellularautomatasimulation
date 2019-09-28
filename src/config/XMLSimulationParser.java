@@ -31,10 +31,6 @@ public class XMLSimulationParser extends XMLParser {
         return Integer.parseInt(super.getRoot().getElementsByTagName("num_columns").item(0).getTextContent());
     }
 
-    public int getNumNeighbors(){
-        return Integer.parseInt(super.getRoot().getElementsByTagName("num_neighbors").item(0).getTextContent());
-    }
-
     public String getInitialGrid() {
         return super.getRoot().getElementsByTagName("initial_rectangular_grid").item(0).getTextContent();
     }
@@ -43,16 +39,6 @@ public class XMLSimulationParser extends XMLParser {
          NodeList colorNodes = super.getRoot().getElementsByTagName("colors");
          String[] colors = colorNodes.item(0).getTextContent().trim().split("\\s+");
          return colors;
-    }
-
-    public Map<Integer, List<Integer>> getMainNeighborRules() {
-        Map<Integer, List<Integer>> rulesMap = getNeighborRulesHelper("main_neighbor_rules");
-        return rulesMap;
-    }
-
-    public Map<Integer, List<Integer>> getEdgeNeighborRules() {
-        Map<Integer, List<Integer>> rulesMap = getNeighborRulesHelper("edge_neighbor_rules");
-        return rulesMap;
     }
 
     private Map<Integer, List<Integer>> getNeighborRulesHelper(String neighborRules) {
@@ -85,4 +71,9 @@ public class XMLSimulationParser extends XMLParser {
         }
         return parameters;
     }
+
+    public String getNeighborConfiguration(){
+        return super.getRoot().getElementsByTagName("neighbor_configuration").item(0).getTextContent();
+    }
+
 }
