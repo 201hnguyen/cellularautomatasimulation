@@ -44,7 +44,8 @@ public class SpreadingOfFireSimulation extends Simulation {
 
     private void willBurn(Cell curr, Set<Cell> neighbors){
         for(Cell neighbor : neighbors){
-            if(curr.getState() == TREE && neighbor.getState() == BURNING && probability(myBurnProbability)){
+            if(curr.getState() == TREE && neighbor.getState() == BURNING){
+//                if(curr.getState() == TREE && neighbor.getState() == BURNING && probability(myBurnProbability)){
                 curr.setMyNextState(BURNING);
             }
         }

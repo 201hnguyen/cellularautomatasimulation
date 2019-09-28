@@ -14,6 +14,7 @@ public class Grid {
     private int myNumRows;
     private int myNumCols;
     private Map<Integer, List<Integer>> myNeighborRules;
+    private Map<Integer, List<Integer>> myNeighborRules2;
     private Map<Integer, List<Integer>> myEdgeNeighborRules;
 
     private XMLSimulationParser parser;
@@ -26,21 +27,22 @@ public class Grid {
         myCellColors = parser.getColors();
         myNumRows = parser.getNumRows();
         myNumCols = parser.getNumCols();
-        myNeighborRules = parser.getMainNeighborRules2();
+        myNeighborRules = parser.getMainNeighborRules();
+        myNeighborRules2 = parser.getMainNeighborRules2();
         myEdgeNeighborRules = parser.getEdgeNeighborRules();
         myCellsMatrix = new ArrayList<>();
         myCellsMap = new HashMap<>();
         createGridOfCells();
-        runBFSOnCells(myCellsMatrix.get(0).get(0), myNeighborRules);
+        runBFSOnCells(myCellsMatrix.get(0).get(0), myNeighborRules, myNeighborRules2);
         for (Integer k : myCellsMap.keySet()) {
             Cell cell = myCellsMap.get(k);
             if (cell.getRow() == 4 && cell.getCol() == 2) {
                 System.out.println(cell.getMyNeighbors().size());
             }
         }
-        if (! myEdgeNeighborRules.equals(null)) {
-            runBFSOnCells(myCellsMatrix.get(0).get(0), myEdgeNeighborRules);
-        }
+//        if (! myEdgeNeighborRules.equals(null)) {
+//            runBFSOnCells(myCellsMatrix.get(0).get(0), myEdgeNeighborRules2);
+//        }
     }
 
     public Cell getCell(int id){
@@ -93,7 +95,7 @@ public class Grid {
         }
     }
 
-    private void runBFSOnCells(Cell startingCell, Map<Integer, List<Integer>> bfsRules) {
+    private void runBFSOnCells(Cell startingCell, Map<Integer, List<Integer>> bfsRulesOdd, Map<Integer, List<Integer>> bfsRulesEven) {
         resetBFSChecked();
         Queue<Cell> cq = new LinkedList<>();
         cq.add(startingCell);
@@ -104,16 +106,33 @@ public class Grid {
 
             int neighborRow;
             int neighborCol;
-            for (int row : bfsRules.keySet()) {
-                neighborRow = currentCell.getRow() - row;
-                for (int col : bfsRules.get(row)) {
-                    neighborCol = currentCell.getCol() - col;
-                    if (inRange(neighborRow, neighborCol)) {
-                        if (!myCellsMatrix.get(neighborRow).get(neighborCol).bfsChecked()) {
-                            cq.add(myCellsMatrix.get(neighborRow).get(neighborCol));
+
+            if (currentCell.getRow() % 2 == 1) {
+                for (int row : bfsRulesOdd.keySet()) {
+                    neighborRow = currentCell.getRow() + row;
+                    for (int col : bfsRulesOdd.get(row)) {
+                        neighborCol = currentCell.getCol() + col;
+                        if (inRange(neighborRow, neighborCol)) {
+                            if (!myCellsMatrix.get(neighborRow).get(neighborCol).bfsChecked()) {
+                                cq.add(myCellsMatrix.get(neighborRow).get(neighborCol));
+                            }
+                            currentCell.addToNeighbor(myCellsMatrix.get(neighborRow).get(neighborCol));
+                            myCellsMatrix.get(neighborRow).get(neighborCol).setBfsChecked(true);
                         }
-                        currentCell.addToNeighbor(myCellsMatrix.get(neighborRow).get(neighborCol));
-                        myCellsMatrix.get(neighborRow).get(neighborCol).setBfsChecked(true);
+                    }
+                }
+            } else {
+                for (int row : bfsRulesEven.keySet()) {
+                    neighborRow = currentCell.getRow() + row;
+                    for (int col : bfsRulesEven.get(row)) {
+                        neighborCol = currentCell.getCol() + col;
+                        if (inRange(neighborRow, neighborCol)) {
+                            if (!myCellsMatrix.get(neighborRow).get(neighborCol).bfsChecked()) {
+                                cq.add(myCellsMatrix.get(neighborRow).get(neighborCol));
+                            }
+                            currentCell.addToNeighbor(myCellsMatrix.get(neighborRow).get(neighborCol));
+                            myCellsMatrix.get(neighborRow).get(neighborCol).setBfsChecked(true);
+                        }
                     }
                 }
             }

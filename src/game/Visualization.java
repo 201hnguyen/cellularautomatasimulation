@@ -106,7 +106,9 @@ public class Visualization {
                 id++;
             }
         }
+//        displayGridAsRectangles(grid, cells);
         displayGridAsTriangles(grid, cells);
+
     }
 
     private void displayGridAsRectangles(Grid grid, Cell[][] cells) {
@@ -154,7 +156,8 @@ public class Visualization {
             } else if (i%4 == 1) {
                 yPos += cellSize;
                 xPos = 0.0 - cellSize / 2;
-            } else if (i%4 == 2) {
+            }
+            else if (i%4 == 2) {
                 xPos = 0.0;
             }
             else {
