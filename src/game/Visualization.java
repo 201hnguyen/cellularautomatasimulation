@@ -65,13 +65,15 @@ public class Visualization {
         myStage.setScene(myScene);
     }
 
-    protected void showSimulationScene(Grid grid) {
+    protected void showSimulationScene(Grid grid, Map<Integer, Integer> recorder) {
         myRoot = new Pane();
         setBackground();
         myScene = new Scene(myRoot, mySceneWidthWithBar, mySceneHeight);
         myStage.setScene(myScene);
         myRoot.getChildren().add(createButtonsForSimulation());
-        displayGrid(grid);
+        myRoot.getChildren().add(createLineChartTracker(recorder));
+        //how to add chart without passing entire Simulation class to get HashMap of data
+        displayGrid(grid, recorder);
     }
 
     private void setCellColors(Grid grid){
@@ -103,10 +105,11 @@ public class Visualization {
             return color;
     }
 
-    protected void displayGrid(Grid grid){
+    protected void displayGrid(Grid grid, Map<Integer, Integer> recorder){
         setCellColors(grid);
         myRoot.getChildren().clear();
         myRoot.getChildren().add(createButtonsForSimulation());
+        myRoot.getChildren().add(createLineChartTracker(recorder));
         Cell[][] cells = new Cell[grid.getNumRows()][grid.getNumCols()];
         int id = 0;
         for(int i = 0; i < grid.getNumRows(); i++){
@@ -239,8 +242,8 @@ public class Visualization {
         return buttonsVBox;
     }
 
-    private void createLineChartTracker(Map<Integer,Integer> stateRecorder){
-        VBox chartBox = createChartVBoxHelper(15, 850, 80);
+    private LineChart createLineChartTracker(Map<Integer,Integer> stateRecorder){
+       // VBox chartBox = createChartVBoxHelper(0,50, 50);
 
         final CategoryAxis xAxis = new CategoryAxis();
         final NumberAxis yAxis = new NumberAxis();
@@ -254,22 +257,24 @@ public class Visualization {
         lineChart.setAnimated(false);
 
         XYChart.Series<String, Number> series1 = new XYChart.Series<>();
-        XYChart.Series<String, Number> series2 = new XYChart.Series<>();
-        XYChart.Series<String, Number> series3 = new XYChart.Series<>();
+        //XYChart.Series<String, Number> series2 = new XYChart.Series<>();
+        //XYChart.Series<String, Number> series3 = new XYChart.Series<>();
 
         lineChart.getData().add(series1);
-        lineChart.getData().add(series2);
-        lineChart.getData().add(series3);
+        //lineChart.getData().add(series2);
+        //lineChart.getData().add(series3);
 
 
         final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
         Date date = new Date();
 
         series1.getData().add(new XYChart.Data<>(simpleDateFormat.format(date), stateRecorder.get(0)));
-        series2.getData().add(new XYChart.Data<>(simpleDateFormat.format(date), stateRecorder.get(1)));
-        series3.getData().add(new XYChart.Data<>(simpleDateFormat.format(date), stateRecorder.get(2)));
+        //series2.getData().add(new XYChart.Data<>(simpleDateFormat.format(date), stateRecorder.get(1)));
+        //series3.getData().add(new XYChart.Data<>(simpleDateFormat.format(date), stateRecorder.get(2)));
 
-        chartBox.getChildren().add(lineChart);
+        //chartBox.getChildren().add(lineChart);
+
+        return lineChart;
 
     }
 

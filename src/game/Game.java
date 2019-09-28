@@ -59,7 +59,7 @@ public class  Game {
         } else if (parser.getSimulationType().equals("Percolation")) {
             mySimulation = new PercolationSimulation(grid);
         }
-        myVisualization.showSimulationScene(grid);
+        myVisualization.showSimulationScene(grid, mySimulation.getStateRecorder());
         setGameLoop();
     }
 
@@ -114,7 +114,7 @@ public class  Game {
     private void playGameLoop() {
         mySimulation.analyzeCells();
         mySimulation.updateCells();
-        myVisualization.displayGrid(mySimulation.getGrid());
+        myVisualization.displayGrid(mySimulation.getGrid(), mySimulation.getStateRecorder());
     }
 
 }

@@ -4,6 +4,7 @@ import elements.Cell;
 import elements.Grid;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 public abstract class Simulation {
@@ -18,6 +19,7 @@ public abstract class Simulation {
     public abstract void analyzeCells();
 
     public void updateCells() {
+        stateRecorder.clear();
         for(int id = 0; id < myGrid.getSize(); id++){
             myGrid.getCell(id).updateState();
             countStates(myGrid.getCell(id));
@@ -35,5 +37,11 @@ public abstract class Simulation {
 
     public Grid getGrid() {
         return myGrid;
+    }
+
+    public Map getStateRecorder(){
+        Map<Integer, Integer> recorder = stateRecorder;
+        return recorder;
+
     }
 }
