@@ -5,7 +5,6 @@ import elements.Grid;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 public class PercolationSimulation extends Simulation {
     public static final int OPEN = 0;
@@ -16,8 +15,7 @@ public class PercolationSimulation extends Simulation {
 
     @Override
     public void analyzeCells(){
-        for(int id = 0; id < getGrid().getSize(); id++){
-            Cell cell = getGrid().getCell(id);
+        for(Cell cell: getGrid()){
             Cell[] neighborsToFill = openNeighbors(cell.getMyNeighbors());
             if(cell.getState() == FULL && neighborsToFill.length != 0){
                 for(Cell openNeighbor : neighborsToFill){
@@ -28,7 +26,7 @@ public class PercolationSimulation extends Simulation {
         }
     }
 
-    private Cell[] openNeighbors(Set<Cell> neighbors){
+    private Cell[] openNeighbors(Cell[] neighbors){
         List<Cell> openCells = new ArrayList<>();
         for(Cell neighbor : neighbors){
             if(neighbor.getState() == OPEN){

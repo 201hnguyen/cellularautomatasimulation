@@ -1,33 +1,22 @@
 package elements;
 
-import java.util.HashSet;
-import java.util.Set;
+import javafx.scene.shape.Shape;
 
-public class Cell{
+import java.util.ArrayList;
+
+public class Cell implements Comparable<Cell>{
     private int myState;
     private int myNextState;
-    private Set<Cell> myNeighbors;
-    private int myRow;
-    private int myCol;
+    private ArrayList<Cell> myNeighbors;
+    private int myID;
     private boolean myIsAvailable;
-    private boolean bfs_checked;
+    private Shape myShape;
 
-    public Cell(int state, int x, int y){
+    public Cell(int state, int ID){
         myState = state;
         myNextState = state;
-        myRow = x;
-        myCol = y;
+        myID = ID;
         myIsAvailable = true;
-        bfs_checked = false;
-        myNeighbors = new HashSet<>();
-    }
-
-    public boolean bfsChecked() {
-        return bfs_checked;
-    }
-
-    public void setBfsChecked(boolean value) {
-        bfs_checked = value;
     }
 
     public int getState(){
@@ -47,12 +36,12 @@ public class Cell{
         myNextState = state;
     }
 
-    public Set<Cell> getMyNeighbors(){
-        return myNeighbors;
+    public Cell[] getMyNeighbors(){
+        return myNeighbors.toArray(new Cell[0]);
     }
 
-    public void addToNeighbor(Cell cell) {
-        myNeighbors.add(cell);
+    public void setMyNeighbors(ArrayList<Cell> neighbors) {
+        myNeighbors = neighbors;
     }
 
     public boolean getMyIsAvailable() {
@@ -63,11 +52,24 @@ public class Cell{
         myIsAvailable = value;
     }
 
-    public int getRow() {
-        return myRow;
+    public int getMyID(){
+        return myID;
     }
-     public int getCol() {
-        return myCol;
-     }
 
+    public Shape getMyShape(){
+        return myShape;
+    }
+
+    @Override
+    public int compareTo(Cell o) {
+        if(this.getMyID() == o.getMyID()) {
+            return 0;
+        }
+        else if (this.getMyID() < o.getMyID()){
+            return -1;
+        }
+        else{
+            return 1;
+        }
+    }
 }

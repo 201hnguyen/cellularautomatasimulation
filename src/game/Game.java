@@ -1,15 +1,14 @@
 package game;
 
-import config.XMLGameParser;
-import config.XMLSimulationParser;
+import elements.Grid;
 import simulation.GameOfLifeSimulation;
 import simulation.PercolationSimulation;
-import simulation.PredatorPreySimulation;
+//import simulation.PredatorPreySimulation;
 import simulation.SegregationSimulation;
 import simulation.SpreadingOfFireSimulation;
 import simulation.Simulation;
 
-import elements.Grid;
+import config.XMLParser;
 import javafx.stage.FileChooser;
 
 import javafx.animation.KeyFrame;
@@ -18,6 +17,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.File;
+import java.util.List;
 
 public class Game {
 
@@ -26,18 +26,18 @@ public class Game {
     private Visualization myVisualization;
     private Simulation mySimulation;
     private Timeline myTimeline;
-    private String[] mySimulationButtons;
+    private List<String> mySimulationButtons;
     private Stage myStage;
 
     public Game(Stage stage) {
         myStage = stage;
         myTimeline = new Timeline();
-        XMLGameParser parser = new XMLGameParser(new File("Resources/GameConfig.xml"));
+        XMLParser parser = new XMLParser("Game", new File("Resources/GameConfig.xml"));
         mySimulationButtons = parser.getSimulationButtons();
         String windowTitle = parser.getTitle();
-        int sceneWidthWithBar = parser.getSceneWidthFull();
+        int sceneWidthWithBar = parser.getSceneWidthWithBar();
         int sceneWidthJustCells = parser.getSceneWidth();
-        int sceneHeight = parser.getSceneHeight();
+        int sceneHeight = parser.getSceHeight();
 
         myVisualization = new Visualization(this, stage, mySimulationButtons, windowTitle, sceneWidthWithBar, sceneWidthJustCells, sceneHeight);
         myVisualization.showIntroScene();
@@ -45,15 +45,16 @@ public class Game {
 
     protected void loadSimulation(File simulationFile) {
         Grid grid = new Grid(simulationFile);
+        grid.configureCells();
         mySimulation = null;
 
-        XMLSimulationParser parser = new XMLSimulationParser(simulationFile); //TODO: Change simulation strings to resource file
+        XMLParser parser = new XMLParser("Simulation parser", simulationFile);
         if (parser.getSimulationType().equals("Game of Life")) {
             mySimulation = new GameOfLifeSimulation(grid);
         } else if (parser.getSimulationType().equals("Segregation")) {
             mySimulation = new SegregationSimulation(grid);
         } else if (parser.getSimulationType().equals("Predator and Prey")) {
-            mySimulation = new PredatorPreySimulation(grid);
+            //mySimulation = new PredatorPreySimulation(rectangularGrid);
         } else if (parser.getSimulationType().equals("Spreading of Fire")) {
             mySimulation = new SpreadingOfFireSimulation(grid);
         } else if (parser.getSimulationType().equals("Percolation")) {
@@ -73,10 +74,7 @@ public class Game {
         myTimeline.stop();
         myTimeline.getKeyFrames().clear();
         myFramesPerSecond += value;
-        if(myFramesPerSecond < 1){
-            myFramesPerSecond = 1;
-        }
-        myMillisecondDelay = 1000 / myFramesPerSecond; //TODO: Fix error if slow it down too much there's divide by 0 error
+        myMillisecondDelay = 1000 / myFramesPerSecond;
         var frame = new KeyFrame(Duration.millis(myMillisecondDelay), e -> playGameLoop());
         myTimeline.setCycleCount(Timeline.INDEFINITE);
         myTimeline.getKeyFrames().add(frame);

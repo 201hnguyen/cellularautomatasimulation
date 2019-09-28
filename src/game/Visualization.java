@@ -1,6 +1,6 @@
 package game;
 
-import config.XMLGameParser;
+import config.XMLParser;
 import elements.Cell;
 import elements.Grid;
 import javafx.scene.Scene;
@@ -14,18 +14,19 @@ import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.util.List;
 
 public class Visualization {
+
     private Game myCurrentGame;
     private Stage myStage;
     private Pane myRoot;
     private Scene myScene;
-    private String[] mySimulationButtons;
+    private List<String> mySimulationButtons;
     private Color myColor0;
     private Color myColor1;
     private Color myColor2;
@@ -33,7 +34,7 @@ public class Visualization {
     private int mySceneHeight;
     private int mySceneWidthWithBar;
 
-    public Visualization(Game currentGame, Stage stage, String[] simulationButtons,
+    public Visualization(Game currentGame, Stage stage, List<String> simulationButtons,
     String windowTitle, int sceneWidthWithBar, int sceneWidth, int sceneHeight) {
         mySimulationButtons = simulationButtons;
         myCurrentGame = currentGame;
@@ -70,11 +71,12 @@ public class Visualization {
         myColor2 = setColorForCell(cellColors[2]);
     }
 
-    private Color setColorForCell(String color_chosen){ //TODO: Change color strings to resource files
+    private Color setColorForCell(String color_chosen){
+        //Arbitrary Default color
         Color color = Color.WHITE;
             if(color_chosen.equals("Blue")) {
                 color = Color.BLUE;
-            } else if(color_chosen.equals("DarkBlue")) {
+            } else if(color_chosen.equals("Dark Blue")) {
                 color = Color.DARKBLUE;
             } else if(color_chosen.equals("Black")) {
                 color = Color.BLACK;
@@ -86,13 +88,14 @@ public class Visualization {
                 color = Color.YELLOW;
             } else if(color_chosen.equals("Purple")){
                 color = Color.PURPLE;
-            } else if(color_chosen.equals("LightBlue")) {
+            } else if(color_chosen.equals("Light Blue")) {
                 color = Color.LIGHTBLUE;
             }
             return color;
     }
 
     protected void displayGrid(Grid grid){
+
         setCellColors(grid);
         myRoot.getChildren().clear();
         myRoot.getChildren().add(createButtonsForSimulation());
@@ -104,10 +107,6 @@ public class Visualization {
                 id++;
             }
         }
-        displayGridAsTriangles(grid, cells);
-    }
-
-    private void displayGridAsRectangles(Grid grid, Cell[][] cells) {
         Rectangle rectangle;
         for (int i = 0; i < grid.getNumRows(); i++) {
             for (int j = 0; j< grid.getNumCols(); j++) {
@@ -130,73 +129,15 @@ public class Visualization {
         }
     }
 
-    private void displayGridAsTriangles(Grid grid, Cell[][] cells) {
-        Rectangle rectangle = new Rectangle(mySceneWidth, mySceneHeight, Color.WHITE);
-        rectangle.setX(0);
-        rectangle.setY(0);
-        myRoot.getChildren().add(rectangle);
-        Polygon triangle;
-        for (int i = 0; i < grid.getNumRows(); i++) {
-            for (int j = 0; j< grid.getNumCols(); j++) {
-                triangle = new Polygon();
-                double cellSize = mySceneWidth / (grid.getNumRows());
-                if (i%2==0) {
-                    triangle.getPoints().addAll(new Double[] {
-                            0.0, 0.0,
-                            cellSize, 0.0,
-                            cellSize/2, cellSize
-                    });
-                    triangle.setLayoutX((j) * (cellSize));
-                    triangle.setLayoutY((i) * (cellSize) - cellSize);
-                } else if (i%2==1) {
-                    triangle.getPoints().addAll( new Double[] {
-                            0.0, 0.0,
-                            -cellSize/2, cellSize,
-                            cellSize/2, cellSize
-                    });
-                    triangle.setLayoutX((j) * (cellSize));
-                    triangle.setLayoutY((i) * (cellSize));
-                }
-
-//                triangle = new Polygon();
-//                if (i%2 == 0) {
-//                    triangle.getPoints().addAll(new Double[] {
-//                            0.0, 0.0,
-//                            cellSize, -cellSize,
-//                            -cellSize, -cellSize
-//                    });
-//                } else if (i%2 == 1) {
-//                    triangle.getPoints().addAll(new Double[] {
-//                            0.0, 0.0,
-//                            -cellSize, cellSize,
-//                            cellSize, cellSize
-//                    });
-//                }
-                triangle.setStroke(Color.BLACK);
-                if(cells[i][j].getState() == 0){
-                    triangle.setFill(myColor0);
-                }
-                else if(cells[i][j].getState() == 1){
-                    triangle.setFill(myColor1);
-                }
-                else{
-                    triangle.setFill(myColor2);
-                }
-                myRoot.getChildren().add(triangle);
-            }
-        }
-    }
-
     private void setBackground() {
-        Image imageForBackground = new Image(this.getClass().getClassLoader().getResourceAsStream("images/background.jpg")); //TODO: Change background string to resource files
-        BackgroundImage backgroundImage = new BackgroundImage(imageForBackground, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,
-                BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
+        Image imageForBackground = new Image(this.getClass().getClassLoader().getResourceAsStream("images/background.jpg"));
+        BackgroundImage backgroundImage = new BackgroundImage(imageForBackground, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
         Background background = new Background(backgroundImage);
         myRoot.setBackground(background);
     }
 
     private Button createLoadFileButton() {
-        XMLGameParser parser = new XMLGameParser(new File("Resources/GameConfig.xml"));
+        XMLParser parser = new XMLParser("File button", new File("Resources/GameConfig.xml"));
         Button fileButton = new Button(parser.getIntroButton());
         fileButton.setPrefWidth(150);
         fileButton.setLayoutX(mySceneWidthWithBar / 2 - (150/2));
@@ -207,7 +148,7 @@ public class Visualization {
         return fileButton;
     }
 
-    private VBox createButtonsForSimulation() { //TODO: change button strings to resource file
+    private VBox createButtonsForSimulation() {
         VBox buttonsBox = createButtonsVBoxHelper(15, 850, 80);
         int buttonWidth = 100;
         for (String buttonTitle : mySimulationButtons) {
@@ -218,11 +159,11 @@ public class Visualization {
                     myCurrentGame.playSimulation();
                 } else if (buttonTitle.equals("Pause")) {
                     myCurrentGame.pauseSimulation();
-                } else if (buttonTitle.equals("Skip forward")) {
+                } else if (buttonTitle.equals("Skip Forward")) {
                     myCurrentGame.skipStep();
-                } else if (buttonTitle.equals("Speed up")) {
+                } else if (buttonTitle.equals("Speed Up")) {
                     myCurrentGame.adjustSimulationSpeed(1);
-                } else if (buttonTitle.equals("Slow down")) {
+                } else if (buttonTitle.equals("Slow Down")) {
                     myCurrentGame.adjustSimulationSpeed(-1);
                 } else if (buttonTitle.equals("Reload")) {
                     myCurrentGame.loadUserInputFile();

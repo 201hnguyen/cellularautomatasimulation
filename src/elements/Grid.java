@@ -1,62 +1,56 @@
 package elements;
 
-import config.XMLSimulationParser;
+import config.XMLParser;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-import java.util.Set;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Queue;
+import java.lang.reflect.Array;
+import java.util.*;
 
-public class Grid {
+public class Grid implements Iterable<Cell> {
     private File myConfigFile;
+    private XMLParser myXMLParser;
+    private Scanner mySc;
     private String[] myCellColors;
-    private List<List<Cell>> myCellsMatrix;
-    private Map<Integer, Cell> myCellsMap;
-    private Set<Cell> myEdgeCells;
+    private TreeSet<Cell> myCells;
     private int myNumRows;
     private int myNumCols;
-    private Map<Integer, List<Integer>> myNeighborRules;
-    private Map<Integer, List<Integer>> myEdgeNeighborRules;
-
-    private XMLSimulationParser parser;
-    private Scanner scanner;
+    private String myNeighborConfiguration;
 
     public Grid(File file){
         myConfigFile = file;
-        parser =  new XMLSimulationParser(myConfigFile);
-        scanner = new Scanner(parser.getInitialGrid());
-        myCellColors = parser.getColors();
-        myNumRows = parser.getNumRows();
-        myNumCols = parser.getNumCols();
-        myNeighborRules = parser.getMainNeighborRules();
-        myEdgeNeighborRules = parser.getEdgeNeighborRules();
-//        myCellsMatrix = Cell[myNumRows][myNumCols];
-        myCellsMatrix = new ArrayList<>();
-        myCellsMap = new HashMap<>();
-        createGridOfCells();
-        runBFSOnCells(myCellsMatrix.get(0).get(0), myNeighborRules);
-        if (! myEdgeNeighborRules.equals(null)) {
-            runBFSOnCells(myCellsMatrix.get(0).get(0), myEdgeNeighborRules);
-        }
+        myXMLParser =  new XMLParser("simulationType", myConfigFile);
+        mySc = new Scanner(myXMLParser.getInitialGrid());
+        myCellColors = myXMLParser.getCellColors();
+        myNumRows = myXMLParser.getNumRows();
+        myNumCols = myXMLParser.getNumCols();
+        myCells = new TreeSet<>();
     }
 
-    public Cell getCell(int id){
-        return myCellsMap.get(id);
+    public TreeSet<Cell> configureCells(){
+        createGridOfCells();
+        setCellNeighbors();
+        return myCells;
+    }
+
+    public Cell getCell(int i){
+        for(Cell cell: myCells){
+            if(cell.getMyID() == i){
+                return cell;
+            }
+        }
+        return null;
     }
 
     public List<Cell> getEmptyCells(){
         List<Cell> emptyCells = new ArrayList<>();
-        for(List<Cell> cellRow : myCellsMatrix){
-            for (Cell cell : cellRow)
-            if(cell.getState() == 0) {
+        int i = 0;
+        for(Cell cell : myCells){
+            if(cell.getState() == 0)
+            {
                 emptyCells.add(cell);
             }
         }
+
         return emptyCells;
     }
 
@@ -72,6 +66,56 @@ public class Grid {
         return myCellColors;
     }
 
+    private void createGridOfCells() {
+        int id = 0;
+        while(mySc.hasNext()){
+            for (int i = 0; i < myNumRows; i++){
+                for (int j = 0; j < myNumCols; j++){
+                    int state = mySc.nextInt();
+                    myCells.add(new Cell(state, id));
+                    id++;
+                }
+            }
+        }
+    }
+
+    private void setCellNeighbors() {
+        for(Cell cell: this){
+            ArrayList<Cell> neighbors = null;
+            int cell_row = cell.getMyID()/(myNumCols);
+            int cell_column = cell.getMyID()%(myNumRows);
+            neighbors = checkNeighborsForCell(cell_row, cell_column);
+            cell.setMyNeighbors(neighbors);
+        }
+    }
+
+    //This class takes pattern as input from xml
+    private ArrayList<Cell> checkNeighborsForCell(int row, int column){
+        //The "pattern" around the cell in question used to determine its neighborhood comes from config
+        int original_column = column;
+        int original_row = row;
+        ArrayList<Cell> neighbors = new ArrayList<>();
+        myNeighborConfiguration = myXMLParser.getNeighborConfiguration();
+        Scanner sc = new Scanner(myNeighborConfiguration);
+        while(sc.hasNextInt()){
+            int row_modifier = sc.nextInt();
+            row = original_row + row_modifier;
+            int number_of_neighbors_in_row = sc.nextInt();
+            for(int i = 0; i < number_of_neighbors_in_row; i++){
+                column = original_column - 1 + i;
+                if(column > -1 && column < myNumCols && row > -1 && row < myNumRows) {
+                    if(column != original_column || row != original_row) {
+                        neighbors.add(getCell(toCellID(row, column)));
+                    }
+                }
+            }
+        }
+        return neighbors;
+    }
+
+    private int toCellID(int row, int column){
+        return row*myNumCols + column;
+    }
     public File getMyConfigFile(){
         return myConfigFile;
     }
@@ -80,58 +124,8 @@ public class Grid {
         return myNumRows*myNumCols;
     }
 
-    private void createGridOfCells() {
-        int id = 0;
-        while(scanner.hasNext()){
-            for (int i = 0; i < myNumRows; i++){
-                myCellsMatrix.add(new ArrayList<>());
-                for (int j = 0; j < myNumCols; j++){
-                    int state = scanner.nextInt();
-                    myCellsMatrix.get(i).add(new Cell(state, i, j));
-                    myCellsMap.put(id, myCellsMatrix.get(i).get(j));
-                    id++;
-                }
-            }
-        }
-    }
-
-    private void runBFSOnCells(Cell startingCell, Map<Integer, List<Integer>> bfsRules) {
-        resetBFSChecked();
-        Queue<Cell> cq = new LinkedList<>();
-        cq.add(startingCell);
-        startingCell.setBfsChecked(true);
-
-        while (cq.size() > 0) {
-            Cell currentCell = cq.remove();
-
-            int neighborRow;
-            int neighborCol;
-            for (int row : bfsRules.keySet()) {
-                neighborRow = currentCell.getRow() + row;
-                for (int col : bfsRules.get(row)) {
-                    neighborCol = currentCell.getCol() + col;
-                    if (inRange(neighborRow, neighborCol)) {
-                        if (!myCellsMatrix.get(neighborRow).get(neighborCol).bfsChecked()) {
-                            cq.add(myCellsMatrix.get(neighborRow).get(neighborCol));
-                        }
-                        currentCell.addToNeighbor(myCellsMatrix.get(neighborRow).get(neighborCol));
-                        myCellsMatrix.get(neighborRow).get(neighborCol).setBfsChecked(true);
-                    }
-                }
-            }
-        }
-    }
-
-    private void resetBFSChecked() {
-        for (Integer cellId : myCellsMap.keySet()) {
-            myCellsMap.get(cellId).setBfsChecked(false);
-        }
-    }
-
-    private boolean inRange(int row, int col) {
-        if (row < 0 || row > myNumRows - 1 || col < 0 || col > myNumCols - 1) {
-            return false;
-        }
-        return true;
+    @Override
+    public Iterator<Cell> iterator() {
+        return this.myCells.iterator();
     }
 }

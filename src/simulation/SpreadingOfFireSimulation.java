@@ -1,18 +1,17 @@
 package simulation;
 
-import config.XMLSimulationParser;
+import config.XMLParser;
 import elements.Cell;
 import elements.Grid;
 
 import java.util.Random;
-import java.util.Set;
 
 public class SpreadingOfFireSimulation extends Simulation {
     private final static int EMPTY = 0;
     private final static int TREE = 1;
     private final static int BURNING = 2;
 
-    private XMLSimulationParser myXMLParser;
+    private XMLParser myXMLParser;
     private double myBurnProbability;
     private double myTreeProbability;
 
@@ -20,15 +19,14 @@ public class SpreadingOfFireSimulation extends Simulation {
 
     public SpreadingOfFireSimulation(Grid grid) {
         super(grid);
-        myXMLParser = new XMLSimulationParser(grid.getMyConfigFile());
-        myBurnProbability = myXMLParser.getParameters().get("burn_probability");
-        myTreeProbability = myXMLParser.getParameters().get("tree_probability");
+        myXMLParser = new XMLParser("Spreading Of Fire", grid.getMyConfigFile());
+        myBurnProbability = myXMLParser.getSimulationParameter1();
+        myTreeProbability = myXMLParser.getSimulationParameter2();
     }
 
     @Override
     public void analyzeCells(){
-        for(int id = 0; id < getGrid().getSize(); id++){
-            Cell cell = getGrid().getCell(id);
+        for(Cell cell: getGrid()){
                 if(cell.getState() == EMPTY){
                     myEmptyTurns = 1;
                     willTreeGrow(cell, cell.getMyNeighbors());
@@ -42,7 +40,7 @@ public class SpreadingOfFireSimulation extends Simulation {
             }
         }
 
-    private void willBurn(Cell curr, Set<Cell> neighbors){
+    private void willBurn(Cell curr, Cell[] neighbors){
         for(Cell neighbor : neighbors){
             if(curr.getState() == TREE && neighbor.getState() == BURNING && probability(myBurnProbability)){
                 curr.setMyNextState(BURNING);
@@ -50,7 +48,7 @@ public class SpreadingOfFireSimulation extends Simulation {
         }
     }
 
-    private void willTreeGrow(Cell curr, Set<Cell> neighbors){
+    private void willTreeGrow(Cell curr, Cell[] neighbors){
         if(curr.getState() == EMPTY && myEmptyTurns == 1){
             curr.setMyNextState(EMPTY);
             myEmptyTurns++;
