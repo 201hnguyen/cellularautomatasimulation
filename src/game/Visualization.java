@@ -3,7 +3,12 @@ package game;
 import config.XMLGameParser;
 import elements.Cell;
 import elements.Grid;
+import javafx.application.Platform;
 import javafx.scene.Scene;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
@@ -19,6 +24,12 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 public class Visualization {
     private Game myCurrentGame;
@@ -158,20 +169,6 @@ public class Visualization {
                     triangle.setLayoutY((i) * (cellSize));
                 }
 
-//                triangle = new Polygon();
-//                if (i%2 == 0) {
-//                    triangle.getPoints().addAll(new Double[] {
-//                            0.0, 0.0,
-//                            cellSize, -cellSize,
-//                            -cellSize, -cellSize
-//                    });
-//                } else if (i%2 == 1) {
-//                    triangle.getPoints().addAll(new Double[] {
-//                            0.0, 0.0,
-//                            -cellSize, cellSize,
-//                            cellSize, cellSize
-//                    });
-//                }
                 triangle.setStroke(Color.BLACK);
                 if(cells[i][j].getState() == 0){
                     triangle.setFill(myColor0);
@@ -240,6 +237,32 @@ public class Visualization {
         buttonsVBox.setLayoutX(xPos);
         buttonsVBox.setLayoutY(yPos);
         return buttonsVBox;
+    }
+
+    private void createLineChartTracker(Map<Integer,Integer> stateRecorder){
+        final CategoryAxis xAxis = new CategoryAxis();
+        final NumberAxis yAxis = new NumberAxis();
+        xAxis.setLabel("Time (sec)");
+        xAxis.setAnimated(false);
+        yAxis.setLabel("Number of Cells");
+        yAxis.setAnimated(false);
+
+        final LineChart<String, Number> lineChart = new LineChart<>(xAxis, yAxis);
+        lineChart.setTitle("Number of Cells in a Given State");
+        lineChart.setAnimated(false);
+
+        XYChart.Series<String, Number> series1 = new XYChart.Series<>();
+        XYChart.Series<String, Number> series2 = new XYChart.Series<>();
+        XYChart.Series<String, Number> series3 = new XYChart.Series<>();
+
+        //lineChart.getData().add(series1);
+
+        final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
+        ScheduledExecutorService scheduledExecutorService;
+        scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
+
+        
+
     }
 
 }

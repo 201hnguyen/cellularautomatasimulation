@@ -19,7 +19,7 @@ import javafx.util.Duration;
 
 import java.io.File;
 
-public class Game {
+public class  Game {
 
     private int myFramesPerSecond = 1;
     private int myMillisecondDelay = 1000 / myFramesPerSecond;
