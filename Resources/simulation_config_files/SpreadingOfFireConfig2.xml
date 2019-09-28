@@ -9,8 +9,9 @@
     <num_columns>10</num_columns>
     <num_neighbors>12</num_neighbors>
 
-    <main_neighbor_rules_2>-2 c 0 1 / -1 c -1 0 1 / 0 c -1 1 / 1 c 0 -1 / 2 c 0 1 / 3 c 0</main_neighbor_rules_2> down
-    <main_neighbor_rules>-3 c 0 / -2 c -1 0 / -1 c 1 0 / 0 c -1 1 / 1 c -1 0 1 / 2 c -1 0</main_neighbor_rules> up
+    <main_neighbor_rules_2>-2 c 0 1 / -1 c -1 0 1 / 0 c -1 1 / 1 c 0 -1 / 2 c 0 1 / 3 c 0</main_neighbor_rules_2> down/even
+    <main_neighbor_rules>-3 c 0 / -2 c -1 0 / -1 c 1 0 / 0 c -1 1 / 1 c -1 0 1 / 2 c -1 0</main_neighbor_rules> up/odd
+
     <edge_neighbor_rules></edge_neighbor_rules>
 
     <parameters>

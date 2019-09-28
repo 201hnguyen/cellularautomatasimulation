@@ -33,17 +33,22 @@ public class Grid {
         myCellsMatrix = new ArrayList<>();
         myCellsMap = new HashMap<>();
         createGridOfCells();
-        runBFSOnCells(myCellsMatrix.get(0).get(0), myNeighborRules, myNeighborRules2);
-        for (Integer k : myCellsMap.keySet()) {
-            Cell cell = myCellsMap.get(k);
-            if (cell.getRow() == 4 && cell.getCol() == 2) {
-                System.out.println(cell.getMyNeighbors().size());
-            }
-        }
+
+        Set<Cell> oddCells =
+
+//        runBFSOnCells(myCellsMatrix.get(0).get(0), myNeighborRules, myNeighborRules2);
+//        for (Integer k : myCellsMap.keySet()) {
+//            Cell cell = myCellsMap.get(k);
+//            if (cell.getRow() == 4 && cell.getCol() == 2) {
+//                System.out.println(cell.getMyNeighbors().size());
+//            }
+//        }
 //        if (! myEdgeNeighborRules.equals(null)) {
-//            runBFSOnCells(myCellsMatrix.get(0).get(0), myEdgeNeighborRules2);
+//            runBFSOnCells(myCellsMatrix.get(0).get(0), myNeighborRules);
 //        }
     }
+
+    private Set<Cell> setOddCells =
 
     public Cell getCell(int id){
         return myCellsMap.get(id);
@@ -95,49 +100,49 @@ public class Grid {
         }
     }
 
-    private void runBFSOnCells(Cell startingCell, Map<Integer, List<Integer>> bfsRulesOdd, Map<Integer, List<Integer>> bfsRulesEven) {
+    private void runBFSOnCells(List<Cell> cells, Map<Integer, List<Integer>> rules) {
         resetBFSChecked();
-        Queue<Cell> cq = new LinkedList<>();
-        cq.add(startingCell);
-        startingCell.setBfsChecked(true);
-
-        while (cq.size() > 0) {
-            Cell currentCell = cq.remove();
-
-            int neighborRow;
-            int neighborCol;
-
-            if (currentCell.getRow() % 2 == 1) {
-                for (int row : bfsRulesOdd.keySet()) {
-                    neighborRow = currentCell.getRow() + row;
-                    for (int col : bfsRulesOdd.get(row)) {
-                        neighborCol = currentCell.getCol() + col;
-                        if (inRange(neighborRow, neighborCol)) {
-                            if (!myCellsMatrix.get(neighborRow).get(neighborCol).bfsChecked()) {
-                                cq.add(myCellsMatrix.get(neighborRow).get(neighborCol));
-                            }
-                            currentCell.addToNeighbor(myCellsMatrix.get(neighborRow).get(neighborCol));
-                            myCellsMatrix.get(neighborRow).get(neighborCol).setBfsChecked(true);
-                        }
-                    }
-                }
-            } else {
-                for (int row : bfsRulesEven.keySet()) {
-                    neighborRow = currentCell.getRow() + row;
-                    for (int col : bfsRulesEven.get(row)) {
-                        neighborCol = currentCell.getCol() + col;
-                        if (inRange(neighborRow, neighborCol)) {
-                            if (!myCellsMatrix.get(neighborRow).get(neighborCol).bfsChecked()) {
-                                cq.add(myCellsMatrix.get(neighborRow).get(neighborCol));
-                            }
-                            currentCell.addToNeighbor(myCellsMatrix.get(neighborRow).get(neighborCol));
-                            myCellsMatrix.get(neighborRow).get(neighborCol).setBfsChecked(true);
-                        }
-                    }
-                }
-            }
-        }
-    }
+//        Queue<Cell> cq = new LinkedList<>();
+//        cq.add(startingCell);
+//        startingCell.setBfsChecked(true);
+//
+//        while (cq.size() > 0) {
+//            Cell currentCell = cq.remove();
+//
+//            int neighborRow;
+//            int neighborCol;
+//
+//            if (currentCell.getRow() % 2 == 1) {
+//                for (int row : bfsRulesOdd.keySet()) {
+//                    neighborRow = currentCell.getRow() - row;
+//                    for (int col : bfsRulesOdd.get(row)) {
+//                        neighborCol = currentCell.getCol() - col;
+//                        if (inRange(neighborRow, neighborCol)) {
+//                            if (!myCellsMatrix.get(neighborRow).get(neighborCol).bfsChecked()) {
+//                                cq.add(myCellsMatrix.get(neighborRow).get(neighborCol));
+//                            }
+//                            currentCell.addToNeighbor(myCellsMatrix.get(neighborRow).get(neighborCol));
+//                            myCellsMatrix.get(neighborRow).get(neighborCol).setBfsChecked(true);
+//                        }
+//                    }
+//                }
+//            } else {
+//                for (int row : bfsRulesEven.keySet()) {
+//                    neighborRow = currentCell.getRow() - row;
+//                    for (int col : bfsRulesEven.get(row)) {
+//                        neighborCol = currentCell.getCol() - col;
+//                        if (inRange(neighborRow, neighborCol)) {
+//                            if (!myCellsMatrix.get(neighborRow).get(neighborCol).bfsChecked()) {
+//                                cq.add(myCellsMatrix.get(neighborRow).get(neighborCol));
+//                            }
+//                            currentCell.addToNeighbor(myCellsMatrix.get(neighborRow).get(neighborCol));
+//                            myCellsMatrix.get(neighborRow).get(neighborCol).setBfsChecked(true);
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
 
     private void resetBFSChecked() {
         for (Integer cellId : myCellsMap.keySet()) {

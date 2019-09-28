@@ -106,8 +106,8 @@ public class Visualization {
                 id++;
             }
         }
-//        displayGridAsRectangles(grid, cells);
-        displayGridAsTriangles(grid, cells);
+        displayGridAsRectangles(grid, cells);
+//        displayGridAsTriangles(grid, cells);
 
     }
 
