@@ -3,12 +3,19 @@ package elements;
 import config.XMLSimulationParser;
 
 import java.io.File;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+import java.util.Set;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.Queue;
 
 public class Grid {
     private File myConfigFile;
     private String[] myCellColors;
-    private Cell[][] myCellsMatrix;
+    private List<List<Cell>> myCellsMatrix;
     private Map<Integer, Cell> myCellsMap;
     private Set<Cell> myEdgeCells;
     private int myNumRows;
@@ -28,11 +35,14 @@ public class Grid {
         myNumCols = parser.getNumCols();
         myNeighborRules = parser.getMainNeighborRules();
         myEdgeNeighborRules = parser.getEdgeNeighborRules();
-        myCellsMatrix = new Cell[myNumRows][myNumCols];
+//        myCellsMatrix = Cell[myNumRows][myNumCols];
+        myCellsMatrix = new ArrayList<>();
         myCellsMap = new HashMap<>();
         createGridOfCells();
-        runBFSOnCells(myCellsMatrix[0][0], myNeighborRules);
-        runBFSOnCells(myCellsMatrix[0][0], myEdgeNeighborRules);
+        runBFSOnCells(myCellsMatrix.get(0).get(0), myNeighborRules);
+        if (! myEdgeNeighborRules.equals(null)) {
+            runBFSOnCells(myCellsMatrix.get(0).get(0), myEdgeNeighborRules);
+        }
     }
 
     public Cell getCell(int id){
@@ -41,7 +51,7 @@ public class Grid {
 
     public List<Cell> getEmptyCells(){
         List<Cell> emptyCells = new ArrayList<>();
-        for(Cell[] cellRow : myCellsMatrix){
+        for(List<Cell> cellRow : myCellsMatrix){
             for (Cell cell : cellRow)
             if(cell.getState() == 0) {
                 emptyCells.add(cell);
@@ -74,10 +84,11 @@ public class Grid {
         int id = 0;
         while(scanner.hasNext()){
             for (int i = 0; i < myNumRows; i++){
+                myCellsMatrix.add(new ArrayList<>());
                 for (int j = 0; j < myNumCols; j++){
                     int state = scanner.nextInt();
-                    myCellsMatrix[i][j] = new Cell(state, i, j);
-                    myCellsMap.put(id, myCellsMatrix[i][j]);
+                    myCellsMatrix.get(i).add(new Cell(state, i, j));
+                    myCellsMap.put(id, myCellsMatrix.get(i).get(j));
                     id++;
                 }
             }
@@ -100,11 +111,11 @@ public class Grid {
                 for (int col : bfsRules.get(row)) {
                     neighborCol = currentCell.getCol() + col;
                     if (inRange(neighborRow, neighborCol)) {
-                        if (!myCellsMatrix[neighborRow][neighborCol].bfsChecked()) {
-                            cq.add(myCellsMatrix[neighborRow][neighborCol]);
+                        if (!myCellsMatrix.get(neighborRow).get(neighborCol).bfsChecked()) {
+                            cq.add(myCellsMatrix.get(neighborRow).get(neighborCol));
                         }
-                        currentCell.addToNeighbor(myCellsMatrix[neighborRow][neighborCol]);
-                        myCellsMatrix[neighborRow][neighborCol].setBfsChecked(true);
+                        currentCell.addToNeighbor(myCellsMatrix.get(neighborRow).get(neighborCol));
+                        myCellsMatrix.get(neighborRow).get(neighborCol).setBfsChecked(true);
                     }
                 }
             }
@@ -124,4 +135,3 @@ public class Grid {
         return true;
     }
 }
-

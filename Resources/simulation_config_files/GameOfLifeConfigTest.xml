@@ -13,6 +13,7 @@
     <num_neighbors>12</num_neighbors>
 
     <main_neighbor_rules>-1 c -1 0 1 / 0 c -1 1 / 1 c -1 0 1</main_neighbor_rules>
+    <edge_neighbor_rules></edge_neighbor_rules>
 
     <parameters>
         <min_population_threshold>min_population_threshold:2</min_population_threshold>
