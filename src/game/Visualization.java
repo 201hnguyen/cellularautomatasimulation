@@ -104,7 +104,7 @@ public class Visualization {
                 id++;
             }
         }
-        displayGridAsRectangles(grid, cells);
+        displayGridAsTriangles(grid, cells);
     }
 
     private void displayGridAsRectangles(Grid grid, Cell[][] cells) {
@@ -147,7 +147,7 @@ public class Visualization {
                             cellSize/2, cellSize
                     });
                     triangle.setLayoutX((j) * (cellSize));
-                    triangle.setLayoutY((i) * (cellSize));
+                    triangle.setLayoutY((i) * (cellSize) - cellSize);
                 } else if (i%2==1) {
                     triangle.getPoints().addAll( new Double[] {
                             0.0, 0.0,
@@ -155,7 +155,7 @@ public class Visualization {
                             cellSize/2, cellSize
                     });
                     triangle.setLayoutX((j) * (cellSize));
-                    triangle.setLayoutY((i) * (cellSize) - cellSize);
+                    triangle.setLayoutY((i) * (cellSize));
                 }
 
 //                triangle = new Polygon();
