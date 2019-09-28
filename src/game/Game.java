@@ -73,7 +73,10 @@ public class Game {
         myTimeline.stop();
         myTimeline.getKeyFrames().clear();
         myFramesPerSecond += value;
-        myMillisecondDelay = 1000 / myFramesPerSecond;
+        if(myFramesPerSecond < 1){
+            myFramesPerSecond = 1;
+        }
+        myMillisecondDelay = 1000 / myFramesPerSecond; //TODO: Fix error if slow it down too much there's divide by 0 error
         var frame = new KeyFrame(Duration.millis(myMillisecondDelay), e -> playGameLoop());
         myTimeline.setCycleCount(Timeline.INDEFINITE);
         myTimeline.getKeyFrames().add(frame);
