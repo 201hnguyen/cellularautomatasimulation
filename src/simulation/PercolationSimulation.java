@@ -28,7 +28,7 @@ public class PercolationSimulation extends Simulation {
         }
     }
 
-    private Cell[] openNeighbors(Set<Cell> neighbors){
+    private Cell[] openNeighbors(Cell[] neighbors){
         List<Cell> openCells = new ArrayList<>();
         for(Cell neighbor : neighbors){
             if(neighbor.getState() == OPEN){

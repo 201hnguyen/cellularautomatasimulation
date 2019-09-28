@@ -4,8 +4,6 @@ import config.XMLSimulationParser;
 import elements.Cell;
 import elements.Grid;
 
-import java.util.Set;
-
 public class GameOfLifeSimulation extends Simulation {
     public static final int LIVE = 1;
     public static final int DEAD = 2;
@@ -40,7 +38,7 @@ public class GameOfLifeSimulation extends Simulation {
         }
 
 
-    private int countLiveNeighbors(Set<Cell> neighbors) {
+    private int countLiveNeighbors(Cell[] neighbors) {
         int liveNeighborsCount = 0;
         for (Cell neighbor : neighbors) {
             if (neighbor.getState() == LIVE) {
