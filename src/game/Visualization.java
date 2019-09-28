@@ -104,7 +104,7 @@ public class Visualization {
                 id++;
             }
         }
-        displayGridAsTriangles(grid, cells);
+        displayGridAsRectangles(grid, cells);
     }
 
     private void displayGridAsRectangles(Grid grid, Cell[][] cells) {
@@ -126,63 +126,6 @@ public class Visualization {
                     rectangle.setFill(myColor2);
                 }
                 myRoot.getChildren().add(rectangle);
-            }
-        }
-    }
-
-    private void displayGridAsTriangles(Grid grid, Cell[][] cells) {
-        Rectangle rectangle = new Rectangle(mySceneWidth, mySceneHeight, Color.WHITE);
-        rectangle.setX(0);
-        rectangle.setY(0);
-        myRoot.getChildren().add(rectangle);
-        Polygon triangle;
-        for (int i = 0; i < grid.getNumRows(); i++) {
-            for (int j = 0; j< grid.getNumCols(); j++) {
-                triangle = new Polygon();
-                double cellSize = mySceneWidth / (grid.getNumRows());
-                if (i%2==0) {
-                    triangle.getPoints().addAll(new Double[] {
-                            0.0, 0.0,
-                            cellSize, 0.0,
-                            cellSize/2, cellSize
-                    });
-                    triangle.setLayoutX((j) * (cellSize));
-                    triangle.setLayoutY((i) * (cellSize) - cellSize);
-                } else if (i%2==1) {
-                    triangle.getPoints().addAll( new Double[] {
-                            0.0, 0.0,
-                            -cellSize/2, cellSize,
-                            cellSize/2, cellSize
-                    });
-                    triangle.setLayoutX((j) * (cellSize));
-                    triangle.setLayoutY((i) * (cellSize));
-                }
-
-//                triangle = new Polygon();
-//                if (i%2 == 0) {
-//                    triangle.getPoints().addAll(new Double[] {
-//                            0.0, 0.0,
-//                            cellSize, -cellSize,
-//                            -cellSize, -cellSize
-//                    });
-//                } else if (i%2 == 1) {
-//                    triangle.getPoints().addAll(new Double[] {
-//                            0.0, 0.0,
-//                            -cellSize, cellSize,
-//                            cellSize, cellSize
-//                    });
-//                }
-                triangle.setStroke(Color.BLACK);
-                if(cells[i][j].getState() == 0){
-                    triangle.setFill(myColor0);
-                }
-                else if(cells[i][j].getState() == 1){
-                    triangle.setFill(myColor1);
-                }
-                else{
-                    triangle.setFill(myColor2);
-                }
-                myRoot.getChildren().add(triangle);
             }
         }
     }
