@@ -134,28 +134,31 @@ public class Visualization {
         Rectangle rectangle = new Rectangle(mySceneWidth, mySceneHeight, Color.WHITE);
         rectangle.setX(0);
         rectangle.setY(0);
+        int level = 0;
         myRoot.getChildren().add(rectangle);
         Polygon triangle;
         for (int i = 0; i < grid.getNumRows(); i++) {
+            level++;
             for (int j = 0; j< grid.getNumCols(); j++) {
                 triangle = new Polygon();
-                double cellSize = mySceneWidth / (grid.getNumRows());
+                double cellSize = mySceneWidth / (grid.getNumRows()) * 2;
+                double cellSize2 = mySceneWidth / (grid.getNumCols());
                 if (i%2==0) {
                     triangle.getPoints().addAll(new Double[] {
                             0.0, 0.0,
                             cellSize, 0.0,
-                            cellSize/2, cellSize
+                            cellSize/2, cellSize2
                     });
-                    triangle.setLayoutX((j) * (cellSize));
-                    triangle.setLayoutY((i) * (cellSize) - cellSize);
+                    triangle.setLayoutX(j * cellSize);
+                    triangle.setLayoutY(level/2 * (cellSize2) + 16);
                 } else if (i%2==1) {
                     triangle.getPoints().addAll( new Double[] {
                             0.0, 0.0,
-                            -cellSize/2, cellSize,
-                            cellSize/2, cellSize
+                            -cellSize/2, cellSize2,
+                            cellSize/2, cellSize2
                     });
-                    triangle.setLayoutX((j) * (cellSize));
-                    triangle.setLayoutY((i) * (cellSize));
+                    triangle.setLayoutX(j * cellSize);
+                    triangle.setLayoutY(level/2 * (cellSize2) - cellSize);
                 }
 
 //                triangle = new Polygon();
