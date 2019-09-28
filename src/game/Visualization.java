@@ -168,44 +168,63 @@ public class Visualization {
     }
 
     private void displayGridAsTriangles(Grid grid, Cell[][] cells) {
-    Rectangle rectangle = new Rectangle(mySceneWidth, mySceneHeight, Color.WHITE);
-    rectangle.setX(0);
-    rectangle.setY(0);
-    myRoot.getChildren().add(rectangle);
-    Polygon triangle;
-    for (int i = 0; i < grid.getNumRows(); i++) {
-      for (int j = 0; j< grid.getNumCols(); j++) {
-            triangle = new Polygon();
-            double cellSize = mySceneWidth / (grid.getNumRows())*2;
-            if (i%2==0) {
-            triangle.getPoints().addAll(new Double[] {
-                            0.0, 0.0,
-                        cellSize, 0.0,
-                        cellSize/2, cellSize});
-                triangle.setLayoutX((j) * (cellSize));
-                triangle.setLayoutY((i/2) * (cellSize));
-            } else if (i%2==1) {
-                triangle.getPoints().addAll( new Double[] {
-                            0.0, 0.0,
-                        -cellSize/2, cellSize,
-                        cellSize/2, cellSize});
-                triangle.setLayoutX((j) * (cellSize));
-                triangle.setLayoutY((i/2) * (cellSize) - cellSize);
+        boolean flip1 = true;
+        boolean flip2 = false;
+        int downward = 0;
+        int upward = 0;
+        Rectangle rectangle = new Rectangle(mySceneWidth, mySceneHeight, Color.WHITE);
+        rectangle.setX(0);
+        rectangle.setY(0);
+        myRoot.getChildren().add(rectangle);
+        Polygon triangle;
+        for (int i = 0; i < grid.getNumRows(); i++) {
+            flip1 = !flip1;
+            downward = 0;
+            upward = 0;
+                for (int j = 0; j < grid.getNumCols(); j++) {
+                    System.out.println(flip1);
+                    triangle = new Polygon();
+                    double cellSize = mySceneWidth / (grid.getNumRows());
+                    double cellSize2 = mySceneHeight / (grid.getNumRows());
+                    if(!flip1){
+                        flip1 = true;
+                        createDownwardTriangle(triangle, cellSize, cellSize2);
+                        downward ++;
+                        triangle.setLayoutY(i*cellSize2);
+                        triangle.setLayoutX(downward * cellSize);
+                    }
+                    else{
+                        flip1 = false;
+                        createUpwardTriangle(triangle, cellSize, cellSize2);
+                        upward++;
+                        triangle.setLayoutY(i*cellSize2 - cellSize2);
+                        triangle.setLayoutX(upward * cellSize);
+                    }
+                    triangle.setStroke(Color.BLACK);
+                    if (cells[i][j].getState() == 0) {
+                        triangle.setFill(myColor0);
+                    } else if (cells[i][j].getState() == 1) {
+                        triangle.setFill(myColor1);
+                    } else {
+                        triangle.setFill(myColor2);
+                    }
+                    myRoot.getChildren().add(triangle);
+                }
             }
-            triangle.setStroke(Color.BLACK);
-            if(cells[i][j].getState() == 0){
-                triangle.setFill(myColor0);
-            }
-            else if(cells[i][j].getState() == 1){
-                triangle.setFill(myColor1);
-            }
-            else{
-                triangle.setFill(myColor2);
-            }
-            myRoot.getChildren().add(triangle);
         }
+
+        private void createUpwardTriangle(Polygon triangle, double cellSize, double cellSize2){
+            triangle.getPoints().addAll(0.0, 0.0,
+                    -cellSize / 2, cellSize2,
+                    cellSize / 2, cellSize2);
         }
+
+        private void createDownwardTriangle(Polygon triangle, double cellSize, double cellSize2){
+            triangle.getPoints().addAll(0.0, 0.0,
+                    cellSize, 0.0,
+                    cellSize / 2, cellSize2);
+        }
+
     }
 
-}
 
