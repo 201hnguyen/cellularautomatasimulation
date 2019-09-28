@@ -29,6 +29,11 @@ public class SpreadingOfFireSimulation extends Simulation {
     public void analyzeCells(){
         for(int id = 0; id < getGrid().getSize(); id++){
             Cell cell = getGrid().getCell(id);
+            if (cell.getRow() == 3 && cell.getCol() == 2) {
+                for (Cell neighbor : cell.getMyNeighbors()) {
+                    System.out.println(neighbor.getRow() + neighbor.getCol());
+                }
+            }
                 if(cell.getState() == EMPTY){
                     myEmptyTurns = 1;
                     willTreeGrow(cell, cell.getMyNeighbors());

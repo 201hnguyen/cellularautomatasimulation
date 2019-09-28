@@ -3,7 +3,7 @@ package elements;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Cell{
+public class Cell implements Comparable<int>{
     private int myState;
     private int myNextState;
     private Set<Cell> myNeighbors;
@@ -70,4 +70,8 @@ public class Cell{
         return myCol;
      }
 
+    @Override
+    public int compareTo(int o) {
+        return 0;
+    }
 }

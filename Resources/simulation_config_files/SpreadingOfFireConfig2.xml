@@ -1,0 +1,28 @@
+<simulation simulationType = "Spreading of Fire">
+    <colors>
+        <empty>White</empty>
+        <tree>Green</tree>
+        <fire>Red</fire>
+    </colors>
+
+    <num_rows>6</num_rows>
+    <num_columns>6</num_columns>
+    <num_neighbors>4</num_neighbors>
+
+    <main_neighbor_rules>1 c -1 0 1 2 / 2 c -1 0 1 2</main_neighbor_rules>
+    <edge_neighbor_rules></edge_neighbor_rules>
+
+    <parameters>
+        <burn_probability>burn_probability:1</burn_probability>
+        <tree_probability>tree_probability:0</tree_probability>
+    </parameters>
+
+    <initial_rectangular_grid>
+        1 1 1 1 1 1
+        1 1 1 1 1 1
+        1 1 1 1 1 1
+        1 1 2 1 1 1
+        1 1 1 1 1 1
+        1 1 1 1 1 1
+    </initial_rectangular_grid>>
+</simulation>

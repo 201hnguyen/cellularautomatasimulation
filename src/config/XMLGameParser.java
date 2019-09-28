@@ -29,8 +29,8 @@ public class XMLGameParser extends XMLParser {
         return Integer.parseInt(super.getRoot().getElementsByTagName("scene_height").item(0).getTextContent());
     }
 
-    public String[] getSimulationButtons() {
-        String[] buttons = super.getRoot().getElementsByTagName("simulation_buttons").item(0).getTextContent()
+    private String[] getButtonHelper(String buttonTags) {
+        String[] buttons = super.getRoot().getElementsByTagName(buttonTags).item(0).getTextContent()
                 .trim().split("\\s+");
         for (int i=0; i<buttons.length; i++) {
             buttons[i] = buttons[i].replaceAll("/", " ");
@@ -38,9 +38,12 @@ public class XMLGameParser extends XMLParser {
         return buttons;
     }
 
-    public String getIntroButton() {
-        return super.getRoot().getElementsByTagName("intro_buttons").item(0).getTextContent().trim();
+    public String[] getSimulationButtons() {
+        return getButtonHelper("simulation_buttons");
     }
 
+    public String[] getIntroButton() {
+        return getButtonHelper("intro_buttons");
+    }
 }
 

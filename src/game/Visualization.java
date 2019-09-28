@@ -104,7 +104,7 @@ public class Visualization {
                 id++;
             }
         }
-        displayGridAsTriangles(grid, cells);
+        displayGridAsRectangles(grid, cells);
     }
 
     private void displayGridAsRectangles(Grid grid, Cell[][] cells) {
@@ -124,6 +124,9 @@ public class Visualization {
                 }
                 else{
                     rectangle.setFill(myColor2);
+                }
+                if (cells[i][j].getRow() == 4 && cells[i][j].getCol() == 1) {
+                    rectangle.setFill(Color.BLACK);
                 }
                 myRoot.getChildren().add(rectangle);
             }
@@ -197,7 +200,7 @@ public class Visualization {
 
     private Button createLoadFileButton() {
         XMLGameParser parser = new XMLGameParser(new File("Resources/GameConfig.xml"));
-        Button fileButton = new Button(parser.getIntroButton());
+        Button fileButton = new Button(parser.getIntroButton()[0]);
         fileButton.setPrefWidth(150);
         fileButton.setLayoutX(mySceneWidthWithBar / 2 - (150/2));
         fileButton.setLayoutY(650);
