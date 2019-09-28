@@ -50,6 +50,11 @@ public class XMLSimulationParser extends XMLParser {
         return rulesMap;
     }
 
+    public Map<Integer, List<Integer>> getMainNeighborRules2() {
+        Map<Integer, List<Integer>> rulesMap = getNeighborRulesHelper("main_neighbor_rules_2");
+        return rulesMap;
+    }
+
     public Map<Integer, List<Integer>> getEdgeNeighborRules() {
         Map<Integer, List<Integer>> rulesMap = getNeighborRulesHelper("edge_neighbor_rules");
         return rulesMap;

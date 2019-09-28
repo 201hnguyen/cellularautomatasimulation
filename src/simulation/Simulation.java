@@ -1,5 +1,6 @@
 package simulation;
 
+import elements.Cell;
 import elements.Grid;
 
 public abstract class Simulation {

@@ -3,14 +3,7 @@ package elements;
 import config.XMLSimulationParser;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-import java.util.Set;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Queue;
+import java.util.*;
 
 public class Grid {
     private File myConfigFile;
@@ -33,13 +26,18 @@ public class Grid {
         myCellColors = parser.getColors();
         myNumRows = parser.getNumRows();
         myNumCols = parser.getNumCols();
-        myNeighborRules = parser.getMainNeighborRules();
+        myNeighborRules = parser.getMainNeighborRules2();
         myEdgeNeighborRules = parser.getEdgeNeighborRules();
-//        myCellsMatrix = Cell[myNumRows][myNumCols];
         myCellsMatrix = new ArrayList<>();
         myCellsMap = new HashMap<>();
         createGridOfCells();
         runBFSOnCells(myCellsMatrix.get(0).get(0), myNeighborRules);
+        for (Integer k : myCellsMap.keySet()) {
+            Cell cell = myCellsMap.get(k);
+            if (cell.getRow() == 4 && cell.getCol() == 2) {
+                System.out.println(cell.getMyNeighbors().size());
+            }
+        }
         if (! myEdgeNeighborRules.equals(null)) {
             runBFSOnCells(myCellsMatrix.get(0).get(0), myEdgeNeighborRules);
         }
@@ -107,9 +105,9 @@ public class Grid {
             int neighborRow;
             int neighborCol;
             for (int row : bfsRules.keySet()) {
-                neighborRow = currentCell.getRow() + row;
+                neighborRow = currentCell.getRow() - row;
                 for (int col : bfsRules.get(row)) {
-                    neighborCol = currentCell.getCol() + col;
+                    neighborCol = currentCell.getCol() - col;
                     if (inRange(neighborRow, neighborCol)) {
                         if (!myCellsMatrix.get(neighborRow).get(neighborCol).bfsChecked()) {
                             cq.add(myCellsMatrix.get(neighborRow).get(neighborCol));
@@ -133,5 +131,9 @@ public class Grid {
             return false;
         }
         return true;
+    }
+
+    public List<List<Cell>> getCellsMatrix() {
+        return List.copyOf(myCellsMatrix);
     }
 }
