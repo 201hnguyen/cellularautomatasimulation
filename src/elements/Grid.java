@@ -1,14 +1,13 @@
 package elements;
 
-import config.XMLParser;
+import config.XMLSimulationParser;
 
 import java.io.File;
-import java.lang.reflect.Array;
 import java.util.*;
 
 public class Grid implements Iterable<Cell> {
     private File myConfigFile;
-    private XMLParser myXMLParser;
+    private XMLSimulationParser myXMLParser;
     private Scanner mySc;
     private String[] myCellColors;
     private TreeSet<Cell> myCells;
@@ -18,9 +17,9 @@ public class Grid implements Iterable<Cell> {
 
     public Grid(File file){
         myConfigFile = file;
-        myXMLParser =  new XMLParser("simulationType", myConfigFile);
+        myXMLParser =  new XMLSimulationParser(myConfigFile);
         mySc = new Scanner(myXMLParser.getInitialGrid());
-        myCellColors = myXMLParser.getCellColors();
+        myCellColors = myXMLParser.getColors();
         myNumRows = myXMLParser.getNumRows();
         myNumCols = myXMLParser.getNumCols();
         myCells = new TreeSet<>();
