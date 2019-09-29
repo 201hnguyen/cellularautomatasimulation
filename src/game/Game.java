@@ -34,7 +34,12 @@ public class Game {
     public Game(Stage stage) {
         myStage = stage;
         myTimeline = new Timeline();
-        XMLGameParser parser = new XMLGameParser(new File("Resources/GameConfig.xml"));
+        File gameConfig = new File("Resources/GameConfig.xml");
+        if (! XMLException.isValidGameSchema(gameConfig)) {
+            System.exit(0);
+        }
+
+        XMLGameParser parser = new XMLGameParser(gameConfig);
         mySimulationButtons = parser.getSimulationButtons();
         String windowTitle = parser.getTitle();
         int sceneWidthWithBar = parser.getSceneWidthFull();

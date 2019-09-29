@@ -21,13 +21,14 @@ import java.util.List;
 public class XMLException extends RuntimeException {
     // for serialization
     private static final long serialVersionUID = 1L;
-    private static final List<String> xmlValidationSchemas = new ArrayList<>() {{
+    private static final List<String> XML_SIMULATION_VALIDATION_SCHEMAS = new ArrayList<>() {{
        add("Resources/simulation_config_schema/GameOfLifeConfig.xsd");
        add("Resources/simulation_config_schema/PercolationConfig.xsd");
        add("Resources/simulation_config_schema/PredatorPreyComfig.xsd");
        add("Resources/simulation_config_schema/SpreadingOfFireConfig.xsd");
        add("Resources/simulaton_config_schema/Segregation.xsd");
     }};
+    private static final String XML_GAME_VALIDATION_SCHEMA = "Resources/GameConfig.xsd";
 
     /**
      * Create an exception based on an issue in our code.
@@ -37,7 +38,7 @@ public class XMLException extends RuntimeException {
     }
 
     public static boolean isValidSimulationSchema(File file) {
-        for (String xmlSchema : xmlValidationSchemas) {
+        for (String xmlSchema : XML_SIMULATION_VALIDATION_SCHEMAS) {
             try {
                 SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
                 Schema schema = factory.newSchema(new File(xmlSchema));
@@ -49,6 +50,18 @@ public class XMLException extends RuntimeException {
             }
         }
         return false;
+    }
+
+    public static boolean isValidGameSchema(File file) {
+        try {
+            SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+            Schema schema = factory.newSchema(new File(XML_GAME_VALIDATION_SCHEMA));
+            Validator validator = schema.newValidator();
+            validator.validate(new StreamSource(file));
+        } catch (SAXException | IOException e) {
+            return false;
+        }
+        return true;
     }
 
     public static void showInvalidFileAlert() {
