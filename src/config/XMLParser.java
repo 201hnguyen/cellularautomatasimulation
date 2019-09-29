@@ -31,10 +31,6 @@ public class XMLParser {
         return myRoot;
     }
 
-    protected boolean isValidFile(String validTag) {
-        return ROOT_NAME.equals(validTag);
-    }
-
     private Element getRootElement(File xmlFile) {
         try {
             DOCUMENT_BUILDER.reset();

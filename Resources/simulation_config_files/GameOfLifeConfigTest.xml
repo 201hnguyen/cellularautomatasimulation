@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <simulation simulationType = "Game of Life">
 
+    <num_rows>8</num_rows>>
+    <num_columns>4</num_columns>>
+    <num_neighbors>12</num_neighbors>
+
     <colors>
         <empty>White</empty>
         <live>Blue</live>
         <dead>Yellow</dead>
     </colors>
-
-
-    <num_rows>4</num_rows>>
-    <num_columns>4</num_columns>>
-    <num_neighbors>12</num_neighbors>
 
     <neighbor_configuration> -1 3 0 3 1 3</neighbor_configuration>
 

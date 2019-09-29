@@ -1,5 +1,6 @@
 package elements;
 
+import config.XMLException;
 import config.XMLSimulationParser;
 
 import java.io.File;
@@ -70,9 +71,14 @@ public class Grid implements Iterable<Cell> {
         while(mySc.hasNext()){
             for (int i = 0; i < myNumRows; i++){
                 for (int j = 0; j < myNumCols; j++){
-                    int state = mySc.nextInt();
-                    myCells.add(new Cell(state, id));
-                    id++;
+                    try {
+                        int state = mySc.nextInt();
+                        myCells.add(new Cell(state, id));
+                        id++;
+                    } catch (NoSuchElementException e) {
+                        XMLException.showGridWarning();
+                        return;
+                    }
                 }
             }
         }

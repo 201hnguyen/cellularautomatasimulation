@@ -1,5 +1,6 @@
 package game;
 
+import config.XMLException;
 import config.XMLGameParser;
 import config.XMLSimulationParser;
 import simulation.GameOfLifeSimulation;
@@ -42,7 +43,14 @@ public class Game {
         myVisualization.showIntroScene();
     }
 
-    protected void loadSimulation(File simulationFile) {
+    protected void loadSimulation(File file) {
+        File simulationFile=null;
+        if (XMLException.isValidSimulationSchema(file)) {
+            simulationFile = file;
+        } else {
+            XMLException.showInvalidSimulationAlert();
+        }
+
         Grid grid = new Grid(simulationFile);
         grid.configureCells();
         mySimulation = null;
