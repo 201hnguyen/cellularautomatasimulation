@@ -38,7 +38,6 @@ public class Game {
         int sceneWidthWithBar = parser.getSceneWidthFull();
         int sceneWidthJustCells = parser.getSceneWidth();
         int sceneHeight = parser.getSceneHeight();
-
         myVisualization = new Visualization(this, stage, mySimulationButtons, windowTitle, sceneWidthWithBar, sceneWidthJustCells, sceneHeight);
         myVisualization.showIntroScene();
     }
@@ -47,7 +46,6 @@ public class Game {
         Grid grid = new Grid(simulationFile);
         grid.configureCells();
         mySimulation = null;
-
         XMLSimulationParser parser = new XMLSimulationParser(simulationFile); //TODO: Change simulation strings to resource file
         if (parser.getSimulationType().equals("Game of Life")) {
             mySimulation = new GameOfLifeSimulation(grid);
@@ -101,7 +99,11 @@ public class Game {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setInitialDirectory(new File("Resources/simulation_config_files"));
         File selectedFile  = fileChooser.showOpenDialog(myStage);
-        loadSimulation(selectedFile);
+        try {
+            loadSimulation(selectedFile);
+        } catch (IllegalArgumentException | NullPointerException e) {
+           // do nothing
+        }
     }
 
     private void setGameLoop() {

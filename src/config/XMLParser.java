@@ -19,7 +19,11 @@ public class XMLParser {
     public XMLParser(File file) {
         DOCUMENT_BUILDER = getDocumentBuilder();
         myFile = file;
-        myRoot = getRootElement(myFile);
+        try {
+            myRoot = getRootElement(myFile);
+        } catch (XMLException e) {
+            e.showInvalidFileAlert();
+        }
         ROOT_NAME = myRoot.getTagName();
     }
 

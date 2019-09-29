@@ -214,18 +214,18 @@ public class Visualization {
 //            }
 //        }
 //    }
-
-    private void createUpwardTriangle(Polygon triangle, double cellSize, double cellSize2){
-        triangle.getPoints().addAll(cellSize/2, 0.0,
-                0.0, cellSize2,
-                cellSize, cellSize2);
-    }
-
-    private void createDownwardTriangle(Polygon triangle, double cellSize, double cellSize2){
-        triangle.getPoints().addAll(0.0, 0.0,
-                cellSize, 0.0,
-                cellSize / 2, cellSize2);
-    }
+//
+//    private void createUpwardTriangle(Polygon triangle, double cellSize, double cellSize2){
+//        triangle.getPoints().addAll(cellSize/2, 0.0,
+//                0.0, cellSize2,
+//                cellSize, cellSize2);
+//    }
+//
+//    private void createDownwardTriangle(Polygon triangle, double cellSize, double cellSize2){
+//        triangle.getPoints().addAll(0.0, 0.0,
+//                cellSize, 0.0,
+//                cellSize / 2, cellSize2);
+//    }
 
     private void setCellColor(int state, Shape polygon) {
         if(state == 0){

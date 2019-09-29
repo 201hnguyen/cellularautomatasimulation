@@ -3,24 +3,20 @@ package config;
 import org.w3c.dom.NodeList;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class XMLSimulationParser extends XMLParser {
 
-    private static final String VALID_SIMULATION_TAG = "simulation";
+    public static final String VALID_SIMULATION_TAG = "simulation";
+    public static final String[] GRID_SHAPES_TAGS = new String[]{"initial_rectangular_grid", "initial_triangular_grid"};
+    public static final String SIMULATION_TYPE_ATTRIBUTE = "simulationType";
 
     public XMLSimulationParser(File file) {
         super(file);
-        if (!isValidFile(VALID_SIMULATION_TAG)) {
-            // TODO: Notify user that this is invalid file
-        }
     }
 
     public String getSimulationType() {
-        return super.getRoot().getAttribute("simulationType");
+        return super.getRoot().getAttribute(SIMULATION_TYPE_ATTRIBUTE);
     }
 
     public int getNumRows() {

@@ -8,9 +8,6 @@ public class XMLGameParser extends XMLParser {
 
     public XMLGameParser(File file) {
         super(file);
-        if (!isValidFile(VALID_GAME_TAG)) {
-            // TODO: Notify user that this is invalid file
-        }
     }
 
     public String getTitle() {
