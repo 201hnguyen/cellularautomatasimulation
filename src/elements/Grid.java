@@ -26,7 +26,7 @@ public class Grid implements Iterable<Cell> {
         myCells = new TreeSet<>();
     }
 
-    public TreeSet<Cell> configureCells(){
+    public TreeSet<Cell> configureCells() throws NoSuchElementException{
         createGridOfCells();
         setCellNeighbors();
         return myCells;
@@ -66,19 +66,14 @@ public class Grid implements Iterable<Cell> {
         return myCellColors;
     }
 
-    private void createGridOfCells() {
+    private void createGridOfCells() throws NoSuchElementException {
         int id = 0;
         while(mySc.hasNext()){
             for (int i = 0; i < myNumRows; i++){
                 for (int j = 0; j < myNumCols; j++){
-                    try {
                         int state = mySc.nextInt();
                         myCells.add(new Cell(state, id));
                         id++;
-                    } catch (NoSuchElementException e) {
-                        XMLException.showGridWarning();
-                        return;
-                    }
                 }
             }
         }

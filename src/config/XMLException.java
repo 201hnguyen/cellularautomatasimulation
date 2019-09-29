@@ -66,8 +66,8 @@ public class XMLException extends RuntimeException {
         invalidSimulationAlert.show();
     }
 
-    public static void showGridWarning() {
-        Alert gridSizeInvalidAlert = new Alert(Alert.AlertType.WARNING);
+    public static void showGridInconsistencyAlert() {
+        Alert gridSizeInvalidAlert = new Alert(Alert.AlertType.ERROR);
         gridSizeInvalidAlert.setHeaderText("Inconsistent grid size found");
         gridSizeInvalidAlert.setContentText("Grid size specified may not follow number of rows and columns specified in XML file.");
         gridSizeInvalidAlert.showAndWait();

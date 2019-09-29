@@ -19,6 +19,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.File;
+import java.util.NoSuchElementException;
 
 public class Game {
 
@@ -52,7 +53,12 @@ public class Game {
         }
 
         Grid grid = new Grid(simulationFile);
-        grid.configureCells();
+        try {
+            grid.configureCells();
+        } catch (NoSuchElementException e) {
+            XMLException.showGridInconsistencyAlert();
+            return;
+        }
         mySimulation = null;
         XMLSimulationParser parser = new XMLSimulationParser(simulationFile); //TODO: Change simulation strings to resource file
         if (parser.getSimulationType().equals("Game of Life")) {

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <simulation simulationType = "Game of Life">
 
-    <num_rows>8</num_rows>>
+    <num_rows>4</num_rows>>
     <num_columns>4</num_columns>>
     <num_neighbors>12</num_neighbors>
 
