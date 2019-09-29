@@ -26,7 +26,7 @@ public class XMLException extends RuntimeException {
        add("Resources/simulation_config_schema/PercolationConfig.xsd");
        add("Resources/simulation_config_schema/PredatorPreyComfig.xsd");
        add("Resources/simulation_config_schema/SpreadingOfFireConfig.xsd");
-       add("Resources/simulaton_config_schema/Segregation.xsd");
+       add("Resources/simulation_config_schema/Segregation.xsd");
     }};
     private static final String XML_GAME_VALIDATION_SCHEMA = "Resources/GameConfig.xsd";
 
@@ -73,7 +73,7 @@ public class XMLException extends RuntimeException {
 
     public static void showInvalidSimulationAlert() {
         Alert invalidSimulationAlert = new Alert(Alert.AlertType.ERROR);
-        invalidSimulationAlert.setHeaderText("Simulation not supported");
+        invalidSimulationAlert.setHeaderText("Simulation not supported"); //TODO: Read this in from property
         invalidSimulationAlert.setContentText("This program only supports \"Game of Life\", \"Percolation\", \"Predator and Prey\"," +
                 "\"Segregation\", and \"Spreading of Fire\" Simulation.");
         invalidSimulationAlert.show();
@@ -81,7 +81,7 @@ public class XMLException extends RuntimeException {
 
     public static void showGridInconsistencyAlert() {
         Alert gridSizeInvalidAlert = new Alert(Alert.AlertType.ERROR);
-        gridSizeInvalidAlert.setHeaderText("Inconsistent grid size found");
+        gridSizeInvalidAlert.setHeaderText("Inconsistent grid size found"); //TODO: Read this in from property
         gridSizeInvalidAlert.setContentText("Grid size specified may not follow number of rows and columns specified in XML file.");
         gridSizeInvalidAlert.showAndWait();
     }

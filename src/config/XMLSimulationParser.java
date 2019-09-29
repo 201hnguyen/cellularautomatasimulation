@@ -65,7 +65,7 @@ public class XMLSimulationParser extends XMLParser {
 
     public Map<String, Double> getParameters() {
         Map<String, Double> parameters = new HashMap<>();
-        NodeList parameterNodes = super.getRoot().getElementsByTagName("parameters"); //TODO: Check for when tag doesn't exist (Perc)
+        NodeList parameterNodes = super.getRoot().getElementsByTagName("parameters");
         String parametersAsOneString = parameterNodes.item(0).getTextContent().trim();
         String[] parametersStringArray = parametersAsOneString.split("\\s+");
         for (String parameter : parametersStringArray) {
