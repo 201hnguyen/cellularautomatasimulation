@@ -1,5 +1,6 @@
 package config;
 
+import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import java.io.File;
@@ -11,13 +12,12 @@ import java.util.Map;
 public class XMLSimulationParser extends XMLParser {
 
     private static final String VALID_SIMULATION_TAG = "simulation";
+    private String TYPE_ATTRIBUTE;
 
     public XMLSimulationParser(File file) {
-        super(file);
-        if (!isValidFile(VALID_SIMULATION_TAG)) {
-            // TODO: Notify user that this is invalid file
-        }
+        super("type", file);
     }
+
 
     public String getSimulationType() {
         return super.getRoot().getAttribute("simulationType");

@@ -144,7 +144,7 @@ public class XMLParser {
     }
 
     // get value of Element's attribute
-    private String getAttribute (Element e, String attributeName) {
+    String getAttribute(Element e, String attributeName) {
         return e.getAttribute(attributeName);
     }
 
@@ -168,6 +168,10 @@ public class XMLParser {
         catch (ParserConfigurationException e) {
             throw new XMLException(e);
         }
+    }
+
+    protected Element getRoot() {
+        return root;
     }
 }
 
