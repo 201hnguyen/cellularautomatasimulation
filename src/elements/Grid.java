@@ -132,4 +132,11 @@ public class Grid implements Iterable<Cell> {
     public Iterator<Cell> iterator() {
         return this.myCells.iterator();
     }
+
+    public void setMyNumRows(int rows){
+        myNumRows = rows;
+    }
+    public void setMyNumCols(int cols){
+        myNumCols = cols;
+    }
 }
