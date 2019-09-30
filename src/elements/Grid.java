@@ -11,7 +11,9 @@ public class Grid implements Iterable<Cell> {
     private Scanner mySc;
     private String[] myCellColors;
     private TreeSet<Cell> myCells;
+
     private int myNumRows;
+
     private int myNumCols;
     private String myNeighborConfiguration;
 
@@ -82,14 +84,9 @@ public class Grid implements Iterable<Cell> {
         for(Cell cell: this){
             ArrayList<Cell> neighbors = null;
             int cell_row = cell.getMyID()/(myNumCols);
-            int cell_column = cell.getMyID()%(myNumRows);
+            int cell_column = cell.getMyID()%(myNumCols);
             neighbors = checkNeighborsForCell(cell_row, cell_column);
             cell.setMyNeighbors(neighbors);
-            if (cell.getMyID() == 37) {
-                for(Cell neighbor: cell.getMyNeighbors()) {
-                    System.out.print(neighbor.getMyID() + ", ");
-                }
-            }
         }
     }
 
@@ -131,5 +128,13 @@ public class Grid implements Iterable<Cell> {
     @Override
     public Iterator<Cell> iterator() {
         return this.myCells.iterator();
+    }
+
+    public void setMyNumCols(int myNumCols) {
+        this.myNumCols = myNumCols;
+    }
+
+    public void setMyNumRows(int myNumRows) {
+        this.myNumRows = myNumRows;
     }
 }

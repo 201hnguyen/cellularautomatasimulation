@@ -106,7 +106,7 @@ public class Visualization {
                 id++;
             }
         }
-        displayGridAsTriangles(grid, cells);
+        displayGridAsHexagons(grid, cells);
     }
 
     private void displayGridAsRectangles(Grid grid, Cell[][] cells) {
@@ -177,10 +177,12 @@ public class Visualization {
 
         int myCounter = 1;
         int height = 0;
+        int downward = 0;
+        int upward = 0;
         Polygon triangle;
 
-        double cellSize = mySceneWidth / (grid.getNumCols()) * 0.75;
-        double cellSize2 = mySceneHeight / (grid.getNumRows()) * 1.5;
+        double cellSize = mySceneWidth / (grid.getNumCols());
+        double cellSize2 = mySceneHeight / (grid.getNumRows() / 2);
 
         for (int i = 0; i < grid.getNumRows(); i++, myCounter++) {
             if(myCounter == 5){
@@ -188,30 +190,40 @@ public class Visualization {
             }
             if(i % 2 == 0){
                 height++;
+                downward = 0;
+                upward = 0;
             }
             for (int j = 0; j < grid.getNumCols(); j++) {
                 triangle = new Polygon();
                 System.out.println(myCounter);
-                if (myCounter == 4) {
+                if (myCounter == 3 || myCounter == 4) {
                     //Create upward
-                    createUpwardTriangle(triangle, cellSize, cellSize2);
-                    triangle.setLayoutX(j * cellSize + cellSize / 2);
-                    triangle.setLayoutY(height * cellSize2);
-                } else if (myCounter == 3) {
+                    if(j%2 == 0){
+                        createDownwardTriangle(triangle, cellSize, cellSize2);
+                        triangle.setLayoutX(downward * cellSize);
+                        triangle.setLayoutY(height * cellSize2);
+                        downward++;
+                    }
+                    else {
+                        createUpwardTriangle(triangle, cellSize, cellSize2);
+                        triangle.setLayoutX(upward * cellSize + cellSize / 2);
+                        triangle.setLayoutY(height * cellSize2);
+                        upward++;
+                    }
+                } else if (myCounter == 1 || myCounter == 2) {
                     //Create downward
-                    createDownwardTriangle(triangle, cellSize, cellSize2);
-                    triangle.setLayoutX(j * cellSize);
-                    triangle.setLayoutY(height * cellSize2);
-                } else if (myCounter == 2) {
-                    //Create downward
-                    createDownwardTriangle(triangle, cellSize, cellSize2);
-                    triangle.setLayoutX(j * cellSize + cellSize/2);
-                    triangle.setLayoutY(height * cellSize2);
-                } else if (myCounter == 1){
-                    //Create upward
-                    createUpwardTriangle(triangle, cellSize, cellSize2);
-                    triangle.setLayoutX(j * cellSize);
-                    triangle.setLayoutY(height * cellSize2);
+                    if(j%2 == 0){
+                        createUpwardTriangle(triangle, cellSize, cellSize2);
+                        triangle.setLayoutX(upward * cellSize);
+                        triangle.setLayoutY(height * cellSize2);
+                        upward++;
+                    }
+                    else {
+                        createDownwardTriangle(triangle, cellSize, cellSize2);
+                        triangle.setLayoutX(downward * cellSize + cellSize / 2);
+                        triangle.setLayoutY(height * cellSize2);
+                        downward++;
+                    }
                 }
 
 
@@ -226,6 +238,60 @@ public class Visualization {
                 myRoot.getChildren().add(triangle);
             }
         }
+    }
+
+    private void displayGridAsHexagons(Grid grid, Cell[][] cells) {
+
+        Rectangle rectangle = new Rectangle(mySceneWidth, mySceneHeight, Color.WHITE);
+        rectangle.setX(0);
+        rectangle.setY(0);
+        myRoot.getChildren().add(rectangle);
+        Polygon hexagon;
+        int even_rows = -1;
+        int odd_rows = -1;
+        double cellHeight = (mySceneHeight / grid.getNumRows()) * 1.5;
+        double cellWidth = (mySceneWidth / grid.getNumCols()) * 0.9;
+
+        for (int i = 0; i < cells.length; i++) {
+            if(i%2 == 0){
+                even_rows++;
+            }
+            else{
+                odd_rows++;
+            }
+            for (int j = 0; j < grid.getNumCols(); j++) {
+                hexagon = new Polygon();
+                hexagon.getPoints().addAll(0.0, cellHeight/3,
+                        cellWidth/2, 0.0,
+                        cellWidth, cellHeight/3,
+                        cellWidth, 2*cellHeight/3,
+                        cellWidth/2, cellHeight,
+                        0.0, 2*cellHeight/3);
+
+                hexagon.setStroke(Color.BLACK);
+
+                if(i%2 == 0){
+                    hexagon.setLayoutX((j) * (cellWidth));
+                    hexagon.setLayoutY(even_rows * cellHeight);
+
+                }
+                else{
+                    hexagon.setLayoutX(j * cellWidth + cellWidth/2);
+                    hexagon.setLayoutY((even_rows+1) * cellHeight - cellHeight/2);
+                }
+
+
+                if (cells[i][j].getState() == 0) {
+                    hexagon.setFill(myColor0);
+                } else if (cells[i][j].getState() == 1) {
+                    hexagon.setFill(myColor1);
+                } else {
+                    hexagon.setFill(myColor2);
+                }
+                myRoot.getChildren().add(hexagon);
+            }
+        }
+
     }
 
     private void createUpwardTriangle(Polygon triangle, double cellSize, double cellSize2){
