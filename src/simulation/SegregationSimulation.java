@@ -11,6 +11,7 @@ import java.util.Random;
 /**
  * This class represents the Segregation Simulation. It is used by Game to run the Segregation Simulation if that is
  * the file that the user selected.
+ * @author Sumer Vardhan
  */
 public class SegregationSimulation extends Simulation {
     private XMLSimulationParser myXMLParser;
