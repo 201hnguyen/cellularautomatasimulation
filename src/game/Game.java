@@ -21,8 +21,10 @@ import javafx.util.Duration;
 
 import java.io.File;
 import java.util.NoSuchElementException;
+import java.util.ResourceBundle;
 
 public class Game {
+    private static final String GAME_PROPERTIES = "GameProperties";
 
     private int myFramesPerSecond = 1;
     private int myMillisecondDelay = 1000 / myFramesPerSecond;
@@ -32,8 +34,11 @@ public class Game {
     private String[] mySimulationButtons;
     private Stage myStage;
     private XMLSimulationParser mySimulationParser;
+    private ResourceBundle myResources;
 
     public Game(Stage stage) {
+        myResources = ResourceBundle.getBundle(GAME_PROPERTIES);
+
         myStage = stage;
         myTimeline = new Timeline();
         File gameConfig = new File("Resources/GameConfig.xml");
@@ -56,27 +61,27 @@ public class Game {
         if (XMLException.isValidSimulationSchema(file)) {
             simulationFile = file;
         } else {
-            XMLException.showInvalidSimulationAlert();
+            XMLException.showInvalidSimulationAlert(myResources);
         }
 
         Grid grid = new Grid(simulationFile);
         try {
             grid.configureCells();
         } catch (NoSuchElementException e) {
-            XMLException.showGridInconsistencyAlert();
+            XMLException.showGridInconsistencyAlert(myResources);
             return;
         }
         mySimulation = null;
         mySimulationParser = new XMLSimulationParser(simulationFile); //TODO: Change simulation strings to resource file
-        if (mySimulationParser.getSimulationType().equals("Game of Life")) {
+        if (mySimulationParser.getSimulationType().equals(myResources.getString("GameOfLife"))) {
             mySimulation = new GameOfLifeSimulation(grid);
-        } else if (mySimulationParser.getSimulationType().equals("Segregation")) {
+        } else if (mySimulationParser.getSimulationType().equals(myResources.getString("Segregation"))) {
             mySimulation = new SegregationSimulation(grid);
-        } else if (mySimulationParser.getSimulationType().equals("Predator and Prey")) {
+        } else if (mySimulationParser.getSimulationType().equals(myResources.getString("PredatorAndPrey"))) {
             mySimulation = new PredatorPreySimulation(grid);
-        } else if (mySimulationParser.getSimulationType().equals("Spreading of Fire")) {
+        } else if (mySimulationParser.getSimulationType().equals(myResources.getString("SpreadingOfFire"))) {
             mySimulation = new SpreadingOfFireSimulation(grid);
-        } else if (mySimulationParser.getSimulationType().equals("Percolation")) {
+        } else if (mySimulationParser.getSimulationType().equals(myResources.getString("Percolation"))) {
             mySimulation = new PercolationSimulation(grid);
         }
         myVisualization.showSimulationScene(grid);
@@ -128,7 +133,9 @@ public class Game {
     }
 
     protected void saveSimulationXML() {
-        XMLGenerator xmlGenerator = new XMLGenerator();
+        FileChooser fileChooser = new FileChooser();
+        File file = fileChooser.showSaveDialog(myStage);
+        XMLGenerator xmlGenerator = new XMLGenerator(file);
         xmlGenerator.generateSimulationXMLDocument();
     }
 
