@@ -1,6 +1,7 @@
 package game;
 
 import config.XMLGameParser;
+import config.XMLSimulationParser;
 import config.XMLGenerator;
 import elements.Cell;
 import elements.Grid;
@@ -21,8 +22,15 @@ import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.util.ResourceBundle;
 
+/**
+ * This class represents the front end of the project; it manages anything that is displayed onto the screen.
+ */
 public class Visualization {
+    private static final String GAME_PROPERTIES = "GameProperties";
+    private ResourceBundle myResources;
+
     private Game myCurrentGame;
     private Stage myStage;
     private Pane myRoot;
@@ -37,6 +45,8 @@ public class Visualization {
 
     public Visualization(Game currentGame, Stage stage, String[] simulationButtons,
     String windowTitle, int sceneWidthWithBar, int sceneWidth, int sceneHeight) {
+        myResources = ResourceBundle.getBundle(GAME_PROPERTIES);
+
         mySimulationButtons = simulationButtons;
         myCurrentGame = currentGame;
         mySceneWidth = sceneWidth;
@@ -74,21 +84,21 @@ public class Visualization {
 
     private Color setColorForCell(String color_chosen){ //TODO: Change color strings to resource files
         Color color = Color.WHITE;
-            if(color_chosen.equals("Blue")) {
+            if(color_chosen.equals(myResources.getString("Blue"))) {
                 color = Color.BLUE;
-            } else if(color_chosen.equals("DarkBlue")) {
+            } else if(color_chosen.equals(myResources.getString("DarkBlue"))) {
                 color = Color.DARKBLUE;
-            } else if(color_chosen.equals("Black")) {
+            } else if(color_chosen.equals(myResources.getString("Black"))) {
                 color = Color.BLACK;
-            } else if(color_chosen.equals("Green")) {
+            } else if(color_chosen.equals(myResources.getString("Green"))) {
                 color = Color.GREEN;
-            } else if(color_chosen.equals("Red")){
+            } else if(color_chosen.equals(myResources.getString("Red"))){
                 color = Color.RED;
-            } else if(color_chosen.equals("Yellow")){
+            } else if(color_chosen.equals(myResources.getString("Yellow"))){
                 color = Color.YELLOW;
-            } else if(color_chosen.equals("Purple")){
+            } else if(color_chosen.equals(myResources.getString("Purple"))){
                 color = Color.PURPLE;
-            } else if(color_chosen.equals("LightBlue")) {
+            } else if(color_chosen.equals(myResources.getString("LightBlue"))) {
                 color = Color.LIGHTBLUE;
             }
             return color;
@@ -167,67 +177,6 @@ public class Visualization {
         }
     }
 
-
-//    private void displayGridAsTriangles(Grid grid, Cell[][] cells) {
-//        boolean flip1 = true;
-//        int downward = -1;
-//        int upward = -1;
-//        Rectangle rectangle = new Rectangle(mySceneWidth, mySceneHeight, Color.WHITE);
-//        rectangle.setX(0);
-//        rectangle.setY(0);
-//        myRoot.getChildren().add(rectangle);
-//        Polygon triangle;
-//        for (int i = 0; i < grid.getNumRows(); i++) {
-//            flip1 = !flip1;
-//            downward = 0;
-//            upward = 0;
-//            for (int j = 0; j < grid.getNumCols(); j++) {
-//                triangle = new Polygon();
-//                double cellSize = mySceneWidth / (grid.getNumRows());
-//                double cellSize2 = mySceneHeight / (grid.getNumRows());
-//
-//                if(!flip1){
-//                    flip1 = true;
-//                    createDownwardTriangle(triangle, cellSize, cellSize2);
-//                    downward ++;
-//                    triangle.setLayoutY(i*cellSize2);
-//                    if(j%2 == 0){
-//                        triangle.setLayoutX(downward*cellSize);}
-//                }
-//                else{
-//                    flip1 = false;
-//                    createUpwardTriangle(triangle, cellSize, cellSize2);
-//                    upward++;
-//                    triangle.setLayoutY(i*cellSize2 - cellSize2);
-//                    triangle.setLayoutX(upward*cellSize + cellSize/2);
-//                }
-//                System.out.println(j%2);
-//
-//                triangle.setStroke(Color.BLACK);
-//                if (cells[i][j].getState() == 0) {
-//                    triangle.setFill(myColor0);
-//                } else if (cells[i][j].getState() == 1) {
-//                    triangle.setFill(myColor1);
-//                } else {
-//                    triangle.setFill(myColor2);
-//                }
-//                myRoot.getChildren().add(triangle);
-//            }
-//        }
-//    }
-//
-//    private void createUpwardTriangle(Polygon triangle, double cellSize, double cellSize2){
-//        triangle.getPoints().addAll(cellSize/2, 0.0,
-//                0.0, cellSize2,
-//                cellSize, cellSize2);
-//    }
-//
-//    private void createDownwardTriangle(Polygon triangle, double cellSize, double cellSize2){
-//        triangle.getPoints().addAll(0.0, 0.0,
-//                cellSize, 0.0,
-//                cellSize / 2, cellSize2);
-//    }
-
     private void setCellColor(int state, Shape polygon) {
         if(state == 0){
             polygon.setFill(myColor0);
@@ -268,21 +217,21 @@ public class Visualization {
             Button simulationButton = new Button(buttonTitle);
             simulationButton.setPrefWidth(buttonWidth);
             simulationButton.setOnAction(e -> {
-                if (buttonTitle.equals("Play")) {
+                if (buttonTitle.equals(myResources.getString("Play"))) {
                     myCurrentGame.playSimulation();
-                } else if (buttonTitle.equals("Pause")) {
+                } else if (buttonTitle.equals(myResources.getString("Pause"))) {
                     myCurrentGame.pauseSimulation();
-                } else if (buttonTitle.equals("Skip forward")) {
+                } else if (buttonTitle.equals(myResources.getString("SkipForward"))) {
                     myCurrentGame.skipStep();
-                } else if (buttonTitle.equals("Speed up")) {
+                } else if (buttonTitle.equals(myResources.getString("SpeedUp"))) {
                     myCurrentGame.adjustSimulationSpeed(1);
-                } else if (buttonTitle.equals("Slow down")) {
+                } else if (buttonTitle.equals(myResources.getString("SlowDown"))) {
                     myCurrentGame.adjustSimulationSpeed(-1);
-                } else if (buttonTitle.equals("Reload")) {
+                } else if (buttonTitle.equals(myResources.getString("Reload"))) {
                     myCurrentGame.loadUserInputFile();
-                } else if (buttonTitle.equals("Home")) {
+                } else if (buttonTitle.equals(myResources.getString("Home"))) {
                     myCurrentGame.loadIntro();
-                } else if (buttonTitle.equals("Save")) {
+                } else if (buttonTitle.equals(myResources.getString("SaveXML"))) {
                     myCurrentGame.saveSimulationXML();
                 }
             });
@@ -297,6 +246,5 @@ public class Visualization {
         buttonsVBox.setLayoutY(yPos);
         return buttonsVBox;
     }
-
 }
 
