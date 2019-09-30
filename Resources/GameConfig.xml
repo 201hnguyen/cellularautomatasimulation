@@ -14,6 +14,7 @@
         <slow>Slow/down</slow>
         <reload>Reload</reload>
         <home>Home</home>
+        <save>Save/XML</save>
     </simulation_buttons>
 
     <intro_buttons>

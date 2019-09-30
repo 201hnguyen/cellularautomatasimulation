@@ -19,16 +19,16 @@ public class XMLParser {
     public XMLParser(File file) {
         DOCUMENT_BUILDER = getDocumentBuilder();
         myFile = file;
-        myRoot = getRootElement(myFile);
+        try {
+            myRoot = getRootElement(myFile);
+        } catch (XMLException e) {
+            e.showInvalidFileAlert();
+        }
         ROOT_NAME = myRoot.getTagName();
     }
 
     protected Element getRoot() {
         return myRoot;
-    }
-
-    protected boolean isValidFile(String validTag) {
-        return ROOT_NAME.equals(validTag);
     }
 
     private Element getRootElement(File xmlFile) {
