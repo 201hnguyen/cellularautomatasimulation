@@ -5,7 +5,6 @@ import elements.Cell;
 import elements.Grid;
 
 import java.util.Random;
-import java.util.Set;
 
 public class SpreadingOfFireSimulation extends Simulation {
     private final static int EMPTY = 0;
@@ -25,6 +24,10 @@ public class SpreadingOfFireSimulation extends Simulation {
         myTreeProbability = myXMLParser.getParameters().get("tree_probability");
     }
 
+    /**
+     * Overrides analyzeCells in the Simulation superclass and analyzes the cells for the simulation based on the specified
+     * rules of Spreading of Fire.
+     */
     @Override
     public void analyzeCells(){
         for(int id = 0; id < getGrid().getSize(); id++){

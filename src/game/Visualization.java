@@ -25,7 +25,11 @@ import java.io.File;
 import java.util.ResourceBundle;
 
 /**
- * This class represents the front end of the project; it manages anything that is displayed onto the screen.
+ * This class represents the front end of the project; it manages anything that is displayed onto the screen, as well
+ * as all user input.
+ * @author Ha Nguyen
+ * @author Shreya Hurli
+ * @author Sumer Vardhan
  */
 public class Visualization {
     private static final String GAME_PROPERTIES = "GameProperties";
@@ -58,6 +62,9 @@ public class Visualization {
         stage.show();
     }
 
+    /**
+     * This method allows the Game class to show the intro scene to get the program started.
+     */
     protected void showIntroScene() {
         myRoot = new Pane();
         setBackground();
@@ -66,6 +73,10 @@ public class Visualization {
         myStage.setScene(myScene);
     }
 
+    /**
+     * This method allows the Game class to switch from an intro scene to a simulation scene.
+     * @param grid The grid passed in to the Game class to show at the start of the simulation.
+     */
     protected void showSimulationScene(Grid grid) {
         myRoot = new Pane();
         setBackground();
@@ -104,6 +115,11 @@ public class Visualization {
             return color;
     }
 
+    /**
+     * This class displays the grid on the Simulation screen. It is useful for being called each time the grid changed
+     * and has to be redisplayed
+     * @param grid the grid to be displayed.
+     */
     protected void displayGrid(Grid grid){
         setCellColors(grid);
         myRoot.getChildren().clear();
@@ -188,7 +204,6 @@ public class Visualization {
             polygon.setFill(myColor2);
         }
     }
-
 
     private void setBackground() {
         Image imageForBackground = new Image(this.getClass().getClassLoader().getResourceAsStream("images/background.jpg")); //TODO: Change background string to resource files
