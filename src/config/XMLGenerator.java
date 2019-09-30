@@ -16,6 +16,14 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This class generates the XML file to be saved by the user; though the functionality is not yet implemented, it is also
+ * meant to generate the XML file that will be implemented when the user puts in configuration parameters at the start of
+ * the program. Currently, the class assumes that the file to be saved is the first scene of Game of Life; this is used
+ * to test that the XMLGenerator actually works.
+ * @author Ha Nguyen
+ */
+
 public class XMLGenerator {
     private Document myXMLDocument;
     private Element myRoot;
@@ -30,7 +38,9 @@ public class XMLGenerator {
 
     /**
      * Creates xml file using current simulation and saves it
-     * Assumes file receives data for a simulation
+     * Assumes file receives data for a simulation. If the user cancels the request to save a file, then the exception
+     * is caught and the program continues on.
+     *
      * @param fileToSaveAs the file name that the user
      */
     public XMLGenerator(File fileToSaveAs) {
@@ -53,7 +63,7 @@ public class XMLGenerator {
     public void generateSimulationXMLDocument() {
         myRoot = myXMLDocument.createElement("simulation");
         myXMLDocument.appendChild(myRoot);
-        addAttribute(myRoot,"simulationType", "Game of Life");
+        addAttribute(myRoot, "simulationType", "Game of Life");
         addColorsNode();
         Map<String, String> rowsColumnsNeighbors = new HashMap<>() {{
             put("num_rows", "20");
@@ -139,9 +149,11 @@ public class XMLGenerator {
             StreamResult result = new StreamResult(myFileToSaveAs);
             transformer.transform(source, result);
         } catch (TransformerException e) {
-            //TODO: Figure out how to do this shit.
+            // this was implemented near the end of the project, so we have not had the chance to figure out the
+            // error handling for this yet.
         } catch (NullPointerException e) {
-            //do nothing
+            // this was implemented near the end of the project, so we have not had the chance to figure out the
+            // error handling for this yet.
         }
     }
 }
