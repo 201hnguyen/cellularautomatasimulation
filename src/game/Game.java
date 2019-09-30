@@ -76,6 +76,7 @@ public class Game {
         }
 
         Grid grid = new Grid(simulationFile);
+
         try {
             grid.configureCells();
         } catch (NoSuchElementException e) {

@@ -182,4 +182,27 @@ public class Grid implements Iterable<Cell> {
         }
         return neighbors;
     }
+
+    private int toCellID(int row, int column){
+        return row*myNumCols + column;
+    }
+    public File getMyConfigFile(){
+        return myConfigFile;
+    }
+
+    public int getSize() {
+        return myNumRows*myNumCols;
+    }
+
+    @Override
+    public Iterator<Cell> iterator() {
+        return this.myCells.iterator();
+    }
+
+    public void setMyNumRows(int rows){
+        myNumRows = rows;
+    }
+    public void setMyNumCols(int cols){
+        myNumCols = cols;
+    }
 }
