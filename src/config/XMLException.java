@@ -12,13 +12,19 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 /**
- * This class represents what might go wrong when using XML files.
+ * This class represents what might go wrong when using XML files. It handles showing alerts to notify the user of when
+ * something has gone wrong.
  *
  * @author Robert C. Duvall
+ * @author Ha Nguyen
  */
 public class XMLException extends RuntimeException {
+    private static final String GAME_PROPERTIES = "GameProperties";
+    private ResourceBundle myResources;
+
     // for serialization
     private static final long serialVersionUID = 1L;
     private static final List<String> XML_SIMULATION_VALIDATION_SCHEMAS = new ArrayList<>() {{
@@ -35,8 +41,15 @@ public class XMLException extends RuntimeException {
      */
     public XMLException (String message, Object ... values) {
         super(String.format(message, values));
+        myResources = ResourceBundle.getBundle(GAME_PROPERTIES);
+
     }
 
+    /**
+     * Checks to ensure the file provides a supported Simulation, creates an exception if it is not
+     * @param file
+     * @return boolean
+     */
     public static boolean isValidSimulationSchema(File file) {
         for (String xmlSchema : XML_SIMULATION_VALIDATION_SCHEMAS) {
             try {
@@ -52,6 +65,11 @@ public class XMLException extends RuntimeException {
         return false;
     }
 
+    /**
+     * Checks if the file passed in can be parsed by Game, if not, throws exception
+     * @param file
+     * @return boolean
+     */
     public static boolean isValidGameSchema(File file) {
         try {
             SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
@@ -64,25 +82,36 @@ public class XMLException extends RuntimeException {
         return true;
     }
 
-    public static void showInvalidFileAlert() {
+    /**
+     *  Produces the alert if invalid file is passed in
+     * @param myResources
+     */
+    public static void showInvalidFileAlert(ResourceBundle myResources) {
         Alert invalidFileAlert = new Alert(Alert.AlertType.ERROR);
-        invalidFileAlert.setHeaderText("Input file not valid."); //TODO: This should be read in from config
-        invalidFileAlert.setContentText("Please load a Simulation Config XML File");
+        invalidFileAlert.setHeaderText(myResources.getString("invalidFileAlertHeader")); //TODO: This should be read in from config
+        invalidFileAlert.setContentText(myResources.getString("invalidFileAlertMessage"));
         invalidFileAlert.showAndWait();
     }
 
-    public static void showInvalidSimulationAlert() {
+    /**
+     * Produces the alert if an invalid simulation is passed in
+     * @param myResources
+     */
+    public static void showInvalidSimulationAlert(ResourceBundle myResources) {
         Alert invalidSimulationAlert = new Alert(Alert.AlertType.ERROR);
-        invalidSimulationAlert.setHeaderText("Simulation not supported"); //TODO: Read this in from property
-        invalidSimulationAlert.setContentText("This program only supports \"Game of Life\", \"Percolation\", \"Predator and Prey\"," +
-                "\"Segregation\", and \"Spreading of Fire\" Simulation.");
+        invalidSimulationAlert.setHeaderText(myResources.getString("invalidSimulationAlertHeader")); //TODO: Read this in from property
+        invalidSimulationAlert.setContentText(myResources.getString("invalidSimulationAlertMessage"));
         invalidSimulationAlert.show();
     }
 
-    public static void showGridInconsistencyAlert() {
+    /**
+     * Produces the alert if grid size passed in does not match the size of the actual grid in the XML file passed in
+     * @param myResources
+     */
+    public static void showGridInconsistencyAlert(ResourceBundle myResources) {
         Alert gridSizeInvalidAlert = new Alert(Alert.AlertType.ERROR);
-        gridSizeInvalidAlert.setHeaderText("Inconsistent grid size found"); //TODO: Read this in from property
-        gridSizeInvalidAlert.setContentText("Grid size specified may not follow number of rows and columns specified in XML file.");
+        gridSizeInvalidAlert.setHeaderText(myResources.getString("invalidGridAlertHeader")); //TODO: Read this in from property
+        gridSizeInvalidAlert.setContentText(myResources.getString("invalidGridAlertMessage"));
         gridSizeInvalidAlert.showAndWait();
     }
 

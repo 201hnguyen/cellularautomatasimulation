@@ -21,8 +21,12 @@ import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.util.ResourceBundle;
 
 public class Visualization {
+    private static final String GAME_PROPERTIES = "GameProperties";
+    private ResourceBundle myResources;
+
     private Game myCurrentGame;
     private Stage myStage;
     private Pane myRoot;
@@ -37,6 +41,8 @@ public class Visualization {
 
     public Visualization(Game currentGame, Stage stage, String[] simulationButtons,
     String windowTitle, int sceneWidthWithBar, int sceneWidth, int sceneHeight) {
+        myResources = ResourceBundle.getBundle(GAME_PROPERTIES);
+
         mySimulationButtons = simulationButtons;
         myCurrentGame = currentGame;
         mySceneWidth = sceneWidth;
@@ -74,21 +80,21 @@ public class Visualization {
 
     private Color setColorForCell(String color_chosen){ //TODO: Change color strings to resource files
         Color color = Color.WHITE;
-            if(color_chosen.equals("Blue")) {
+            if(color_chosen.equals(myResources.getString("Blue"))) {
                 color = Color.BLUE;
-            } else if(color_chosen.equals("DarkBlue")) {
+            } else if(color_chosen.equals(myResources.getString("DarkBlue"))) {
                 color = Color.DARKBLUE;
-            } else if(color_chosen.equals("Black")) {
+            } else if(color_chosen.equals(myResources.getString("Black"))) {
                 color = Color.BLACK;
-            } else if(color_chosen.equals("Green")) {
+            } else if(color_chosen.equals(myResources.getString("Green"))) {
                 color = Color.GREEN;
-            } else if(color_chosen.equals("Red")){
+            } else if(color_chosen.equals(myResources.getString("Red"))){
                 color = Color.RED;
-            } else if(color_chosen.equals("Yellow")){
+            } else if(color_chosen.equals(myResources.getString("Yellow"))){
                 color = Color.YELLOW;
-            } else if(color_chosen.equals("Purple")){
+            } else if(color_chosen.equals(myResources.getString("Purple"))){
                 color = Color.PURPLE;
-            } else if(color_chosen.equals("LightBlue")) {
+            } else if(color_chosen.equals(myResources.getString("LightBlue"))) {
                 color = Color.LIGHTBLUE;
             }
             return color;
@@ -268,21 +274,21 @@ public class Visualization {
             Button simulationButton = new Button(buttonTitle);
             simulationButton.setPrefWidth(buttonWidth);
             simulationButton.setOnAction(e -> {
-                if (buttonTitle.equals("Play")) {
+                if (buttonTitle.equals(myResources.getString("Play"))) {
                     myCurrentGame.playSimulation();
-                } else if (buttonTitle.equals("Pause")) {
+                } else if (buttonTitle.equals(myResources.getString("Pause"))) {
                     myCurrentGame.pauseSimulation();
-                } else if (buttonTitle.equals("Skip forward")) {
+                } else if (buttonTitle.equals(myResources.getString("SkipForward"))) {
                     myCurrentGame.skipStep();
-                } else if (buttonTitle.equals("Speed up")) {
+                } else if (buttonTitle.equals(myResources.getString("SpeedUp"))) {
                     myCurrentGame.adjustSimulationSpeed(1);
-                } else if (buttonTitle.equals("Slow down")) {
+                } else if (buttonTitle.equals(myResources.getString("SlowDown"))) {
                     myCurrentGame.adjustSimulationSpeed(-1);
-                } else if (buttonTitle.equals("Reload")) {
+                } else if (buttonTitle.equals(myResources.getString("Reload"))) {
                     myCurrentGame.loadUserInputFile();
-                } else if (buttonTitle.equals("Home")) {
+                } else if (buttonTitle.equals(myResources.getString("Home"))) {
                     myCurrentGame.loadIntro();
-                } else if (buttonTitle.equals("Save XML")) {
+                } else if (buttonTitle.equals(myResources.getString("SaveXML"))) {
                     myCurrentGame.saveSimulationXML();
                 }
             });

@@ -28,6 +28,11 @@ public class XMLGenerator {
     private Map<String, String> myParametersMap;
     private Map<String, String> myStatesColorsMap;
 
+    /**
+     * Creates xml file using current simulation and saves it
+     * Assumes file receives data for a simulation
+     * @param fileToSaveAs the file name that the user
+     */
     public XMLGenerator(File fileToSaveAs) {
         myFileToSaveAs = fileToSaveAs;
         try {
@@ -35,10 +40,16 @@ public class XMLGenerator {
             DocumentBuilder documentBuilder = docFactory.newDocumentBuilder();
             myXMLDocument = documentBuilder.newDocument();
         } catch (ParserConfigurationException e) {
-            e.printStackTrace(); //TODO: Fix this
+            //do nothing
         }
     }
 
+    /**
+     * Currently generates a hardcoded simulation, but in future would generate an xml file from current state of
+     * simulation to be passed in
+     * through the parser, and read in through the current state of the grid
+     * Assumes 20 rows, 20 cols, 8 neighbors, and a specific neighbor configuration
+     */
     public void generateSimulationXMLDocument() {
         myRoot = myXMLDocument.createElement("simulation");
         myXMLDocument.appendChild(myRoot);
@@ -129,6 +140,8 @@ public class XMLGenerator {
             transformer.transform(source, result);
         } catch (TransformerException e) {
             //TODO: Figure out how to do this shit.
+        } catch (NullPointerException e) {
+            //do nothing
         }
     }
 }
