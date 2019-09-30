@@ -88,7 +88,6 @@ public class Grid implements Iterable<Cell> {
             cell.setMyNeighbors(neighbors);
             if (cell.getMyID() == 37) {
                 for(Cell neighbor: cell.getMyNeighbors()) {
-                    System.out.print(neighbor.getMyID() + ", ");
                 }
             }
         }
