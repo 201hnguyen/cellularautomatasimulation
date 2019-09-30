@@ -63,5 +63,4 @@ public class XMLParser {
             throw new XMLException(e);
         }
     }
-
 }

@@ -2,6 +2,7 @@ package game;
 
 import config.XMLGameParser;
 import config.XMLSimulationParser;
+import config.XMLGenerator;
 import elements.Cell;
 import elements.Grid;
 import javafx.scene.Scene;
