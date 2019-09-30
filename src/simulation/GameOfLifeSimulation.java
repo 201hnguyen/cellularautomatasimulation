@@ -4,6 +4,12 @@ import config.XMLParser;
 import elements.Cell;
 import elements.Grid;
 
+/**
+ * This class represents the Game of Life Simulation. It is used by Game to run the Game of Life Simulation if that is
+ * the file that the user selected.
+ * @author Ha Nguyen
+ * @author Sumer Vardhan
+ */
 public class GameOfLifeSimulation extends Simulation {
     public static final int LIVE = 1;
     public static final int DEAD = 2;
@@ -18,6 +24,10 @@ public class GameOfLifeSimulation extends Simulation {
         maxPopulationThreshold = 3;
     }
 
+    /**
+     * Overrides analyzeCells in the Simulation superclass and analyzes the cells for the simulation based on the specified
+     * rules of the Game of Life.
+     */
     @Override
     public void analyzeCells() {
         for(Cell cell: getGrid()){

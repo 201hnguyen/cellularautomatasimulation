@@ -2,7 +2,7 @@ package elements;
 
 import javafx.scene.shape.Shape;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class represents the cells in each of the simulation. The class is used by Grid to initialize the grid object itself,
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class Cell implements Comparable<Cell>{
     private int myState;
     private int myNextState;
-    private ArrayList<Cell> myNeighbors;
+    private List<Cell> myNeighbors;
     private int myID;
     private boolean myIsAvailable;
     private Shape myShape;
@@ -61,53 +61,60 @@ public class Cell implements Comparable<Cell>{
     }
 
     /**
-     *
-     * @return
+     * Gets the neighbors of the current cell, used so that simulation classes can check the state of each cell's neighbors.
+     * @return the array of the neighbors of the current cell.
      */
     public Cell[] getMyNeighbors(){
         return myNeighbors.toArray(new Cell[0]);
     }
 
     /**
-     *
-     * @param neighbors
+     * Sets the neighbor of the current cell, used for Grid to initialize cell neighbors
+     * @param neighbors the list of neighbors this cell should add to as its neighbor
      */
-    public void setMyNeighbors(ArrayList<Cell> neighbors) {
+    public void setMyNeighbors(List<Cell> neighbors) {
         myNeighbors = neighbors;
     }
 
     /**
-     *
-     * @return
+     * Used to indicate whether a cell has been taken up by another cell during the simulation running process; this way,
+     * no two cells can make a move on an empty cell or a cell that they both want to occupy.
+     * @return the boolean value that represents whether a cell is available.
      */
     public boolean getMyIsAvailable() {
         return myIsAvailable;
     }
 
+    /**
+     * Used to set the available variable to indicate that the cell has been taken up/its next state has already
+     * been set by the simulation, so another cell should not come in and set the next state in order to avoid overwriting it
+     * @param value the boolean value to be set to if a cell's next state is available or not available.
+     */
     public void setMyIsAvailable(boolean value) {
         myIsAvailable = value;
     }
 
     /**
-     *
-     * @return
+     * Used to get the Id of the cell in order to index into it.
+     * @return the cell's id
      */
     public int getMyID(){
         return myID;
     }
 
     /**
-     *
-     * @return
+     * Used to get the shape of the cell if needed for simulations
+     * @return the cell's shape
      */
     public Shape getMyShape(){
         return myShape;
     }
 
     /**
-     *
-     * @param o
-     * @return
+     * Overwrites compareTo in order to compare cells to iterate over them
+     * @param o the cell to be compared to this cell
+     * @return 0 if the cells' id are equal, -1 if this cell is comes before the cell in the parameter, and 1 if this
+     * cell comes after it.
      */
     @Override
     public int compareTo(Cell o) {
