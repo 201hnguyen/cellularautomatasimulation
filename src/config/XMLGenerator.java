@@ -19,8 +19,17 @@ import java.util.Map;
 public class XMLGenerator {
     private Document myXMLDocument;
     private Element myRoot;
+    private File myFileToSaveAs;
+    private String mySimulationTypeValue;
+    private String myXMLNumRows;
+    private String myXMLNumCols;
+    private String myXMLNumNeighbors;
+    private String myXMLNeighborsConfiguration;
+    private Map<String, String> myParametersMap;
+    private Map<String, String> myStatesColorsMap;
 
-    public XMLGenerator() {
+    public XMLGenerator(File fileToSaveAs) {
+        myFileToSaveAs = fileToSaveAs;
         try {
             DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder documentBuilder = docFactory.newDocumentBuilder();
@@ -116,8 +125,7 @@ public class XMLGenerator {
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
             DOMSource source = new DOMSource(myXMLDocument);
-            StreamResult result = new StreamResult(new File("Resources/testfile.xml"));
-            System.out.println("Trigger happened");
+            StreamResult result = new StreamResult(myFileToSaveAs);
             transformer.transform(source, result);
         } catch (TransformerException e) {
             //TODO: Figure out how to do this shit.

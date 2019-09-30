@@ -282,7 +282,7 @@ public class Visualization {
                     myCurrentGame.loadUserInputFile();
                 } else if (buttonTitle.equals("Home")) {
                     myCurrentGame.loadIntro();
-                } else if (buttonTitle.equals("Save")) {
+                } else if (buttonTitle.equals("Save XML")) {
                     myCurrentGame.saveSimulationXML();
                 }
             });

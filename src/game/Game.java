@@ -128,7 +128,9 @@ public class Game {
     }
 
     protected void saveSimulationXML() {
-        XMLGenerator xmlGenerator = new XMLGenerator();
+        FileChooser fileChooser = new FileChooser();
+        File file = fileChooser.showSaveDialog(myStage);
+        XMLGenerator xmlGenerator = new XMLGenerator(file);
         xmlGenerator.generateSimulationXMLDocument();
     }
 

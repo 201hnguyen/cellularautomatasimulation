@@ -24,9 +24,9 @@ public class XMLException extends RuntimeException {
     private static final List<String> XML_SIMULATION_VALIDATION_SCHEMAS = new ArrayList<>() {{
        add("Resources/simulation_config_schema/GameOfLifeConfig.xsd");
        add("Resources/simulation_config_schema/PercolationConfig.xsd");
-       add("Resources/simulation_config_schema/PredatorPreyComfig.xsd");
+       add("Resources/simulation_config_schema/PredatorPreyConfig.xsd");
        add("Resources/simulation_config_schema/SpreadingOfFireConfig.xsd");
-       add("Resources/simulation_config_schema/Segregation.xsd");
+       add("Resources/simulation_config_schema/SegregationConfig.xsd");
     }};
     private static final String XML_GAME_VALIDATION_SCHEMA = "Resources/GameConfig.xsd";
 
