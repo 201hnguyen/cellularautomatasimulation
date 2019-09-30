@@ -5,12 +5,17 @@ import config.XMLSimulationParser;
 import java.io.File;
 import java.util.*;
 
+/**
+ * The grid class that holds all the cells for the Simulation. This class is configured by Game and used by Simulation
+ * to run analysis on each cell, as well as by Visualzation in order to display the state to the user.
+ * @author Sumer Vardhan
+ */
 public class Grid implements Iterable<Cell> {
     private File myConfigFile;
     private XMLSimulationParser myXMLParser;
     private Scanner mySc;
     private String[] myCellColors;
-    private TreeSet<Cell> myCells;
+    private Set<Cell> myCells;
     private int myNumRows;
     private int myNumCols;
     private String myNeighborConfiguration;
@@ -25,12 +30,24 @@ public class Grid implements Iterable<Cell> {
         myCells = new TreeSet<>();
     }
 
-    public TreeSet<Cell> configureCells() throws NoSuchElementException{
+    /**
+     * Allows the Game class to configure the cells upon initialization
+     * @return the set of cells that currently populate the grid
+     * @throws NoSuchElementException when the grid size is inconsistent, so there are rows specified in the XML that
+     * cannot be populated.
+     */
+    public Set<Cell> configureCells() throws NoSuchElementException{
         createGridOfCells();
         setCellNeighbors();
         return myCells;
     }
 
+    /**
+     * Gets individual cells in the grid according to Ids. This is used by the Simulation classes to analyze cells and
+     * by the Visualization
+     * @param i the id of the cell that we want to get
+     * @return the cell at the id specified
+     */
     public Cell getCell(int i){
         for(Cell cell: myCells){
             if(cell.getMyID() == i){
@@ -40,6 +57,11 @@ public class Grid implements Iterable<Cell> {
         return null;
     }
 
+    /**
+     * Gets all the empty cells in the grid, which is useful for the Segregation simulation because this allows the
+     * Segregation simulation to randomly choose the empty cells to move to.
+     * @return the list of empty cells currently in the grid.
+     */
     public List<Cell> getEmptyCells(){
         List<Cell> emptyCells = new ArrayList<>();
         int i = 0;
@@ -53,14 +75,27 @@ public class Grid implements Iterable<Cell> {
         return emptyCells;
     }
 
+    /**
+     * Gets the number of rows in the grid, which is useful for Visualization to display the grid
+     * @return the number of rows
+     */
     public int getNumRows(){
         return myNumRows;
     }
 
+    /**
+     * Gets the number of columns in the grid, which is useful for Visualization to display the grid
+     * @return the number of columns
+     */
     public int getNumCols(){
         return myNumCols;
     }
 
+    /**
+     * Gets the array that holds the cell colors for each of the state, which is useful for simulation to
+     * display the state of the cells.
+     * @return the arary that holds the cell colors for each of the state
+     */
     public String[] getCellColors(){
         return myCellColors;
     }
@@ -80,7 +115,7 @@ public class Grid implements Iterable<Cell> {
 
     private void setCellNeighbors() {
         for(Cell cell: this){
-            ArrayList<Cell> neighbors = null;
+            List<Cell> neighbors = null;
             int cell_row = cell.getMyID()/(myNumCols);
             int cell_column = cell.getMyID()%(myNumRows);
             neighbors = checkNeighborsForCell(cell_row, cell_column);
@@ -92,8 +127,39 @@ public class Grid implements Iterable<Cell> {
         }
     }
 
+    /**
+     * Gets the configuration file of the Grid, which is useful for the simulation classes to be able to create a
+     * parser object off the file
+     * @return the configuration file for the grid
+     */
+    public File getMyConfigFile(){
+        return myConfigFile;
+    }
+
+    /**
+     * Gets the size of the grid, which is useful for the Simulation and Visualization classes to figure out the grid's
+     * dimensions to set cells and display them accordingly
+     * @return the grid's size represented by its number of rows times number of columns
+     */
+    public int getSize() {
+        return myNumRows*myNumCols;
+    }
+
+    /**
+     * Creates an iterator that allows for iterating over all the cells
+     * @return the Iterator that allows for iterating over each of the cell in the grid
+     */
+    @Override
+    public Iterator<Cell> iterator() {
+        return this.myCells.iterator();
+    }
+
+    private int toCellID(int row, int column){
+        return row*myNumCols + column;
+    }
+
     //This class takes pattern as input from xml
-    private ArrayList<Cell> checkNeighborsForCell(int row, int column){
+    private List<Cell> checkNeighborsForCell(int row, int column){
         //The "pattern" around the cell in question used to determine its neighborhood comes from config
         int original_column = column;
         int original_row = row;
