@@ -112,7 +112,17 @@ public class Visualization {
                 id++;
             }
         }
-        displayGridAsRectangles(grid, cells);
+
+        String shape = myResources.getString("Shape");
+        if(shape.equals("Rectangular")){
+            displayGridAsRectangles(grid, cells);
+        }
+        else if (shape.equals("Triangular")){
+            displayGridAsTriangles(grid, cells);
+        }
+        else if (shape.equals("Hexagonal")){
+            displayGridAsHexagons(grid, cells);
+        }
     }
 
     private void displayGridAsRectangles(Grid grid, Cell[][] cells) {

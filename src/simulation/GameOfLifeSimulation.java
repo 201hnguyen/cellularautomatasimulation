@@ -8,16 +8,14 @@ public class GameOfLifeSimulation extends Simulation {
     public static final int LIVE = 1;
     public static final int DEAD = 2;
 
-    private XMLParser myXMLParser;
     private int minPopulationThreshold;
     private int maxPopulationThreshold;
 
 
     public GameOfLifeSimulation(Grid grid) {
         super(grid);
-        myXMLParser = new XMLParser("Game of Life", grid.getMyConfigFile());
-        minPopulationThreshold = (int) myXMLParser.getSimulationParameter1();
-        maxPopulationThreshold = (int) myXMLParser.getSimulationParameter2();
+        minPopulationThreshold = 2;
+        maxPopulationThreshold = 3;
     }
 
     @Override

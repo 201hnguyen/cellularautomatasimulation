@@ -19,9 +19,8 @@ public class SpreadingOfFireSimulation extends Simulation {
 
     public SpreadingOfFireSimulation(Grid grid) {
         super(grid);
-        myXMLParser = new XMLParser("Spreading Of Fire", grid.getMyConfigFile());
-        myBurnProbability = myXMLParser.getSimulationParameter1();
-        myTreeProbability = myXMLParser.getSimulationParameter2();
+        myBurnProbability = 1;
+        myTreeProbability = 0;
     }
 
     @Override
