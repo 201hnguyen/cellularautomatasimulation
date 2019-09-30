@@ -1,6 +1,6 @@
 package simulation;
 
-import config.XMLSimulationParser;
+import config.XMLParser;
 import elements.Cell;
 import elements.Grid;
 
@@ -16,7 +16,7 @@ public class SpreadingOfFireSimulation extends Simulation {
     private final static int TREE = 1;
     private final static int BURNING = 2;
 
-    private XMLSimulationParser myXMLParser;
+    private XMLParser myXMLParser;
     private double myBurnProbability;
     private double myTreeProbability;
 
@@ -24,9 +24,8 @@ public class SpreadingOfFireSimulation extends Simulation {
 
     public SpreadingOfFireSimulation(Grid grid) {
         super(grid);
-        myXMLParser = new XMLSimulationParser(grid.getMyConfigFile());
-        myBurnProbability = myXMLParser.getParameters().get("burn_probability");
-        myTreeProbability = myXMLParser.getParameters().get("tree_probability");
+        myBurnProbability = 1;
+        myTreeProbability = 0;
     }
 
     /**
@@ -35,8 +34,15 @@ public class SpreadingOfFireSimulation extends Simulation {
      */
     @Override
     public void analyzeCells(){
-        for(int id = 0; id < getGrid().getSize(); id++){
-            Cell cell = getGrid().getCell(id);
+        for(Cell cell: getGrid()){
+            if (cell.getMyID() == 37) {
+
+                System.out.println("Cell: " + cell.getMyID() + " \n");
+                for (Cell neighbor : cell.getMyNeighbors()) {
+                    System.out.print(neighbor.getMyID() + ", ");
+                }
+                System.out.println();
+            }
                 if(cell.getState() == EMPTY){
                     myEmptyTurns = 1;
                     willTreeGrow(cell, cell.getMyNeighbors());

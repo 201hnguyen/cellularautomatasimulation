@@ -102,10 +102,11 @@ public class Grid implements Iterable<Cell> {
         Scanner sc = new Scanner(myNeighborConfiguration);
         while(sc.hasNextInt()){
             int row_modifier = sc.nextInt();
+            int col_modifier = sc.nextInt();
             row = original_row + row_modifier;
             int number_of_neighbors_in_row = sc.nextInt();
             for(int i = 0; i < number_of_neighbors_in_row; i++){
-                column = original_column - 1 + i;
+                column = original_column + col_modifier + i;
                 if(column > -1 && column < myNumCols && row > -1 && row < myNumRows) {
                     if(column != original_column || row != original_row) {
                         neighbors.add(getCell(toCellID(row, column)));

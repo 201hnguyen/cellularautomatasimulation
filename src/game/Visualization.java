@@ -2,7 +2,6 @@ package game;
 
 import config.XMLGameParser;
 import config.XMLSimulationParser;
-import config.XMLGenerator;
 import elements.Cell;
 import elements.Grid;
 import javafx.scene.Scene;
@@ -24,13 +23,6 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.util.ResourceBundle;
 
-/**
- * This class represents the front end of the project; it manages anything that is displayed onto the screen, as well
- * as all user input.
- * @author Ha Nguyen
- * @author Shreya Hurli
- * @author Sumer Vardhan
- */
 public class Visualization {
     private static final String GAME_PROPERTIES = "GameProperties";
     private ResourceBundle myResources;
@@ -48,7 +40,7 @@ public class Visualization {
     private int mySceneWidthWithBar;
 
     public Visualization(Game currentGame, Stage stage, String[] simulationButtons,
-    String windowTitle, int sceneWidthWithBar, int sceneWidth, int sceneHeight) {
+                         String windowTitle, int sceneWidthWithBar, int sceneWidth, int sceneHeight) {
         myResources = ResourceBundle.getBundle(GAME_PROPERTIES);
 
         mySimulationButtons = simulationButtons;
@@ -62,9 +54,6 @@ public class Visualization {
         stage.show();
     }
 
-    /**
-     * This method allows the Game class to show the intro scene to get the program started.
-     */
     protected void showIntroScene() {
         myRoot = new Pane();
         setBackground();
@@ -73,10 +62,6 @@ public class Visualization {
         myStage.setScene(myScene);
     }
 
-    /**
-     * This method allows the Game class to switch from an intro scene to a simulation scene.
-     * @param grid The grid passed in to the Game class to show at the start of the simulation.
-     */
     protected void showSimulationScene(Grid grid) {
         myRoot = new Pane();
         setBackground();
@@ -95,31 +80,26 @@ public class Visualization {
 
     private Color setColorForCell(String color_chosen){ //TODO: Change color strings to resource files
         Color color = Color.WHITE;
-            if(color_chosen.equals(myResources.getString("Blue"))) {
-                color = Color.BLUE;
-            } else if(color_chosen.equals(myResources.getString("DarkBlue"))) {
-                color = Color.DARKBLUE;
-            } else if(color_chosen.equals(myResources.getString("Black"))) {
-                color = Color.BLACK;
-            } else if(color_chosen.equals(myResources.getString("Green"))) {
-                color = Color.GREEN;
-            } else if(color_chosen.equals(myResources.getString("Red"))){
-                color = Color.RED;
-            } else if(color_chosen.equals(myResources.getString("Yellow"))){
-                color = Color.YELLOW;
-            } else if(color_chosen.equals(myResources.getString("Purple"))){
-                color = Color.PURPLE;
-            } else if(color_chosen.equals(myResources.getString("LightBlue"))) {
-                color = Color.LIGHTBLUE;
-            }
-            return color;
+        if(color_chosen.equals(myResources.getString("Blue"))) {
+            color = Color.BLUE;
+        } else if(color_chosen.equals(myResources.getString("DarkBlue"))) {
+            color = Color.DARKBLUE;
+        } else if(color_chosen.equals(myResources.getString("Black"))) {
+            color = Color.BLACK;
+        } else if(color_chosen.equals(myResources.getString("Green"))) {
+            color = Color.GREEN;
+        } else if(color_chosen.equals(myResources.getString("Red"))){
+            color = Color.RED;
+        } else if(color_chosen.equals(myResources.getString("Yellow"))){
+            color = Color.YELLOW;
+        } else if(color_chosen.equals(myResources.getString("Purple"))){
+            color = Color.PURPLE;
+        } else if(color_chosen.equals(myResources.getString("LightBlue"))) {
+            color = Color.LIGHTBLUE;
+        }
+        return color;
     }
 
-    /**
-     * This class displays the grid on the Simulation screen. It is useful for being called each time the grid changed
-     * and has to be redisplayed
-     * @param grid the grid to be displayed.
-     */
     protected void displayGrid(Grid grid){
         setCellColors(grid);
         myRoot.getChildren().clear();
@@ -132,7 +112,17 @@ public class Visualization {
                 id++;
             }
         }
-        displayGridAsRectangles(grid, cells);
+
+        String shape = myResources.getString("Shape");
+        if(shape.equals("Rectangular")){
+            displayGridAsRectangles(grid, cells);
+        }
+        else if (shape.equals("Triangular")){
+            displayGridAsTriangles(grid, cells);
+        }
+        else if (shape.equals("Hexagonal")){
+            displayGridAsHexagons(grid, cells);
+        }
     }
 
     private void displayGridAsRectangles(Grid grid, Cell[][] cells) {
@@ -159,39 +149,143 @@ public class Visualization {
     }
 
     private void displayGridAsTriangles(Grid grid, Cell[][] cells) {
-        Rectangle rect = new Rectangle(mySceneWidth, mySceneHeight);
-        rect.setFill(Color.BLACK);
-        myRoot.getChildren().add(rect);
+
+        Rectangle rectangle = new Rectangle(mySceneWidth, mySceneHeight, Color.WHITE);
+        rectangle.setX(0);
+        rectangle.setY(0);
+        myRoot.getChildren().add(rectangle);
+
+        int myCounter = 1;
+        int height = 0;
+        int downward = 0;
+        int upward = 0;
         Polygon triangle;
-        double xPos = 0.0;
-        double yPos = 0.0;
-        double cellSize = mySceneWidth / grid.getNumCols();
-        for (int i=0; i < grid.getNumRows(); i++) {
-            for (int j=0; j<grid.getNumCols(); j++) {
+
+        double cellSize = mySceneWidth / (grid.getNumCols());
+        double cellSize2 = mySceneHeight / (grid.getNumRows() / 2);
+
+        for (int i = 0; i < grid.getNumRows(); i++, myCounter++) {
+            if(myCounter == 5){
+                myCounter = 1;
+            }
+            if(i % 2 == 0){
+                height++;
+                downward = 0;
+                upward = 0;
+            }
+            for (int j = 0; j < grid.getNumCols(); j++) {
                 triangle = new Polygon();
-                if (i % 2 == 0 && j%2 == 0) {
-                    triangle.getPoints().addAll(new Double[] {
-                            xPos, yPos, xPos + cellSize, yPos, xPos + cellSize / 2, yPos + cellSize
-                    });
-                    xPos += cellSize;
-                } else if (i % 2 == 0 && j % 2 == 1) {
-                    triangle.getPoints().addAll(new Double[] {
-                            xPos - cellSize / 2, yPos + cellSize, xPos + cellSize / 2, yPos + cellSize, xPos, yPos
-                    });
-                } else if (i % 2 == 0 && j % 2 == 1) {
-
-                } else {
-
+                System.out.println(myCounter);
+                if (myCounter == 3 || myCounter == 4) {
+                    //Create upward
+                    if(j%2 == 0){
+                        createDownwardTriangle(triangle, cellSize, cellSize2);
+                        triangle.setLayoutX(downward * cellSize);
+                        triangle.setLayoutY(height * cellSize2);
+                        downward++;
+                    }
+                    else {
+                        createUpwardTriangle(triangle, cellSize, cellSize2);
+                        triangle.setLayoutX(upward * cellSize + cellSize / 2);
+                        triangle.setLayoutY(height * cellSize2);
+                        upward++;
+                    }
+                } else if (myCounter == 1 || myCounter == 2) {
+                    //Create downward
+                    if(j%2 == 0){
+                        createUpwardTriangle(triangle, cellSize, cellSize2);
+                        triangle.setLayoutX(upward * cellSize);
+                        triangle.setLayoutY(height * cellSize2);
+                        upward++;
+                    }
+                    else {
+                        createDownwardTriangle(triangle, cellSize, cellSize2);
+                        triangle.setLayoutX(downward * cellSize + cellSize / 2);
+                        triangle.setLayoutY(height * cellSize2);
+                        downward++;
+                    }
                 }
+
+
                 triangle.setStroke(Color.BLACK);
-                setCellColor(cells[i][j].getState(), triangle);
+                if (cells[i][j].getState() == 0) {
+                    triangle.setFill(myColor0);
+                } else if (cells[i][j].getState() == 1) {
+                    triangle.setFill(myColor1);
+                } else {
+                    triangle.setFill(myColor2);
+                }
                 myRoot.getChildren().add(triangle);
-            } if (i % 4 == 1) {
-                yPos += cellSize;
-                xPos = 0.0;
             }
         }
     }
+
+    private void displayGridAsHexagons(Grid grid, Cell[][] cells) {
+
+        Rectangle rectangle = new Rectangle(mySceneWidth, mySceneHeight, Color.WHITE);
+        rectangle.setX(0);
+        rectangle.setY(0);
+        myRoot.getChildren().add(rectangle);
+        Polygon hexagon;
+        int even_rows = -1;
+        int odd_rows = -1;
+        double cellHeight = (mySceneHeight / grid.getNumRows()) * 1.5;
+        double cellWidth = (mySceneWidth / grid.getNumCols()) * 0.9;
+
+        for (int i = 0; i < cells.length; i++) {
+            if(i%2 == 0){
+                even_rows++;
+            }
+            else{
+                odd_rows++;
+            }
+            for (int j = 0; j < grid.getNumCols(); j++) {
+                hexagon = new Polygon();
+                hexagon.getPoints().addAll(0.0, cellHeight/3,
+                        cellWidth/2, 0.0,
+                        cellWidth, cellHeight/3,
+                        cellWidth, 2*cellHeight/3,
+                        cellWidth/2, cellHeight,
+                        0.0, 2*cellHeight/3);
+
+                hexagon.setStroke(Color.BLACK);
+
+                if(i%2 == 0){
+                    hexagon.setLayoutX((j) * (cellWidth));
+                    hexagon.setLayoutY(even_rows * cellHeight);
+
+                }
+                else{
+                    hexagon.setLayoutX(j * cellWidth + cellWidth/2);
+                    hexagon.setLayoutY((even_rows+1) * cellHeight - cellHeight/2);
+                }
+
+
+                if (cells[i][j].getState() == 0) {
+                    hexagon.setFill(myColor0);
+                } else if (cells[i][j].getState() == 1) {
+                    hexagon.setFill(myColor1);
+                } else {
+                    hexagon.setFill(myColor2);
+                }
+                myRoot.getChildren().add(hexagon);
+            }
+        }
+
+    }
+
+    private void createUpwardTriangle(Polygon triangle, double cellSize, double cellSize2){
+        triangle.getPoints().addAll(cellSize/2, 0.0,
+                0.0, cellSize2,
+                cellSize, cellSize2);
+    }
+
+    private void createDownwardTriangle(Polygon triangle, double cellSize, double cellSize2){
+        triangle.getPoints().addAll(0.0, 0.0,
+                cellSize, 0.0,
+                cellSize / 2, cellSize2);
+    }
+
 
     private void setCellColor(int state, Shape polygon) {
         if(state == 0){
@@ -204,6 +298,7 @@ public class Visualization {
             polygon.setFill(myColor2);
         }
     }
+
 
     private void setBackground() {
         Image imageForBackground = new Image(this.getClass().getClassLoader().getResourceAsStream("images/background.jpg")); //TODO: Change background string to resource files
@@ -261,5 +356,5 @@ public class Visualization {
         buttonsVBox.setLayoutY(yPos);
         return buttonsVBox;
     }
-}
 
+}
