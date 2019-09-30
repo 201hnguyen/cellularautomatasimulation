@@ -1,7 +1,6 @@
 package game;
 
 import config.XMLGameParser;
-import config.XMLSimulationParser;
 import elements.Cell;
 import elements.Grid;
 import javafx.scene.Scene;
@@ -23,6 +22,13 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.util.ResourceBundle;
 
+/**
+ * This class manages all the front-end display of the user interface. This includes displaying the intro scene, the
+ * buttons, as well as the simulations and the grid that go along with them.
+ * @author Ha Nguyen
+ * @author Sumer Vardhan
+ * @author Shreya Hurli
+ */
 public class Visualization {
     private static final String GAME_PROPERTIES = "GameProperties";
     private ResourceBundle myResources;
@@ -54,6 +60,9 @@ public class Visualization {
         stage.show();
     }
 
+    /**
+     * Allows the game class to show the intro scene
+     */
     protected void showIntroScene() {
         myRoot = new Pane();
         setBackground();
@@ -62,6 +71,10 @@ public class Visualization {
         myStage.setScene(myScene);
     }
 
+    /**
+     * Allows the game class to show the simulation scene with an initial grid
+     * @param grid the grid whose the simulation uses as a starting point
+     */
     protected void showSimulationScene(Grid grid) {
         myRoot = new Pane();
         setBackground();
@@ -100,6 +113,10 @@ public class Visualization {
         return color;
     }
 
+    /**
+     * Displays the grid; used by simulation and Game in order to display the updated state of each grid
+     * @param grid the grid that is being displayed
+     */
     protected void displayGrid(Grid grid){
         setCellColors(grid);
         myRoot.getChildren().clear();
@@ -286,7 +303,6 @@ public class Visualization {
                 cellSize / 2, cellSize2);
     }
 
-
     private void setCellColor(int state, Shape polygon) {
         if(state == 0){
             polygon.setFill(myColor0);
@@ -298,7 +314,6 @@ public class Visualization {
             polygon.setFill(myColor2);
         }
     }
-
 
     private void setBackground() {
         Image imageForBackground = new Image(this.getClass().getClassLoader().getResourceAsStream("images/background.jpg")); //TODO: Change background string to resource files
@@ -356,5 +371,4 @@ public class Visualization {
         buttonsVBox.setLayoutY(yPos);
         return buttonsVBox;
     }
-
 }
