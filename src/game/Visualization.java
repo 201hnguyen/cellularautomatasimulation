@@ -1,7 +1,7 @@
 package game;
 
 import config.XMLGameParser;
-import config.XMLGenerator;
+import config.XMLSimulationParser;
 import elements.Cell;
 import elements.Grid;
 import javafx.scene.Scene;
