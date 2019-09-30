@@ -5,8 +5,12 @@ import elements.Grid;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
+/**
+ * This class represents the Percolation Simulation. It is used by Game to run the Percolation Simulation if that is
+ * the file that the user selected.
+ *
+ */
 public class PercolationSimulation extends Simulation {
     public static final int OPEN = 0;
     public static final int FULL = 1;
@@ -14,6 +18,10 @@ public class PercolationSimulation extends Simulation {
 
     public PercolationSimulation(Grid grid) { super(grid); }
 
+    /**
+     * Overrides analyzeCells in the Simulation superclass and analyzes the cells for the simulation based on the specified
+     * rules of Percolation.
+     */
     @Override
     public void analyzeCells(){
         for(int id = 0; id < getGrid().getSize(); id++){

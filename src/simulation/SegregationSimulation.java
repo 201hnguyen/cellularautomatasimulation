@@ -7,8 +7,11 @@ import elements.Grid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
 
+/**
+ * This class represents the Segregation Simulation. It is used by Game to run the Segregation Simulation if that is
+ * the file that the user selected.
+ */
 public class SegregationSimulation extends Simulation {
     private XMLSimulationParser myXMLParser;
     private double mySegregationThreshold;
@@ -22,6 +25,10 @@ public class SegregationSimulation extends Simulation {
         mySegregationThreshold = myXMLParser.getParameters().get("segregation_threshold");
     }
 
+    /**
+     * Overrides analyzeCells in the Simulation superclass and analyzes the cells for the simulation based on the specified
+     * rules of Segregation.
+     */
     @Override
     public void analyzeCells() {
         Random random = new Random();

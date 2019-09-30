@@ -6,8 +6,11 @@ import elements.Grid;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Set;
 
+/**
+ * This class represents the Predator and Prey Simulation. It is used by Game to run the Predator and Prey Simulation if that is
+ * the file that the user selected.
+ */
 public class PredatorPreySimulation extends Simulation {
     public static final int EMPTY = 0;
     public static final int FISH = 1;
@@ -43,6 +46,10 @@ public class PredatorPreySimulation extends Simulation {
         }
     }
 
+    /**
+     * Overrides analyzeCells in the Simulation superclass and analyzes the cells for the simulation based on the specified
+     * rules of the Predator and Prey.
+     */
     @Override
     public void analyzeCells() {
         clearCellAvailability();

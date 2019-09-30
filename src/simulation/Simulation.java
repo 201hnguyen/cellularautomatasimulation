@@ -2,6 +2,9 @@ package simulation;
 
 import elements.Grid;
 
+/**
+ *
+ */
 public abstract class Simulation {
     private Grid myGrid;
 
