@@ -23,6 +23,9 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.util.ResourceBundle;
 
+/**
+ * This class represents the front end of the project; it manages anything that is displayed onto the screen.
+ */
 public class Visualization {
     private static final String GAME_PROPERTIES = "GameProperties";
     private ResourceBundle myResources;
@@ -303,6 +306,5 @@ public class Visualization {
         buttonsVBox.setLayoutY(yPos);
         return buttonsVBox;
     }
-
 }
 

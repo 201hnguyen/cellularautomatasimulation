@@ -11,6 +11,14 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ResourceBundle;
 
+/**
+ * This class is the parent class for XMLParser; it holds instance variables such as
+ * the file being passed in, as well as methods that are shared by both the SimulationXML
+ * Parser and the GameParser.
+ * @author Ha Nguyen
+ * @author Sumer Vardhan
+ * @author Robert Duvall (taken from class lecture code)
+ */
 public class XMLParser {
     private static final String GAME_PROPERTIES = "GameProperties";
     private ResourceBundle myResources;

@@ -4,15 +4,13 @@ import java.io.File;
 
 /**
  * This class parses the Game configuration; basically everything that remains constant in the game that should be set
- * up at the very beginning.
+ * up at the very beginning. The class depends on the GameConfig.xml, which is validated against the GameConfig schema.
  *
  * @author Ha Nguyen
  * @author Sumer Vardhan
  * @author Robert Duvall (as taken from the class code).
  */
 public class XMLGameParser extends XMLParser {
-
-    private static final String VALID_GAME_TAG = "game";
 
     /**
      * constructs an xml game parser that takes in a file and parses it
