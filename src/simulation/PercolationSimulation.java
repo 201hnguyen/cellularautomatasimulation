@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * This class represents the Percolation Simulation. It is used by Game to run the Percolation Simulation if that is
  * the file that the user selected.
- *
+ * @author Shreya Hurli
  */
 public class PercolationSimulation extends Simulation {
     public static final int OPEN = 0;

@@ -10,6 +10,7 @@ import java.util.HashMap;
 /**
  * This class represents the Predator and Prey Simulation. It is used by Game to run the Predator and Prey Simulation if that is
  * the file that the user selected.
+ * @author Ha Nguyen
  */
 public class PredatorPreySimulation extends Simulation {
     public static final int EMPTY = 0;

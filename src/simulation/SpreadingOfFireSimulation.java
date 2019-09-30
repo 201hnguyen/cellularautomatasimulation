@@ -6,6 +6,11 @@ import elements.Grid;
 
 import java.util.Random;
 
+/**
+ * This class represents the Segregation Simulation. It is used by Game to run the Segregation Simulation if that is
+ * the file that the user selected.
+ * @author Shreya Hurli
+ */
 public class SpreadingOfFireSimulation extends Simulation {
     private final static int EMPTY = 0;
     private final static int TREE = 1;
