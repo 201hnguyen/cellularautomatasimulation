@@ -1,14 +1,17 @@
 package game;
 
-import elements.Grid;
+import config.XMLException;
+import config.XMLGameParser;
+import config.XMLGenerator;
+import config.XMLSimulationParser;
 import simulation.GameOfLifeSimulation;
 import simulation.PercolationSimulation;
-//import simulation.PredatorPreySimulation;
+import simulation.PredatorPreySimulation;
 import simulation.SegregationSimulation;
 import simulation.SpreadingOfFireSimulation;
 import simulation.Simulation;
 
-import config.XMLParser;
+import elements.Grid;
 import javafx.stage.FileChooser;
 
 import javafx.animation.KeyFrame;
@@ -17,47 +20,68 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.File;
-import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.ResourceBundle;
 
 public class Game {
+    private static final String GAME_PROPERTIES = "GameProperties";
 
     private int myFramesPerSecond = 1;
     private int myMillisecondDelay = 1000 / myFramesPerSecond;
     private Visualization myVisualization;
     private Simulation mySimulation;
     private Timeline myTimeline;
-    private List<String> mySimulationButtons;
+    private String[] mySimulationButtons;
     private Stage myStage;
+    private XMLSimulationParser mySimulationParser;
+    private ResourceBundle myResources;
 
     public Game(Stage stage) {
+        myResources = ResourceBundle.getBundle(GAME_PROPERTIES);
+
         myStage = stage;
         myTimeline = new Timeline();
-        XMLParser parser = new XMLParser("Game", new File("Resources/GameConfig.xml"));
+        File gameConfig = new File("Resources/GameConfig.xml");
+        if (! XMLException.isValidGameSchema(gameConfig)) {
+            System.exit(0);
+        }
+
+        XMLGameParser parser = new XMLGameParser(gameConfig);
         mySimulationButtons = parser.getSimulationButtons();
         String windowTitle = parser.getTitle();
-        int sceneWidthWithBar = parser.getSceneWidthWithBar();
+        int sceneWidthWithBar = parser.getSceneWidthFull();
         int sceneWidthJustCells = parser.getSceneWidth();
-        int sceneHeight = parser.getSceHeight();
-
+        int sceneHeight = parser.getSceneHeight();
         myVisualization = new Visualization(this, stage, mySimulationButtons, windowTitle, sceneWidthWithBar, sceneWidthJustCells, sceneHeight);
         myVisualization.showIntroScene();
     }
 
-    protected void loadSimulation(File simulationFile) {
-        Grid grid = new Grid(simulationFile);
-        grid.configureCells();
-        mySimulation = null;
+    protected void loadSimulation(File file) {
+        File simulationFile=null;
+        if (XMLException.isValidSimulationSchema(file)) {
+            simulationFile = file;
+        } else {
+            XMLException.showInvalidSimulationAlert(myResources);
+        }
 
-        XMLParser parser = new XMLParser("Simulation parser", simulationFile);
-        if (parser.getSimulationType().equals("Game of Life")) {
+        Grid grid = new Grid(simulationFile);
+        try {
+            grid.configureCells();
+        } catch (NoSuchElementException e) {
+            XMLException.showGridInconsistencyAlert(myResources);
+            return;
+        }
+        mySimulation = null;
+        mySimulationParser = new XMLSimulationParser(simulationFile); //TODO: Change simulation strings to resource file
+        if (mySimulationParser.getSimulationType().equals(myResources.getString("GameOfLife"))) {
             mySimulation = new GameOfLifeSimulation(grid);
-        } else if (parser.getSimulationType().equals("Segregation")) {
+        } else if (mySimulationParser.getSimulationType().equals(myResources.getString("Segregation"))) {
             mySimulation = new SegregationSimulation(grid);
-        } else if (parser.getSimulationType().equals("Predator and Prey")) {
-            //mySimulation = new PredatorPreySimulation(rectangularGrid);
-        } else if (parser.getSimulationType().equals("Spreading of Fire")) {
+        } else if (mySimulationParser.getSimulationType().equals(myResources.getString("PredatorAndPrey"))) {
+            mySimulation = new PredatorPreySimulation(grid);
+        } else if (mySimulationParser.getSimulationType().equals(myResources.getString("SpreadingOfFire"))) {
             mySimulation = new SpreadingOfFireSimulation(grid);
-        } else if (parser.getSimulationType().equals("Percolation")) {
+        } else if (mySimulationParser.getSimulationType().equals(myResources.getString("Percolation"))) {
             mySimulation = new PercolationSimulation(grid);
         }
         myVisualization.showSimulationScene(grid);
@@ -74,6 +98,9 @@ public class Game {
         myTimeline.stop();
         myTimeline.getKeyFrames().clear();
         myFramesPerSecond += value;
+        if(myFramesPerSecond < 1){
+            myFramesPerSecond = 1;
+        }
         myMillisecondDelay = 1000 / myFramesPerSecond;
         var frame = new KeyFrame(Duration.millis(myMillisecondDelay), e -> playGameLoop());
         myTimeline.setCycleCount(Timeline.INDEFINITE);
@@ -98,7 +125,18 @@ public class Game {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setInitialDirectory(new File("Resources/simulation_config_files"));
         File selectedFile  = fileChooser.showOpenDialog(myStage);
-        loadSimulation(selectedFile);
+        try {
+            loadSimulation(selectedFile);
+        } catch (IllegalArgumentException | NullPointerException e) {
+           // do nothing
+        }
+    }
+
+    protected void saveSimulationXML() {
+        FileChooser fileChooser = new FileChooser();
+        File file = fileChooser.showSaveDialog(myStage);
+        XMLGenerator xmlGenerator = new XMLGenerator(file);
+        xmlGenerator.generateSimulationXMLDocument();
     }
 
     private void setGameLoop() {
