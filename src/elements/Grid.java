@@ -1,6 +1,5 @@
 package elements;
 
-import config.XMLException;
 import config.XMLSimulationParser;
 
 import java.io.File;

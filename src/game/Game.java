@@ -23,9 +23,16 @@ import java.io.File;
 import java.util.NoSuchElementException;
 import java.util.ResourceBundle;
 
+/**
+ * This class represents an instance of the Game, which is the entire Cellular Automata simulation. The class's purpose
+ * is the main controller that is in charge of creating different instances of Simulations, Visualizations, Grid, etc.
+ * and manage the passage of information between them.
+ * @author Ha Nguyen
+ * @author Sumer Vardhan
+ * @author Shreya Hurli
+ */
 public class Game {
     private static final String GAME_PROPERTIES = "GameProperties";
-
     private int myFramesPerSecond = 1;
     private int myMillisecondDelay = 1000 / myFramesPerSecond;
     private Visualization myVisualization;
@@ -56,6 +63,10 @@ public class Game {
         myVisualization.showIntroScene();
     }
 
+    /**
+     * This method allows the Visualization to load the simulation file based on button clicking.
+     * @param file the file to be loaded as picked on the UI
+     */
     protected void loadSimulation(File file) {
         File simulationFile=null;
         if (XMLException.isValidSimulationSchema(file)) {
@@ -72,7 +83,7 @@ public class Game {
             return;
         }
         mySimulation = null;
-        mySimulationParser = new XMLSimulationParser(simulationFile); //TODO: Change simulation strings to resource file
+        mySimulationParser = new XMLSimulationParser(simulationFile);
         if (mySimulationParser.getSimulationType().equals(myResources.getString("GameOfLife"))) {
             mySimulation = new GameOfLifeSimulation(grid);
         } else if (mySimulationParser.getSimulationType().equals(myResources.getString("Segregation"))) {
@@ -88,12 +99,19 @@ public class Game {
         setGameLoop();
     }
 
+    /**
+     * This method allows the Visualization class to load the Intro scene when the Home button is clicked
+     */
     protected void loadIntro() {
         myTimeline.getKeyFrames().clear();
         myTimeline.stop();
         myVisualization.showIntroScene();
     }
 
+    /**
+     * This method allows the Visualization class to adjust the speed of the simulation.
+     * @param value the value to speed up or slow down the simulation by
+     */
     protected void adjustSimulationSpeed(int value) {
         myTimeline.stop();
         myTimeline.getKeyFrames().clear();
@@ -108,18 +126,30 @@ public class Game {
         myTimeline.play();
     }
 
+    /**
+     * This method allows the user to pause the simulation through the Visualization class.
+     */
     protected void pauseSimulation(){
         myTimeline.stop();
     }
 
+    /**
+     * This method allows the Visualization class to resume the simulation.
+     */
     protected void playSimulation(){
         myTimeline.play();
     }
 
+    /**
+     * When on pause, this method allows the user to skip a step in the visualization.
+     */
     protected void skipStep(){
             playGameLoop();
     }
 
+    /**
+     * This allows the Visualization class to load an input file as selected by the user
+     */
     protected void loadUserInputFile() {
         myTimeline.stop();
         FileChooser fileChooser = new FileChooser();
@@ -132,6 +162,9 @@ public class Game {
         }
     }
 
+    /**
+     * This allows the visualization class to save an input file when the User selects the save the file.
+     */
     protected void saveSimulationXML() {
         FileChooser fileChooser = new FileChooser();
         File file = fileChooser.showSaveDialog(myStage);
