@@ -1,6 +1,7 @@
 package game;
 
 import config.XMLGameParser;
+import config.XMLGenerator;
 import elements.Cell;
 import elements.Grid;
 import javafx.scene.Scene;
@@ -105,7 +106,7 @@ public class Visualization {
                 id++;
             }
         }
-        displayGridAsTriangles(grid, cells);
+        displayGridAsRectangles(grid, cells);
     }
 
     private void displayGridAsRectangles(Grid grid, Cell[][] cells) {
@@ -214,18 +215,18 @@ public class Visualization {
 //            }
 //        }
 //    }
-
-    private void createUpwardTriangle(Polygon triangle, double cellSize, double cellSize2){
-        triangle.getPoints().addAll(cellSize/2, 0.0,
-                0.0, cellSize2,
-                cellSize, cellSize2);
-    }
-
-    private void createDownwardTriangle(Polygon triangle, double cellSize, double cellSize2){
-        triangle.getPoints().addAll(0.0, 0.0,
-                cellSize, 0.0,
-                cellSize / 2, cellSize2);
-    }
+//
+//    private void createUpwardTriangle(Polygon triangle, double cellSize, double cellSize2){
+//        triangle.getPoints().addAll(cellSize/2, 0.0,
+//                0.0, cellSize2,
+//                cellSize, cellSize2);
+//    }
+//
+//    private void createDownwardTriangle(Polygon triangle, double cellSize, double cellSize2){
+//        triangle.getPoints().addAll(0.0, 0.0,
+//                cellSize, 0.0,
+//                cellSize / 2, cellSize2);
+//    }
 
     private void setCellColor(int state, Shape polygon) {
         if(state == 0){
@@ -281,6 +282,8 @@ public class Visualization {
                     myCurrentGame.loadUserInputFile();
                 } else if (buttonTitle.equals("Home")) {
                     myCurrentGame.loadIntro();
+                } else if (buttonTitle.equals("Save")) {
+                    myCurrentGame.saveSimulationXML();
                 }
             });
             buttonsBox.getChildren().add(simulationButton);

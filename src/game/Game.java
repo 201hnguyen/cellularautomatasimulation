@@ -1,6 +1,8 @@
 package game;
 
+import config.XMLException;
 import config.XMLGameParser;
+import config.XMLGenerator;
 import config.XMLSimulationParser;
 import simulation.GameOfLifeSimulation;
 import simulation.PercolationSimulation;
@@ -18,6 +20,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.File;
+import java.util.NoSuchElementException;
 
 public class Game {
 
@@ -28,36 +31,52 @@ public class Game {
     private Timeline myTimeline;
     private String[] mySimulationButtons;
     private Stage myStage;
+    private XMLSimulationParser mySimulationParser;
 
     public Game(Stage stage) {
         myStage = stage;
         myTimeline = new Timeline();
-        XMLGameParser parser = new XMLGameParser(new File("Resources/GameConfig.xml"));
+        File gameConfig = new File("Resources/GameConfig.xml");
+        if (! XMLException.isValidGameSchema(gameConfig)) {
+            System.exit(0);
+        }
+
+        XMLGameParser parser = new XMLGameParser(gameConfig);
         mySimulationButtons = parser.getSimulationButtons();
         String windowTitle = parser.getTitle();
         int sceneWidthWithBar = parser.getSceneWidthFull();
         int sceneWidthJustCells = parser.getSceneWidth();
         int sceneHeight = parser.getSceneHeight();
-
         myVisualization = new Visualization(this, stage, mySimulationButtons, windowTitle, sceneWidthWithBar, sceneWidthJustCells, sceneHeight);
         myVisualization.showIntroScene();
     }
 
-    protected void loadSimulation(File simulationFile) {
-        Grid grid = new Grid(simulationFile);
-        grid.configureCells();
-        mySimulation = null;
+    protected void loadSimulation(File file) {
+        File simulationFile=null;
+        if (XMLException.isValidSimulationSchema(file)) {
+            simulationFile = file;
+        } else {
+            XMLException.showInvalidSimulationAlert();
+        }
 
-        XMLSimulationParser parser = new XMLSimulationParser(simulationFile); //TODO: Change simulation strings to resource file
-        if (parser.getSimulationType().equals("Game of Life")) {
+        Grid grid = new Grid(simulationFile);
+        try {
+            grid.configureCells();
+        } catch (NoSuchElementException e) {
+            XMLException.showGridInconsistencyAlert();
+            return;
+        }
+        mySimulation = null;
+        mySimulationParser = new XMLSimulationParser(simulationFile); //TODO: Change simulation strings to resource file
+        if (mySimulationParser.getSimulationType().equals("Game of Life")) {
             mySimulation = new GameOfLifeSimulation(grid);
-        } else if (parser.getSimulationType().equals("Segregation")) {
+        } else if (mySimulationParser.getSimulationType().equals("Segregation")) {
             mySimulation = new SegregationSimulation(grid);
-        } else if (parser.getSimulationType().equals("Predator and Prey")) {
+        } else if (mySimulationParser.getSimulationType().equals("Predator and Prey")) {
             mySimulation = new PredatorPreySimulation(grid);
-        } else if (parser.getSimulationType().equals("Spreading of Fire")) {
+        } else if (mySimulationParser.getSimulationType().equals("Spreading of Fire")) {
             mySimulation = new SpreadingOfFireSimulation(grid);
-        } else if (parser.getSimulationType().equals("Percolation")) {
+        } else if (mySimulationParser.getSimulationType().equals("Percolation")) {
             mySimulation = new PercolationSimulation(grid);
         }
         myVisualization.showSimulationScene(grid);
@@ -77,7 +96,7 @@ public class Game {
         if(myFramesPerSecond < 1){
             myFramesPerSecond = 1;
         }
-        myMillisecondDelay = 1000 / myFramesPerSecond; //TODO: Fix error if slow it down too much there's divide by 0 error
+        myMillisecondDelay = 1000 / myFramesPerSecond;
         var frame = new KeyFrame(Duration.millis(myMillisecondDelay), e -> playGameLoop());
         myTimeline.setCycleCount(Timeline.INDEFINITE);
         myTimeline.getKeyFrames().add(frame);
@@ -101,7 +120,16 @@ public class Game {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setInitialDirectory(new File("Resources/simulation_config_files"));
         File selectedFile  = fileChooser.showOpenDialog(myStage);
-        loadSimulation(selectedFile);
+        try {
+            loadSimulation(selectedFile);
+        } catch (IllegalArgumentException | NullPointerException e) {
+           // do nothing
+        }
+    }
+
+    protected void saveSimulationXML() {
+        XMLGenerator xmlGenerator = new XMLGenerator();
+        xmlGenerator.generateSimulationXMLDocument();
     }
 
     private void setGameLoop() {
