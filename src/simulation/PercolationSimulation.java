@@ -24,8 +24,7 @@ public class PercolationSimulation extends Simulation {
      */
     @Override
     public void analyzeCells(){
-        for(int id = 0; id < getGrid().getSize(); id++){
-            Cell cell = getGrid().getCell(id);
+        for(Cell cell: getGrid()){
             Cell[] neighborsToFill = openNeighbors(cell.getMyNeighbors());
             if(cell.getState() == FULL && neighborsToFill.length != 0){
                 for(Cell openNeighbor : neighborsToFill){
