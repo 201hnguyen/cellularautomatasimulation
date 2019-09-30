@@ -1,21 +1,12 @@
 package config;
 
 import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
-import javax.xml.XMLConstants;
-import javax.xml.transform.stream.StreamSource;
-import javax.xml.validation.Schema;
-import javax.xml.validation.SchemaFactory;
-import javax.xml.validation.Validator;
 import java.io.File;
-import java.io.IOException;
 import java.util.*;
 
 public class XMLSimulationParser extends XMLParser {
 
-    public static final String VALID_SIMULATION_TAG = "simulation";
-    public static final String[] GRID_SHAPES_TAGS = new String[]{"initial_rectangular_grid", "initial_triangular_grid"};
     public static final String SIMULATION_TYPE_ATTRIBUTE = "simulationType";
 
     public XMLSimulationParser(File file) {

@@ -2,6 +2,7 @@ package game;
 
 import config.XMLException;
 import config.XMLGameParser;
+import config.XMLGenerator;
 import config.XMLSimulationParser;
 import simulation.GameOfLifeSimulation;
 import simulation.PercolationSimulation;
@@ -30,6 +31,7 @@ public class Game {
     private Timeline myTimeline;
     private String[] mySimulationButtons;
     private Stage myStage;
+    private XMLSimulationParser mySimulationParser;
 
     public Game(Stage stage) {
         myStage = stage;
@@ -65,16 +67,16 @@ public class Game {
             return;
         }
         mySimulation = null;
-        XMLSimulationParser parser = new XMLSimulationParser(simulationFile); //TODO: Change simulation strings to resource file
-        if (parser.getSimulationType().equals("Game of Life")) {
+        mySimulationParser = new XMLSimulationParser(simulationFile); //TODO: Change simulation strings to resource file
+        if (mySimulationParser.getSimulationType().equals("Game of Life")) {
             mySimulation = new GameOfLifeSimulation(grid);
-        } else if (parser.getSimulationType().equals("Segregation")) {
+        } else if (mySimulationParser.getSimulationType().equals("Segregation")) {
             mySimulation = new SegregationSimulation(grid);
-        } else if (parser.getSimulationType().equals("Predator and Prey")) {
+        } else if (mySimulationParser.getSimulationType().equals("Predator and Prey")) {
             mySimulation = new PredatorPreySimulation(grid);
-        } else if (parser.getSimulationType().equals("Spreading of Fire")) {
+        } else if (mySimulationParser.getSimulationType().equals("Spreading of Fire")) {
             mySimulation = new SpreadingOfFireSimulation(grid);
-        } else if (parser.getSimulationType().equals("Percolation")) {
+        } else if (mySimulationParser.getSimulationType().equals("Percolation")) {
             mySimulation = new PercolationSimulation(grid);
         }
         myVisualization.showSimulationScene(grid);
@@ -123,6 +125,11 @@ public class Game {
         } catch (IllegalArgumentException | NullPointerException e) {
            // do nothing
         }
+    }
+
+    protected void saveSimulationXML() {
+        XMLGenerator xmlGenerator = new XMLGenerator();
+        xmlGenerator.generateSimulationXMLDocument();
     }
 
     private void setGameLoop() {

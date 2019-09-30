@@ -1,6 +1,7 @@
 package game;
 
 import config.XMLGameParser;
+import config.XMLGenerator;
 import elements.Cell;
 import elements.Grid;
 import javafx.scene.Scene;
@@ -281,6 +282,8 @@ public class Visualization {
                     myCurrentGame.loadUserInputFile();
                 } else if (buttonTitle.equals("Home")) {
                     myCurrentGame.loadIntro();
+                } else if (buttonTitle.equals("Save")) {
+                    myCurrentGame.saveSimulationXML();
                 }
             });
             buttonsBox.getChildren().add(simulationButton);

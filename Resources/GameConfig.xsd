@@ -2,7 +2,7 @@
 <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:element name="game" type="gameType"/>
   <xs:complexType name="simulation_buttonsType">
-    <xs:all>
+    <xs:sequence>
       <xs:element type="xs:string" name="play"/>
       <xs:element type="xs:string" name="pause"/>
       <xs:element type="xs:string" name="skip"/>
@@ -10,22 +10,23 @@
       <xs:element type="xs:string" name="slow"/>
       <xs:element type="xs:string" name="reload"/>
       <xs:element type="xs:string" name="home"/>
-    </xs:all>
+      <xs:element type="xs:string" name="save"/>
+    </xs:sequence>
   </xs:complexType>
   <xs:complexType name="intro_buttonsType">
-    <xs:all>
+    <xs:sequence>
       <xs:element type="xs:string" name="load"/>
-    </xs:all>
+    </xs:sequence>
   </xs:complexType>
   <xs:complexType name="gameType">
-    <xs:all>
+    <xs:sequence>
       <xs:element type="xs:string" name="title"/>
       <xs:element type="xs:string" name="scene_width_full"/>
       <xs:element type="xs:string" name="scene_width_cells"/>
       <xs:element type="xs:string" name="scene_height"/>
       <xs:element type="simulation_buttonsType" name="simulation_buttons"/>
       <xs:element type="intro_buttonsType" name="intro_buttons"/>
-    </xs:all>
+    </xs:sequence>
     <xs:attribute type="xs:string" name="title"/>
     <xs:attribute type="xs:string" name="sceneWidthWithBar"/>
     <xs:attribute type="xs:string" name="sceneWidth"/>
