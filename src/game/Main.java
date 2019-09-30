@@ -11,8 +11,6 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) {
-        XMLGenerator generator = new XMLGenerator();
-        generator.generateSimulationXMLDocument();
         Game ca = new Game(stage);
     }
 }

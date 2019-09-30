@@ -117,6 +117,7 @@ public class XMLGenerator {
             Transformer transformer = transformerFactory.newTransformer();
             DOMSource source = new DOMSource(myXMLDocument);
             StreamResult result = new StreamResult(new File("Resources/testfile.xml"));
+            System.out.println("Trigger happened");
             transformer.transform(source, result);
         } catch (TransformerException e) {
             //TODO: Figure out how to do this shit.
