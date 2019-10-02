@@ -62,15 +62,44 @@ SpreadingOfFireConfig -> Same information as the GameOfLifeConfig file, except f
 
 ####Features implemented:
 
+* 2D grid represents simulation, with smaller neighborhoods for edge cells
+than inner cells
+* Each cell has state updates based on the states of its neighbors
+* Implemented simulations for Game of Life, Segregation, Predator-Prey, Fire, and
+Percolation
+* Initial simulation settings come from xml configuration files 
+* xml files contain simulation type, configuration parameters for grid and cells, 
+and the initial grid
+* 2D array of cells are animated, and as simulation continues and cells change states,
+they change colors 
+* User can play, pause, step through, speed up, slow down, load a new simulation,
+go back to the splash screen, and save the xml file of the grid of states the simulation is currently at
+* Text displayed in the CA simulation is in the properties file of the project, within the src folder
+* Error handling exists for if the user provides a non-xml file, if the simulation the user wants to run
+is not supported by the logic of a Simulation subclass, and if the grid in the xml file the user provides is not a valid grid (if the scanner reading in 
+the grid finds that the dimensions of the grid do not match the size of the initial grid provided)
+
+
 ####Assumptions or Simplifications:
+
 
 ####Known Bugs:
 
+
+
 ####Extra credit:
 
+N/A
 
 ### Notes
 
+Shreya: My IntelliJ interacted poorly with Git. I will be redownloading IntelliJ and potentially also redownloading JDK
+to get everything together for the next project, so less time will be spent trying to get projects from Git to clone
+properly, and more time will be spent actually getting to contribute to the project. 
 
 ### Impressions
+
+Shreya: Very challenging project, required us to devise ways of interrelating classes we never thought of/have never 
+really seen before. That said, I feel like I'm coming away understanding for the first time, what abstraction means, and
+what interfaces are, as well as understanding data structures better (i.e. understanding the capabilities of a 2D array).
 
