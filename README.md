@@ -81,10 +81,11 @@ the grid finds that the dimensions of the grid do not match the size of the init
 
 
 ####Assumptions or Simplifications:
-
+The neighbor configuration in the xml file is the correct one for the current cell shape.
 
 ####Known Bugs:
-
+Currently cannot change shape of cells from user interface, can only change from within the code. 
+Cannot select different neighbor configs from the user interface
 
 
 ####Extra credit:

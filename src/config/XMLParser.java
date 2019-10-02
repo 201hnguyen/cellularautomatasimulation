@@ -17,6 +17,7 @@ import java.util.ResourceBundle;
  * Parser and the GameParser.
  * @author Ha Nguyen
  * @author Sumer Vardhan
+ * @author Shreya Hurli
  * @author Robert Duvall (taken from class lecture code)
  */
 public class XMLParser {

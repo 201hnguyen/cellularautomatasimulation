@@ -9,6 +9,7 @@ import elements.Grid;
  * the file that the user selected.
  * @author Ha Nguyen
  * @author Sumer Vardhan
+ * @author Shreya Hurli
  */
 public class GameOfLifeSimulation extends Simulation {
     public static final int LIVE = 1;
