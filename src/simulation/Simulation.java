@@ -7,6 +7,7 @@ import elements.Grid;
  * to implement their own rules on the Simulation.
  * @author Ha Nguyen
  * @author Sumer Vardhan
+ * @author Shreya Hurli
  */
 public abstract class Simulation {
     private Grid myGrid;

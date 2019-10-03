@@ -10,7 +10,7 @@
     <num_columns>10</num_columns>
     <num_neighbors>8</num_neighbors>
 
-    <neighbor_configuration> -1 3 0 3 1 3</neighbor_configuration>
+    <neighbor_configuration> -1 0 2 0 -1 3 1 0 2</neighbor_configuration>
 
     <initial_rectangular_grid>
         1 2 0 0 0 0 0 0 0 0

@@ -20,6 +20,7 @@ import java.util.ResourceBundle;
  *
  * @author Robert C. Duvall
  * @author Ha Nguyen
+ * @author Shreya Hurli
  */
 public class XMLException extends RuntimeException {
     private static final String GAME_PROPERTIES = "GameProperties";
