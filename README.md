@@ -16,17 +16,19 @@ Hours Spent: ~80-90 hours collectively
 
 ### Primary Roles
 Ha Nguyen: Primarily implemented the Predator and Prey simulation, and pair-coded with Sumer Vardhan to implement the 
-Game of Life Simulation. Configured and implemented the initial framework for the Game, Simulation, Visualization, 
-and Main classes. Mainly implemented JavaFX scene transitions, timelines, etc. Implemented error handling and XML file 
-validation; implemented some XML configurations in the XMLParser class and subclasses. 
+Game of Life Simulation based off of Shreya Hurli's initial draft algorithm. Configured and implemented the initial
+framework for the Game, Simulation, Visualization, and Main classes. Mainly implemented JavaFX scene transitions, 
+timelines, etc. Implemented error handling and XML file validation; implemented some XML configurations in the XMLParser
+ class and subclasses. 
 
 Sumer Vardhan: Primarily implemented the Segregation Simulation, and pair-coded with Ha Nguyen to implemented the Game
-of Life simulation. Configured and implemented the initial framework for Cell and Grid class. Implemented neighbors 
-checking algorithm for square as well as triangular and hexagonal grid, and primarily worked on Visualization in terms
-of displaying the grid. Also implemented the algorithm for many button functionality (e.g., Play, Stop, etc.) in the 
-Game class. 
+of Life simulation based off of Shreya Hurli's initial draft algorithm. Configured and implemented the initial framework 
+for Cell and Grid class. Implemented neighbors checking algorithm for square as well as triangular and hexagonal grid, 
+and primarily worked on Visualization in terms of displaying the grid. Also implemented the algorithm for many button 
+functionality (e.g., Play, Stop, etc.) in the Game class. 
 
-Shreya Hurli: Worked on coming up with design for triangle cell neighbors, 
+Shreya Hurli: Worked on coming up with design for triangle cell neighbors, wrote an initial draft implementation of Game
+of Life Simulation that allowed Ha Nguyen and Sumer Vardhan to work off of, plus wrote 
 wrote Percolation and Spreading of Fire Simulation as well as worked on the Simulation super class
 and did some front-end work for additional feature implementation
 as well as some work on xml parsing and input files. Did some refactoring by adding comments to public methods and 
