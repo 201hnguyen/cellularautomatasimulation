@@ -59,6 +59,9 @@ SegregationConfig -> Same information as the GameOfLifeConfig file, except for S
 SpreadingOfFireConfig -> Same information as the GameOfLifeConfig file, except for Spreading of Fire.
 
 ####Interesting data files:
+Most interesting simulation is PredatorPrey - the requirements of the simulation mean that unlike in GameOfLife, Percolation,
+and SpreadingOfFire, the cell must not only keep track of its current and next states, but also how many state changes it 
+has gone through, so the shark and fish know how many times they have moved.
 
 ####Features implemented:
 
@@ -78,7 +81,8 @@ go back to the splash screen, and save the xml file of the grid of states the si
 * Error handling exists for if the user provides a non-xml file, if the simulation the user wants to run
 is not supported by the logic of a Simulation subclass, and if the grid in the xml file the user provides is not a valid grid (if the scanner reading in 
 the grid finds that the dimensions of the grid do not match the size of the initial grid provided)
-
+* Hexagonal and triangle cells have been implemented
+* Error handling for badly-defined grids, for trying to run an unsupported simulation, or trying to read in a non-xml file
 
 ####Assumptions or Simplifications:
 The neighbor configuration in the xml file is the correct one for the current cell shape.
@@ -86,7 +90,7 @@ The neighbor configuration in the xml file is the correct one for the current ce
 ####Known Bugs:
 Currently cannot change shape of cells from user interface, can only change from within the code. 
 Cannot select different neighbor configs from the user interface
-
+Triangle neighbors do not set up correctly. 
 
 ####Extra credit:
 
