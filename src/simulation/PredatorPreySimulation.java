@@ -9,13 +9,33 @@ import java.util.HashMap;
 
 /**
  * This class represents the Predator and Prey Simulation. It is used by Game to run the Predator and Prey Simulation if that is
- * the file that the user selected.
+ * the file that the user selected. This class executes the principles of encapsulation and abstraction in a very careful
+ * and exact manner. For example, notice that the class works with the super class Simulation, and there is only one public method,
+ * which is the analyzeCells method that is called in the Game class. Everything else is private helper methods that helps
+ * the analyzeCells method executes its duty. As such, the encapsulation can be seen very clearly in the implementation
+ * of this class and its working with the Simulation super class. In addition, the principle of abstraction is embodied
+ * in every method implementation in this class. Although the implementation of the Predator and Prey simulation is quite
+ * complex, looking at each method at a high level, it is always easy to understand what each method is doing because any
+ * additional level of logic is refactored into a private helper method. For example, at the top level, looking at the
+ * analyzeCells method, one knows that first, analyzeCells analyzes the fish cells; then, it analyzes the shark cells
+ * once all fish cells have been analyzed. Then, on the next level of logic, take analyzeFishCells, for example, it is
+ * quite clear to see that first, the method goes through the grid, checks neighbors for empty neighbors that it can moves
+ * to, and if the there are empty neighbors, then the fish will move to the empty neighbor. One very thoughtful design
+ * decision made in this method is the decision to access cells by Id. This means that, no matter what the implementation
+ * of the grid passed to it from the super class is, no matter if internally, the grid is a list or hash map or 2D-array,
+ * as long as the cells maintain their ids, then it is possible to iterate over them. Thus, even if we have crazy cell
+ * configurations in future simulations, as long as cells have ids and defined neighbors, then this entire simulation
+ * will work without needing extensive change. In addition, notice that magic numbers are very much minimized throughout
+ * the class, allowing for more understandable code. The cell states, as integers, allow for a very clear understanding
+ * of which cells are what. This was a design implementation that I implemented at the beginning in the Game of Life
+ * Simulation  that is then adopted across all other simulations for understandability.
  * @author Ha Nguyen
  */
 public class PredatorPreySimulation extends Simulation {
     public static final int EMPTY = 0;
     public static final int FISH = 1;
     public static final int SHARK = 2;
+    public static final double ZERO_MOVES = 0.0;
 
     private XMLSimulationParser myXMLParser;
     private double myStartingSharkEnergy;
@@ -39,9 +59,9 @@ public class PredatorPreySimulation extends Simulation {
         for(int id = 0; id < getGrid().getSize(); id++){
             Cell cell = getGrid().getCell(id);
             if (cell.getState() == FISH) {
-                myFishMovesMap.put(cell, 0.0);
+                myFishMovesMap.put(cell, ZERO_MOVES);
             } else if (cell.getState() == SHARK) {
-                mySharkMovesMap.put(cell, 0.0);
+                mySharkMovesMap.put(cell, ZERO_MOVES);
                 mySharkEnergyMap.put(cell, myStartingSharkEnergy);
             }
         }
@@ -64,36 +84,11 @@ public class PredatorPreySimulation extends Simulation {
         for(int id = 0; id < getGrid().getSize(); id++){
             Cell cell = getGrid().getCell(id);
             if (cell.getState() == FISH) {
-                Cell[] emptyNeighbors = checkNeighborsForCondition(FISH, EMPTY, cell.getMyNeighbors());
-                if (emptyNeighbors.length != 0) {
-                    moveFishToNeighbor(cell, emptyNeighbors);
+                Cell[] emptyNeighborsToMoveTo = checkNeighborsForCondition(FISH, EMPTY, cell.getMyNeighbors());
+                if (emptyNeighborsToMoveTo.length != 0) {
+                    moveFishToNeighbor(cell, emptyNeighborsToMoveTo);
                 }
             }
-        }
-    }
-
-    private void analyzeSharkCells() {
-        for(int id = 0; id < getGrid().getSize(); id++){
-            Cell cell = getGrid().getCell(id);
-            if (cell.getState() == SHARK) {
-                Cell[] fishNeighbors = checkNeighborsForCondition(SHARK, FISH, cell.getMyNeighbors());
-                Cell[] emptyNeighbors = checkNeighborsForCondition(SHARK, EMPTY, cell.getMyNeighbors());
-
-                if (fishNeighbors.length != 0) {
-                    moveSharkToNeighbor(cell, fishNeighbors);
-                } else if (emptyNeighbors.length != 0) {
-                    moveSharkToNeighbor(cell, emptyNeighbors);
-                } else {
-                    sharkStay(cell);
-                }
-            }
-        }
-    }
-
-    private void sharkStay(Cell cell) {
-        mySharkEnergyMap.put(cell, mySharkEnergyMap.get(cell) - 1);
-        if (! (mySharkEnergyMap.get(cell) > 0)) {
-            cell.setMyNextState(EMPTY);
         }
     }
 
@@ -116,9 +111,34 @@ public class PredatorPreySimulation extends Simulation {
     }
 
     private void moveFishAndReproduce(Cell currentCell, Cell targetCell) {
-        myFishMovesMap.put(currentCell, 0.0);
-        myFishMovesMap.put(targetCell, 0.0);
+        myFishMovesMap.put(currentCell, ZERO_MOVES);
+        myFishMovesMap.put(targetCell, ZERO_MOVES);
         targetCell.setMyNextState(FISH);
+    }
+
+    private void analyzeSharkCells() {
+        for(int id = 0; id < getGrid().getSize(); id++){
+            Cell cell = getGrid().getCell(id);
+            if (cell.getState() == SHARK) {
+                Cell[] fishNeighborsToMoveTo = checkNeighborsForCondition(SHARK, FISH, cell.getMyNeighbors());
+                Cell[] emptyNeighborsToMoveTo = checkNeighborsForCondition(SHARK, EMPTY, cell.getMyNeighbors());
+
+                if (fishNeighborsToMoveTo.length != 0) {
+                    moveSharkToNeighbor(cell, fishNeighborsToMoveTo);
+                } else if (emptyNeighborsToMoveTo.length != 0) {
+                    moveSharkToNeighbor(cell, emptyNeighborsToMoveTo);
+                } else {
+                    sharkStay(cell);
+                }
+            }
+        }
+    }
+
+    private void sharkStay(Cell cell) {
+        mySharkEnergyMap.put(cell, mySharkEnergyMap.get(cell) - mySharkEnergyLoss);
+        if (! (mySharkEnergyMap.get(cell) > 0)) {
+            cell.setMyNextState(EMPTY);
+        }
     }
 
     private void moveSharkToNeighbor (Cell currentCell, Cell[] qualifyingNeighbors) {
@@ -152,8 +172,8 @@ public class PredatorPreySimulation extends Simulation {
     }
 
     private void moveSharkAndReproduce(Cell currentCell, Cell targetCell, double energyToTransfer) {
-        mySharkMovesMap.put(currentCell, 0.0);
-        mySharkMovesMap.put(targetCell, 0.0);
+        mySharkMovesMap.put(currentCell, ZERO_MOVES);
+        mySharkMovesMap.put(targetCell, ZERO_MOVES);
         mySharkEnergyMap.put(targetCell, energyToTransfer);
         mySharkEnergyMap.put(currentCell, myStartingSharkEnergy);
 
