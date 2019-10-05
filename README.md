@@ -132,3 +132,7 @@ like coding conventions to follow, to trying to make sure that my work is not in
 heavily impact my group mate's work, to deciding whether to all work on an issue that we're all struggling with or 
 assigning one person to work on it while the rest moves on to another problem, are easy to determine in hindsight, but I
 think that in the moment, it was hard to determine which was the right path. 
+
+Sumer: I really enjoyed this project. It was cool to be able to implement so many different simulations with our code just
+by providing different parameters and a couple of different methods. I also enjoyed working in a team and found it quite challenging.
+It is a skill I am grateful to have a chance to be working on.
