@@ -22,6 +22,7 @@
  * analysis in a way that keeps Simulations as broad ad possible because it recognizes recurring implementations
  * and reuse them; this broadness allows the design to hold up against a variety of different simulations/situations.
  */
+
 package simulation;
 
 import elements.Grid;
